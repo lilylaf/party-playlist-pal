@@ -7,5 +7,5 @@ import java.util.List;
 public interface EventDao {
 
     List<Event> listOfEvents();
-
+    Event getEventById(Long id);
 }

@@ -20,8 +20,8 @@ public class JdbcEventDao implements EventDao{
         List<Event> eventList = new ArrayList<>();
 
         String sql = "SELECT event_id, user_id, event_name, information, picture\n" +
-                "FROM EVENT\n" +
-                "ORDER BY event_id ASC;";
+                     "FROM event\n" +
+                     "ORDER BY event_id ASC;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
@@ -30,6 +30,22 @@ public class JdbcEventDao implements EventDao{
 
         return eventList;
     }
+
+    @Override
+    public Event getEventById(Long id) {
+
+        String sql = "SELECT event_id, user_id, event_name, information, picture\n" +
+                "FROM event\n" +
+                "WHERE event_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        if (results.next()){
+            return mapRowToEvent(results);
+        } else {
+            return null;
+        }
+    }
+
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();
