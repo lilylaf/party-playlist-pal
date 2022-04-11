@@ -3,9 +3,7 @@ package com.techelevator.model;
 public class Event {
 
     private Long eventId;
-
     private String eventName;
-
     private String information;
 
 
