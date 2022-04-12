@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <h2>Title of the Event Search</h2>
+  <div class="search-event">
+      <h2>Event Search</h2>
       <input type="text" placeholder="Type an event" v-model="eventSearchString" />
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
@@ -32,6 +32,7 @@ export default {
 
              // if empty search string
             if(!searchString){
+                // return a blank array of events? or show all the events when nothing is typed
                 return events;
             }
 
@@ -60,5 +61,9 @@ export default {
 </script>
 
 <style scoped>
+.search-event {
+    border:black 2px solid;
+    padding: 5px;
+}
     
 </style>
