@@ -25,7 +25,7 @@ public class EventController {
     }
 
     //as an unauthorized user, I want to get an event by ID for the Guest Event Page
-    @RequestMapping(value="/events/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/event/{id}", method = RequestMethod.GET)
     public Event selectedEvent(@PathVariable Long id) throws EventNotFoundException {
         return eventDao.getEventById(id); //insert method here
     }

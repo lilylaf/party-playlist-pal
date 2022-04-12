@@ -10,26 +10,28 @@ public class Song {
     public Long getId(){
         return id;
     }
-    public void setId(Long songId){
+    public void setId(Long id){
         this.id = id;
     }
 
     public String getArtistName(){
         return artistName;
     }
-    public void setArtistName(Long artistId){
+    public void setArtistName(String artistName){
         this.artistName = artistName;
     }
 
-    public String getName;
-    public void setName(String songName) {
+    public String getName() {
+        return name;
+    };
+    public void setName(String name) {
         this.name = name;
     }
 
     public String getFeatured(){
         return featured;
     }
-    public void setFeatured(String  featured){
+    public void setFeatured(String featured){
         this.featured = featured;
     }
 

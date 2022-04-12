@@ -17,12 +17,16 @@ public class SongController {
         this.songDao = songDao;
     }
 
+    // list of djs
+    @RequestMapping(value="/djs", method= RequestMethod.GET)
+    public List<User> getListOfDjs() {
+        return songDao.listOfDjs();
+    }
 
-
-    @RequestMapping(value="", method= RequestMethod.GET)
-    public List<Song> getListOfSongs(@PathVariable User id) {
+    @RequestMapping(value="/dj/{id}/songs", method= RequestMethod.GET)
+    public List<Song> getListOfSongs(@PathVariable Long id) {
         return songDao.djSongList(id);
     }
-    //todo -> how do we authorize the id to be role of dj? or is that a filter
+
 
 }
