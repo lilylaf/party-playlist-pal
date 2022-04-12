@@ -4,7 +4,8 @@
       <input type="text" placeholder="Type an event" v-model="eventSearchString" />
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
-          <h2>{{ event.eventName }}</h2>
+          <router-link v-bind:to= "{name:event, params: {id: event.id} }">  
+              <h2>{{ event.eventName }}</h2></router-link>
           <p>{{ event.information }}</p>
 
       </div>

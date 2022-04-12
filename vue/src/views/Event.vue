@@ -3,7 +3,9 @@
       <h1>
          YOUR EVENT: {{event.name}}
       </h1>
-    
+    <h4>
+        THE DEETS:  {{event.information}}
+    </h4>
 
   </div>
 </template>
