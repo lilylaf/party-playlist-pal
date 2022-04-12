@@ -139,20 +139,35 @@ COMMIT TRANSACTION;
 
 --start of mock data
 INSERT INTO users(username, password_hash, role)
+<<<<<<< HEAD
 VALUES ('DJFlexBox', '123456','DJ')
 
 INSERT INTO genre(genre_name)
 VALUES ('party'), ('pop'), ('rap')
+=======
+VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
+
+INSERT INTO genre(genre_name)
+VALUES ('party'), ('pop'), ('rap');
+>>>>>>> javabackend
 
 INSERT INTO artist (artist_name)
 VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
 ('Neil Diamond'), ('Cyndi Lauper'), ('Tag Team'), ('Prince'), ('Lizzo'), ('Smash Mouth'), ('Gorillaz'), ('Missy Elliott'),
+<<<<<<< HEAD
 ('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre')
+=======
+('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre');
+>>>>>>> javabackend
 
 INSERT INTO song (artist_name, song_name)
 VALUES ('P!nk','Get The Party Started'), ( 'LMFAO','Party Rock Anthem'), ('Outkast','Hey Ya!'), ('Usher','Yeah!'), ('Salt-N-Pepa','Push It!'), ('DJ Casper','Cha Cha Slide'), ('Lady Gaga','Just Dance'),
 ('Village People','Y.M.C.A.'), ( 'Flo Rida', 'Low'), ( 'Neil Diamond', 'Sweet Caroline'), ( 'Cyndi Lauper', 'Girls Just Want To Have Fun'), ( 'Tag Team', 'Whoomp, There It Is'),
 ('Prince',  '1999'), ('Lizzo','Truth Hurts'), ( 'Smash Mouth', 'All Star'), ( 'Gorillaz', 'DARE'), ( 'Missy Elliott', 'Work It'), ( 'Sir Mix-a-Lot', 'Baby Got Back'),
+<<<<<<< HEAD
 ('Spice Girls',  'Wannabe'), ( 'Eminem', 'Lose Yourself'), ( 'Doja Cat', 'Moo')
 
 INSERT INTO song(artist_name, song_name, featured_artist)
@@ -182,5 +197,20 @@ FROM dj_library
 
 SELECT *
 FROM event
+=======
+('Spice Girls',  'Wannabe'), ( 'Eminem', 'Lose Yourself'), ( 'Doja Cat', 'Moo');
+
+INSERT INTO song(artist_name, song_name, featured_artist)
+VALUES ( 'Dr. Dre','Forgot About Dre','Eminem');
+
+INSERT INTO dj_library(user_id, song_id)
+VALUES ('3', '1'), ('3', '2'), ('3', '3');
+
+
+INSERT INTO event(user_id, event_name, information)
+VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
+
+
+
 
 --end of mock data
