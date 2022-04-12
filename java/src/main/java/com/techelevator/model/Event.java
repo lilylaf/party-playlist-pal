@@ -2,19 +2,19 @@ package com.techelevator.model;
 
 public class Event {
 
-    private Long eventId;
-    private String eventName;
+    private Long id; //Long id
+    private String name; //name
     private String information;
 
 
-    public Long getEventId() {return eventId;}
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public Long getId() {return id;}
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getEventName() {return eventName;}
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public String getName() {return name;}
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getInformation() {return information;}

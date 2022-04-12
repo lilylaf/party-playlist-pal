@@ -45,7 +45,7 @@ public class JdbcEventDao implements EventDao{
             return mapRowToEvent(results);
         } else {
             throw new EventNotFoundException();
-            //todo -> get this working
+
         }
     }
 
@@ -53,8 +53,8 @@ public class JdbcEventDao implements EventDao{
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();
 
-        event.setEventId(rowSet.getLong("event_id"));
-        event.setEventName(rowSet.getString("event_name"));
+        event.setId(rowSet.getLong("event_id"));
+        event.setName(rowSet.getString("event_name"));
         event.setInformation(rowSet.getString("information"));
 
         //todo deal with the picture at some point
