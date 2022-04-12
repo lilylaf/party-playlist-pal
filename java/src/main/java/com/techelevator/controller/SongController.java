@@ -2,8 +2,10 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.SongDao;
 import com.techelevator.model.Song;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import com.techelevator.model.User;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -15,9 +17,12 @@ public class SongController {
         this.songDao = songDao;
     }
 
-    //todo -> as an unauthorized user, I want to see a list of songs for each dj
-        //get user_id (role of dj)
-        //get List<Song> djSongList
-        //how do we want to go about creating this??
+
+
+    @RequestMapping(value="", method= RequestMethod.GET)
+    public List<Song> getListOfSongs(@PathVariable User id) {
+        return songDao.djSongList(id);
+    }
+    //todo -> how do we authorize the id to be role of dj? or is that a filter
 
 }

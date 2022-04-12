@@ -2,32 +2,35 @@ package com.techelevator.model;
 
 public class Song {
 
-    private Long songId;
-    private Long artistId;
-    private String songName;
-    //missing featured artist column from table
+    private Long id; //Long id
+    private String artistName;
+    private String name; //name
+    private String featured;
 
-    public Long getSongId(){
-        return songId;
+    public Long getId(){
+        return id;
     }
-    public void setSongId(Long songId){
-        this.songId = songId;
-    }
-
-    public Long getArtistId(){
-        return artistId;
-    }
-    public void setArtistId(Long artistId){
-        this.artistId = artistId;
+    public void setId(Long songId){
+        this.id = id;
     }
 
-    public String getSongName;
-    public void setSongName(String songName) {
-        this.songName = songName;
+    public String getArtistName(){
+        return artistName;
+    }
+    public void setArtistName(Long artistId){
+        this.artistName = artistName;
     }
 
-    //featured artist getter
-    //featured artist setter
+    public String getName;
+    public void setName(String songName) {
+        this.name = name;
+    }
 
-    //todo -> my table is missing featured_artist column
+    public String getFeatured(){
+        return featured;
+    }
+    public void setFeatured(String  featured){
+        this.featured = featured;
+    }
+
 }
