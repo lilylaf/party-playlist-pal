@@ -3,6 +3,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.EventDao;
 import com.techelevator.model.Event;
+import com.techelevator.model.EventNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class EventController {
 
     //as an unauthorized user, I want to get an event by ID for the Guest Event Page
     @RequestMapping(value="/events/{eventId}", method = RequestMethod.GET)
-    public Event selectedEvent(@PathVariable Long eventId){
+    public Event selectedEvent(@PathVariable Long eventId) throws EventNotFoundException {
         return eventDao.getEventById(eventId); //insert method here
     }
+
 }

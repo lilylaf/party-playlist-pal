@@ -16,6 +16,7 @@ public class JdbcSongDao implements SongDao{
 
 
 //methods here
+    //select * from song where dj_id =?
 
 
 private Song mapRowToSong(SqlRowSet rowset){

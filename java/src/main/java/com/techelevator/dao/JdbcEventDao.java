@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Event;
+import com.techelevator.model.EventNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -32,17 +33,19 @@ public class JdbcEventDao implements EventDao{
     }
 
     @Override
-    public Event getEventById(Long id) {
+    public Event getEventById(Long id) throws EventNotFoundException {
 
         String sql = "SELECT event_id, user_id, event_name, information, picture\n" +
                 "FROM event\n" +
                 "WHERE event_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+
         if (results.next()){
             return mapRowToEvent(results);
         } else {
-            return null;
+            throw new EventNotFoundException();
+            //todo -> get this working
         }
     }
 
