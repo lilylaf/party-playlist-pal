@@ -146,34 +146,15 @@ INSERT INTO users(username, password_hash, role)
 
 VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
+
 INSERT INTO users(username, password_hash, role)
 VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
+INSERT INTO event(user_id, event_name, information)
+VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
 
 INSERT INTO genre(genre_name)
 VALUES ('party'), ('pop'), ('rap');
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('rap', 20), ('rap', 22), ('rap', 18);
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('pop', 1), ('pop', 7), ('pop', 11);
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('party', 6), ('party', 8);
-
-INSERT INTO event_genre(genre_name, event_id)
-VALUES ('party', 1), ('rap', 2), ('pop', 3);
-
-INSERT INTO event_song(event_id, song_id)
-VALUES (1, '6'),(1, '8');
-
-INSERT INTO event_song(event_id, song_id)
-VALUES (2, '18'), (2, '20'), (2, '22');
-
-INSERT INTO event_song(event_id, song_id)
-VALUES (3, '1'), (3, '7'), (3, '11');
-
 
 INSERT INTO artist (artist_name)
 VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
@@ -190,12 +171,29 @@ VALUES ('P!nk','Get The Party Started'), ( 'LMFAO','Party Rock Anthem'), ('Outka
 INSERT INTO song(artist_name, song_name, featured_artist)
 VALUES ( 'Dr. Dre','Forgot About Dre','Eminem');
 
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('rap', 20), ('rap', 22), ('rap', 18);
+
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('pop', 1), ('pop', 7), ('pop', 11);
+
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('party', 6), ('party', 8);
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (1, '6'),(1, '8');
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (2, '18'), (2, '20'), (2, '22');
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (3, '1'), (3, '7'), (3, '11');
+
 INSERT INTO dj_library(user_id, song_id)
 VALUES ('3', '1'), ('3', '2'), ('3', '3');
 
-
-INSERT INTO event(user_id, event_name, information)
-VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
+INSERT INTO event_genre(genre_name, event_id)
+VALUES ('party', 1), ('rap', 2), ('pop', 3);
 
 
 --end of mock data
