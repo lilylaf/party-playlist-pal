@@ -1,13 +1,11 @@
 <template>
   <div>
       <h1>DJ page</h1>
-      <h2>I am DJ: </h2>
-      <h4>These are my songs:</h4>
-      <div v-for="song in songs" v-bind:key="song.id">
-          <hr>
-        <h5>{{song.name}} by {{song.artistName}}</h5>
-        
+      <h2>I am DJ: {{ this.$route.params.username }}</h2>
+      <h2>These are my songs:</h2>
+      <div v-for="song in songs" v-bind:key="song.id" class="dj-songs">
 
+        <h5>{{song.name}} by {{song.artistName}}</h5>
       </div>
   </div>
 </template>
@@ -33,6 +31,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
+    .dj-songs {
+        display:flex;
+        width: 50%;
+    }
 </style>
