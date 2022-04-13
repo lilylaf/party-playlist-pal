@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="dj-grid">
       <h2>DJs</h2>
-      <div>
-         <p>A list of DJs will go here</p>
+      <div v-for="dj in djs" v-bind:key="dj.id">
+         <h4><router-link v-bind:to="{name:'dj',params: {id:dj.id} }" >{{ dj.username }}</router-link></h4>
       </div>
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.dj-grid {
+    border: rgb(24, 226, 54) 5px solid;
+    border-radius: 10px;
+    padding: 5px;
+}
 
 </style>

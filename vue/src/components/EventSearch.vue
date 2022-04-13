@@ -62,8 +62,9 @@ export default {
 
 <style scoped>
 .search-event {
-    border:black 2px solid;
+    border:rgb(21, 214, 214) 5px solid;
     padding: 5px;
+    border-radius: 10px;
 }
     
 </style>

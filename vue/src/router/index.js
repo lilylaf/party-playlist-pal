@@ -6,6 +6,7 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import Event from '../views/Event.vue'
+import Dj from '../views/Dj.vue'
 
 
 Vue.use(Router)
@@ -62,7 +63,15 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
-    }
+    },
+    {
+      path: "/dj/:id",
+      name: "dj",
+      component: Dj,
+      meta: {
+        requiresAuth: false
+      }
+    },
   ]
 })
 
