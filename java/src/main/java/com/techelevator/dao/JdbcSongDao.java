@@ -35,6 +35,7 @@ public class JdbcSongDao implements SongDao{
         return djs;
     }
 
+
     @Override
     public List<Song> djSongList(Long id) {
         List<Song> songs = new ArrayList<>();
@@ -53,7 +54,22 @@ public class JdbcSongDao implements SongDao{
         return songs;
     }
 
+    @Override
+    public List<Song> eventPlaylist(Long id) {
+        List<Song> eventPlaylistSongs = new ArrayList<>();
 
+        String sql = "SELECT song_id, song_name, artist_name, featured_artist\n" +
+                "FROM song\n" +
+                "NATURAL JOIN event_song\n" +
+                "WHERE event_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()) {
+            eventPlaylistSongs.add(mapRowToSong(results));
+        }
+
+        return eventPlaylistSongs;
+    }
 
 
     private Song mapRowToSong(SqlRowSet rowSet){
