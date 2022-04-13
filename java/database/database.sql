@@ -146,7 +146,31 @@ VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC'
 
 INSERT INTO genre(genre_name)
 VALUES ('party'), ('pop'), ('rap');
+-----------------------added by lily on 4/13---------------
 
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('rap', 20), ('rap', 22), ('rap', 18);
+
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('pop', 1), ('pop', 7), ('pop', 11);
+
+INSERT INTO song_genre(genre_name, song_id)
+VALUES ('party', 6), ('party', 8);
+
+INSERT INTO event_genre(genre_name, event_id)
+VALUES ('party', 1), ('rap', 2), ('pop', 3);
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (1, '6'),(1, '8');
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (2, '18'), (2, '20'), (2, '22');
+
+INSERT INTO event_song(event_id, song_id)
+VALUES (3, '1'), (3, '7'), (3, '11');
+
+
+---------------------------------------------------------------------------------
 INSERT INTO artist (artist_name)
 VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
 ('Neil Diamond'), ('Cyndi Lauper'), ('Tag Team'), ('Prince'), ('Lizzo'), ('Smash Mouth'), ('Gorillaz'), ('Missy Elliott'),
@@ -167,7 +191,6 @@ VALUES ('3', '1'), ('3', '2'), ('3', '3');
 
 INSERT INTO event(user_id, event_name, information)
 VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
-
 
 
 --end of mock data

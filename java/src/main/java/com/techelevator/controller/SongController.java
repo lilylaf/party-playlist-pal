@@ -22,11 +22,15 @@ public class SongController {
     public List<User> getListOfDjs() {
         return songDao.listOfDjs();
     }
-
+    //list of songs per dj
     @RequestMapping(value="/dj/{id}/songs", method= RequestMethod.GET)
     public List<Song> getListOfSongs(@PathVariable Long id) {
         return songDao.djSongList(id);
     }
 
-
+    //as an unauthorized user, I want to display a list of songs for an event
+    @RequestMapping(value="event/{id}/songs", method = RequestMethod.GET)
+    public List<Song> getEventPlaylist(@PathVariable Long id) {
+        return songDao.eventPlaylist(id);
+    }
 }
