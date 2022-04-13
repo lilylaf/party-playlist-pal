@@ -150,6 +150,12 @@ VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXK
 INSERT INTO users(username, password_hash, role)
 VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
+INSERT INTO users(username, password_hash, role)
+VALUES ('LilDebbie', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_HOST');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('JayGatsby', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_HOST');
+
 INSERT INTO event(user_id, event_name, information)
 VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
 
