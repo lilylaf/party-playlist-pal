@@ -5,7 +5,7 @@
       <h2>These are my songs:</h2>
       <div v-for="song in songs" v-bind:key="song.id" class="dj-songs">
 
-        <h5>{{song.name}} by {{song.artistName}}</h5>
+        <h4>{{song.name}} by {{song.artistName}}</h4>
       </div>
   </div>
 </template>

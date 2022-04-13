@@ -2,7 +2,7 @@
   <div class="dj-grid">
       <h2>DJs</h2>
       <div v-for="dj in djs" v-bind:key="dj.id">
-         <h4><router-link v-bind:to="{name:'dj',params: {id:dj.id, username: dj.username } }" >{{ dj.username }}</router-link></h4>
+         <h3><router-link v-bind:to="{name:'dj',params: {id:dj.id, username: dj.username } }" >{{ dj.username }}</router-link></h3>
       </div>
   </div>
 </template>
