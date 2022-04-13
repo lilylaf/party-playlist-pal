@@ -30,9 +30,12 @@ export default {
 
 <style scoped>
 .dj-grid {
-    border: rgb(24, 226, 54) 5px solid;
+    border: #003B77 5px solid;
     border-radius: 10px;
     padding: 5px;
+}
+a{
+    color: #003B77;
 }
 
 </style>
