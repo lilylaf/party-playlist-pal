@@ -1,7 +1,9 @@
 <template>
   <div class="search-event">
       <h2>Event Search</h2>
-      <input type="text" placeholder="Type an event" v-model="eventSearchString" />
+      <div>
+        <b-form-input v-model="eventSearchString" placeholder="Type an event"></b-form-input>
+  </div>
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
               <h2> <router-link v-bind:to="{name:'event', params: {id: event.id} }">{{ event.name }} </router-link></h2>

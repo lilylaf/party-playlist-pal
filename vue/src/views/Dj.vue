@@ -1,12 +1,11 @@
 <template>
   <div>
+      <b-container>
       <h1>DJ page</h1>
       <h2>I am DJ: {{ this.$route.params.username }}</h2>
-      <h2>These are my songs:</h2>
-      <div v-for="song in songs" v-bind:key="song.id" class="dj-songs">
-
-        <h4>{{song.name}} by {{song.artistName}}</h4>
-      </div>
+      <h2>My songs:</h2>
+      <b-table striped hover :items="songs" :fields="fields"></b-table>
+      </b-container>
   </div>
 </template>
 
@@ -17,6 +16,7 @@ export default {
     name: 'Dj',
     data(){
         return {
+            fields: ['artistName', 'name'],
             songs: null
         }
     },
