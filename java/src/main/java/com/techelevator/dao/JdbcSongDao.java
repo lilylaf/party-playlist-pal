@@ -5,11 +5,13 @@ import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@CrossOrigin
 public class JdbcSongDao implements SongDao{
 
     private JdbcTemplate jdbcTemplate;
@@ -17,24 +19,6 @@ public class JdbcSongDao implements SongDao{
     public JdbcSongDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-
-    @Override
-    public List<User> listOfDjs() {
-        List<User> djs = new ArrayList<>();
-
-        String sql = "SELECT user_id, username\n" +
-                "FROM users\n" +
-                "WHERE role = 'ROLE_DJ'\n" +
-                "ORDER BY user_id ASC;";
-
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while (results.next()) {
-            djs.add(mapRowToUser(results));
-        }
-        return djs;
-    }
-
 
     @Override
     public List<Song> djSongList(Long id) {
@@ -82,10 +66,5 @@ public class JdbcSongDao implements SongDao{
 
         return s;
     }
-    private User mapRowToUser(SqlRowSet rs) {
-        User user = new User();
-        user.setId(rs.getLong("user_id"));
-        user.setUsername(rs.getString("username"));
-        return user;
-    }
+
 }

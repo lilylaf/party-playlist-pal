@@ -5,11 +5,13 @@ import com.techelevator.model.EventNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@CrossOrigin
 public class JdbcEventDao implements EventDao{
 
     private JdbcTemplate jdbcTemplate;

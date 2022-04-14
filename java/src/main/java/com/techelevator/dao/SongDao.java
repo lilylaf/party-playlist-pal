@@ -8,7 +8,7 @@ import java.util.List;
 public interface SongDao {
 
     List<Song> djSongList(Long id);
-    List<User> listOfDjs();
+
     List<Song> eventPlaylist(Long id);
 }
 
