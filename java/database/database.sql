@@ -435,7 +435,37 @@ VALUES
 ('country',116),
 ('alternative',117),
 ('pop',118),
-('rap',119);
+('rap',119),
+('rap',120),
+('party',121),
+('party',122),
+('metal',123),
+('metal',124),
+('metal',125),
+('classic',126),
+('love',127),
+('love',128),
+('metal',129),
+('metal',130),
+('classic',131),
+('R&B',132),
+('party',133),
+('pop',134),
+('pop',135),
+('pop',136),
+('R&B',137);
+
+INSERT INTO song_genre (genre_name, song_id)
+VALUES
+('classic',11),
+('party',22),
+('rap',34),
+('rock',35),
+('rock',41),
+('rap',61),
+('pop',66),
+('love',69),
+('party',72);
 
 INSERT INTO event_song(event_id, song_id)
 VALUES (1, '6'),(1, '8');
