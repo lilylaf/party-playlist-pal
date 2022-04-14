@@ -160,15 +160,12 @@ INSERT INTO event(user_id, event_name, information)
 VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
 
 INSERT INTO genre(genre_name)
-VALUES ('party'), ('pop'), ('rap');
-
-INSERT INTO artist (artist_name)
-VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
-('Neil Diamond'), ('Cyndi Lauper'), ('Tag Team'), ('Prince'), ('Lizzo'), ('Smash Mouth'), ('Gorillaz'), ('Missy Elliott'),
-('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre');
+VALUES ('party'), ('pop'), ('rap'), ('country'), ('alternative'), ('rock'), ('metal'),('R&B'),('love'),('classic');
 
 INSERT INTO artist
-VALUES ('Kodak Black'),('Jay-Z'),('DaBaby'),('Justin Timberlake'),('Jack Harlow'),('Swae Lee'),('Taylor Swift'),('Jason Aldean'),('Luke Bryan'),('Florida Georgia Line'),('Lee Brice'),
+VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
+('Neil Diamond'), ('Cyndi Lauper'), ('Tag Team'), ('Prince'), ('Lizzo'), ('Smash Mouth'), ('Gorillaz'), ('Missy Elliott'),
+('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre'), ('Kodak Black'),('Jay-Z'),('DaBaby'),('Justin Timberlake'),('Jack Harlow'),('Swae Lee'),('Taylor Swift'),('Jason Aldean'),('Luke Bryan'),('Florida Georgia Line'),('Lee Brice'),
 ('Cardi B'),('A$AP Rocky'),('Snoop Dogg'),('Green Day'),('Oasis'),('Elvis Presley'),('Phil Collins'),('V.I.C.'),('Playboi Carti'),('Beyonce'),('The Chainsmokers'),('Avicii'),('Pitbull'),('Kesha'),
 ('Lil Jon'),('Alesso'),('David Guetta'),('Skrillex'),('blink-182'),('PSY'),('3 Doors Down'),('Puddle Of Mudd'),('Nicki Minaj'),('Swedish House Mafia'),('Metallica'),('Aerosmith'),('Sheck Wes'),
 ('French Montana'),('AC/DC'),('Blake Shelton'),('Drake'),('Halsey'),('The Proclaimers'),('Lynyrd Skynyrd'),('Vitamin C'),('Post Malone'),('benny blanco'),('Juice WRLD'),('fun.'),('Black Eyed Peas'),
@@ -176,14 +173,30 @@ VALUES ('Kodak Black'),('Jay-Z'),('DaBaby'),('Justin Timberlake'),('Jack Harlow'
 ('ABBA'),('Aqua'),('Third Eye Blind'),('Chumbawamba'),('Katy Perry'),('Juicy J'),('Guns N'' Roses'),('Twisted Sister'),('Journey'),('Foreigner'),('Duran Duran'),('The Beetles'),('Billy Joel'),
 ('John Mellencamp'),('Eagles'),('Sia'),('Lorde');
 
-INSERT INTO song (artist_name, song_name)
-VALUES ('P!nk','Get The Party Started'), ( 'LMFAO','Party Rock Anthem'), ('Outkast','Hey Ya!'), ('Usher','Yeah!'), ('Salt-N-Pepa','Push It!'), ('DJ Casper','Cha Cha Slide'), ('Lady Gaga','Just Dance'),
-('Village People','Y.M.C.A.'), ( 'Flo Rida', 'Low'), ( 'Neil Diamond', 'Sweet Caroline'), ( 'Cyndi Lauper', 'Girls Just Want To Have Fun'), ( 'Tag Team', 'Whoomp, There It Is'),
-('Prince',  '1999'), ('Lizzo','Truth Hurts'), ( 'Smash Mouth', 'All Star'), ( 'Gorillaz', 'DARE'), ( 'Missy Elliott', 'Work It'), ( 'Sir Mix-a-Lot', 'Baby Got Back'),
-('Spice Girls',  'Wannabe'), ( 'Eminem', 'Lose Yourself'), ( 'Doja Cat', 'Moo');
 
 INSERT INTO song (artist_name,song_name,featured_artist)
-VALUES 
+VALUES
+('P!nk','Get The Party Started',null),
+( 'LMFAO','Party Rock Anthem',null),
+('Outkast','Hey Ya!',null),
+('Usher','Yeah!',null),
+('Salt-N-Pepa','Push It!',null),
+('DJ Casper','Cha Cha Slide',null),
+('Lady Gaga','Just Dance',null),
+('Village People','Y.M.C.A.',null),
+( 'Flo Rida', 'Low',null),
+( 'Neil Diamond', 'Sweet Caroline',null),
+( 'Cyndi Lauper', 'Girls Just Want To Have Fun',null),
+( 'Tag Team', 'Whoomp, There It Is',null),
+('Prince',  '1999',null),
+('Lizzo','Truth Hurts',null),
+( 'Smash Mouth', 'All Star',null),
+( 'Gorillaz', 'DARE',null),
+( 'Missy Elliott', 'Work It',null),
+( 'Sir Mix-a-Lot', 'Baby Got Back',null),
+('Spice Girls',  'Wannabe',null),
+( 'Eminem', 'Lose Yourself',null),
+( 'Doja Cat', 'Moo',null),
 ('Kodak Black','ZEZE','Offset'),
 ('Jay-Z','Holy Grail','Justin Timberlake'),
 ('AC/DC','Thunderstruck',null),
@@ -280,19 +293,130 @@ VALUES
 ('A$AP Rocky','Excuse Me',null),
 ('Jason Aldean','Tattoos On This Town',null),
 ('blink-182','What''s My Age Again?',null),
-('Beyonce','Run The World (Girls)',null);
+('Beyonce','Run The World (Girls)',null),
+( 'Dr. Dre','Forgot About Dre','Eminem');
 
-INSERT INTO song(artist_name, song_name, featured_artist)
-VALUES ( 'Dr. Dre','Forgot About Dre','Eminem');
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('rap', 20), ('rap', 22), ('rap', 18);
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('pop', 1), ('pop', 7), ('pop', 11);
-
-INSERT INTO song_genre(genre_name, song_id)
-VALUES ('party', 6), ('party', 8);
+INSERT INTO song_genre  (genre_name, song_id)
+VALUES 
+('party',1),
+('party',2),
+('party',3),
+('party',4),
+('party',5),
+('party',6),
+('party',7),
+('party',8),
+('party',9),
+('classic',10),
+('party',11),
+('party',12),
+('classic',13),
+('classic',14),
+('party',15),
+('party',16),
+('party',17),
+('party',18),
+('party',19),
+('rap',20),
+('pop',21),
+('rap',22),
+('rap',23),
+('rock',24),
+('rap',25),
+('rap',26),
+('pop',27),
+('alternative',28),
+('party',29),
+('party',30),
+('country',31),
+('alternative',32),
+('country',33),
+('party',34),
+('alternative',35),
+('R&B',36),
+('rap',37),
+('alternative',38),
+('alternative',39),
+('alternative',40),
+('classic',41),
+('pop',42),
+('classic',43),
+('rap',44),
+('alternative',45),
+('alternative',46),
+('party',47),
+('classic',48),
+('love',49),
+('rap',50),
+('party',51),
+('pop',52),
+('rap',53),
+('rap',54),
+('pop',55),
+('classic',56),
+('R&B',57),
+('alternative',58),
+('love',59),
+('classic',60),
+('party',61),
+('party',62),
+('metal',63),
+('party',64),
+('party',65),
+('love',66),
+('country',67),
+('country',68),
+('country',69),
+('love',70),
+('love',71),
+('pop',72),
+('pop',73),
+('pop',74),
+('party',75),
+('party',76),
+('party',77),
+('party',78),
+('R&B',79),
+('party',80),
+('pop',81),
+('R&B',82),
+('rap',83),
+('alternative',84),
+('alternative',85),
+('alternative',86),
+('rap',87),
+('R&B',88),
+('pop',89),
+('pop',90),
+('pop',91),
+('pop',92),
+('pop',93),
+('rap',94),
+('rock',95),
+('rock',96),
+('rock',97),
+('rock',98),
+('rap',99),
+('rock',100),
+('love',101),
+('classic',102),
+('classic',103),
+('classic',104),
+('rock',105),
+('love',106),
+('classic',107),
+('pop',108),
+('classic',109),
+('rap',110),
+('party',111),
+('party',112),
+('party',113),
+('pop',114),
+('rap',115),
+('country',116),
+('alternative',117),
+('pop',118),
+('rap',119);
 
 INSERT INTO event_song(event_id, song_id)
 VALUES (1, '6'),(1, '8');
