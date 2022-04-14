@@ -3,6 +3,7 @@ package com.techelevator.model;
 public class Event {
 
     private Long id; //Long id
+    private Long userId;
     private String name; //name
     private String information;
 
@@ -22,6 +23,12 @@ public class Event {
         this.information = information;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
 
     //todo also represent the photo at some point

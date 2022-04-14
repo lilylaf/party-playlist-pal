@@ -51,11 +51,26 @@ public class JdbcEventDao implements EventDao{
         }
     }
 
+    @Override
+    public Event create(Event event) throws EventNotFoundException {
+        Event newEvent = null;
+
+        String sql= "INSERT INTO event (user_id, event_name, information)\n" +
+                "VALUES (?, ?, ?) RETURNING event_id;";
+
+        Long newEventId = jdbcTemplate.queryForObject(sql, Long.class, event.getUserId(), event.getName(), event.getInformation());
+
+        newEvent = getEventById(newEventId);
+
+        return newEvent;
+    }
+
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();
 
         event.setId(rowSet.getLong("event_id"));
+        event.setUserId(rowSet.getLong("user_id"));
         event.setName(rowSet.getString("event_name"));
         event.setInformation(rowSet.getString("information"));
 
