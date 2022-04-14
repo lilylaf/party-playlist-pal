@@ -157,21 +157,22 @@ INSERT INTO users(username, password_hash, role)
 VALUES ('JayGatsby', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_HOST');
 
 INSERT INTO event(user_id, event_name, information)
-VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
+VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic'), ('3','Delete Me','For removal purposes,yo');
 
 INSERT INTO genre(genre_name)
-VALUES ('party'), ('pop'), ('rap'), ('country'), ('alternative'), ('rock'), ('metal'),('R&B'),('love'),('classic');
+VALUES ('party'), ('pop'), ('rap'), ('country'), ('alternative'), ('rock'), ('metal'),('R&B'),('love'),('classic'),('moody');
 
 INSERT INTO artist
 VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'), ('Lady Gaga'), ('Village People'), ('Flo Rida'), 
 ('Neil Diamond'), ('Cyndi Lauper'), ('Tag Team'), ('Prince'), ('Lizzo'), ('Smash Mouth'), ('Gorillaz'), ('Missy Elliott'),
-('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre'), ('Kodak Black'),('Jay-Z'),('DaBaby'),('Justin Timberlake'),('Jack Harlow'),('Swae Lee'),('Taylor Swift'),('Jason Aldean'),('Luke Bryan'),('Florida Georgia Line'),('Lee Brice'),
-('Cardi B'),('A$AP Rocky'),('Snoop Dogg'),('Green Day'),('Oasis'),('Elvis Presley'),('Phil Collins'),('V.I.C.'),('Playboi Carti'),('Beyonce'),('The Chainsmokers'),('Avicii'),('Pitbull'),('Kesha'),
-('Lil Jon'),('Alesso'),('David Guetta'),('Skrillex'),('blink-182'),('PSY'),('3 Doors Down'),('Puddle Of Mudd'),('Nicki Minaj'),('Swedish House Mafia'),('Metallica'),('Aerosmith'),('Sheck Wes'),
+('Sir Mix-a-Lot' ), ('Spice Girls'), ('Eminem'), ('Doja Cat'), ('Dr. Dre'), ('Kodak Black'),('Jay-Z'),('DaBaby'),('Justin Timberlake'),('Jack Harlow'),('Swae Lee'),('Taylor Swift'),('Jason Aldean'),('Luke Bryan'),
+('Florida Georgia Line'),('Lee Brice'), ('Cardi B'),('A$AP Rocky'),('Snoop Dogg'),('Green Day'),('Oasis'),('Elvis Presley'),('Phil Collins'),('V.I.C.'),('Playboi Carti'),('Beyonce'),('The Chainsmokers'),('Avicii'),
+('Pitbull'),('Kesha'), ('Lil Jon'),('Alesso'),('David Guetta'),('Skrillex'),('blink-182'),('PSY'),('3 Doors Down'),('Puddle Of Mudd'),('Nicki Minaj'),('Swedish House Mafia'),('Metallica'),('Aerosmith'),('Sheck Wes'),
 ('French Montana'),('AC/DC'),('Blake Shelton'),('Drake'),('Halsey'),('The Proclaimers'),('Lynyrd Skynyrd'),('Vitamin C'),('Post Malone'),('benny blanco'),('Juice WRLD'),('fun.'),('Black Eyed Peas'),
 ('Train'),('GAYLE'),('Macklemore'),('Kanye West'),('Nelly'),('Offset'),('My Chemical Romance'),('Paramore'),('Sublime'),('Ed Sheeran'),('John Legend'),('Robin Thicke'),('Pharrell Williams'),('Coldplay'),
 ('ABBA'),('Aqua'),('Third Eye Blind'),('Chumbawamba'),('Katy Perry'),('Juicy J'),('Guns N'' Roses'),('Twisted Sister'),('Journey'),('Foreigner'),('Duran Duran'),('The Beetles'),('Billy Joel'),
-('John Mellencamp'),('Eagles'),('Sia'),('Lorde');
+('John Mellencamp'),('Eagles'),('Sia'),('Lorde'),('Rihanna'),('Miley Cyrus'),('Desiigner'),('Five Finger Death Punch'),('Pantera'),('Hawthorne Heights'),('Poison'),('Bon Jovi'),('Ozzy Osbourne'),
+('The Weather Girls'),('TLC'),('MC Hammer'),('Backstreet Boys'),('No Doubt');
 
 
 INSERT INTO song (artist_name,song_name,featured_artist)
@@ -294,7 +295,25 @@ VALUES
 ('Jason Aldean','Tattoos On This Town',null),
 ('blink-182','What''s My Age Again?',null),
 ('Beyonce','Run The World (Girls)',null),
-( 'Dr. Dre','Forgot About Dre','Eminem');
+( 'Dr. Dre','Forgot About Dre','Eminem'),
+('Rihanna','Monster','Eminem'),
+('Desiigner','Panda',null),
+('Miley Cyrus','Party In The USA',null),
+('Five Finger Death Punch','Jekyll And Hyde',null),
+('Pantera','Cemetery Gates',null),
+('Hawthorne Heights','Diamond Eyes',null),
+('Bon Jovi','It''s My Life',null),
+('Poison','Every Rose Has Its Thorn',null),
+('Bon Jovi','Bed Of Roses',null),
+('Ozzy Osbourne','Crazy Train',null),
+('Metallica','One',null),
+('The Weather Girls','It''s Raining Men',null),
+('TLC','No Scrubs',null),
+('MC Hammer','Can''t Touch This',null),
+('Backstreet Boys','I Want It That Way',null),
+('Backstreet Boys', 'Everybody (Backstreet''s Back)',null),
+('No Doubt','Just A Girl',null),
+('TLC','Waterfalls',null);
 
 INSERT INTO song_genre  (genre_name, song_id)
 VALUES 
@@ -433,5 +452,7 @@ VALUES ('3', '1'), ('3', '2'), ('3', '3');
 INSERT INTO event_genre(genre_name, event_id)
 VALUES ('party', 1), ('rap', 2), ('pop', 3);
 
+INSERT INTO event_host (user_id,event_id)
+VALUES (6,4);
 
 --end of mock data

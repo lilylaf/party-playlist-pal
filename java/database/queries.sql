@@ -37,3 +37,7 @@ SELECT song_id, song_name, artist_name, featured_artist
 FROM song
 NATURAL JOIN event_song
 WHERE event_id = 3;
+
+--select all song names with id's and genres--
+SELECT song.song_name, song.song_id, genre_name FROM  song
+JOIN song_genre ON song.song_id = song_genre.song_id
