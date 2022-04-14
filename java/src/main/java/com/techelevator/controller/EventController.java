@@ -4,8 +4,11 @@ package com.techelevator.controller;
 import com.techelevator.dao.EventDao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,9 +39,12 @@ public class EventController {
     }
 
     //todo -> as an authorized DJ, I need to be able to create an event
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)
-    //@RequestMapping(value = "", method= RequestMethod.POST)
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/event", method= RequestMethod.POST)
+    public Event createEvent(@Valid @RequestBody Event event) throws EventNotFoundException {
+        return eventDao.create(event);
+    }
         //Parameters: user_id,
         //Return: Event Object
         //method location: EventDao/JdbcEventDao
