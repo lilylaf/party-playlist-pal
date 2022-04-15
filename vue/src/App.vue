@@ -6,7 +6,9 @@
    <b-button variant="outline-light"><router-link v-bind:to="{ name: 'home' }">Home</router-link></b-button>
     <b-button v-if="$store.state.token == ''" variant="outline-light"><router-link v-bind:to="{name: 'login'}" >Login as DJ or Host </router-link> </b-button>
     <b-nav-item v-if="$store.state.token != ''"><router-link v-bind:to="{ name: 'logout' }" >Logout</router-link></b-nav-item>
+  <!-- <div v->
 
+  </div> -->
    
   </b-nav>
   

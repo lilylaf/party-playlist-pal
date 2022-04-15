@@ -3,7 +3,9 @@
   <div class="Home">
     <img src="..\images\jampinktransp.png" />
     <p>you don't need to be authenticated to party</p>
-      <b-container class="bv-example-row">
+      <div v-show="!isAuthenticated">
+        
+         <b-container class="bv-example-row">
       <b-row>
         <b-col>
           <event-search class="event-search" />
@@ -11,13 +13,51 @@
         <b-col><dj-grid class="dj-grid" /></b-col>
       </b-row>
 </b-container>
-      <main>
-    <head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
-
-    </head>
         
-      </main>
+      </div>
+      
+      <div v-if="isAuthenticated">
+          <h3>I AM AUTHENTICATED!!</h3>
+         <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <!-- put a DJ thing here-->
+        </b-col>
+        <b-col>
+          <!-- PUT another DJ thing here-->
+        </b-col>
+      </b-row>
+    </b-container>
+   </div>
+     
+      <div v-if="userType == 'ROLE_DJ' ">
+          <h3>I AM A DJ</h3>
+         <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <!-- put a DJ thing here-->
+        </b-col>
+        <b-col>
+          <!-- PUT another DJ thing here-->
+        </b-col>
+      </b-row>
+</b-container>
+      </div>
+
+<div v-if="userType == 'ROLE_HOST' ">
+          <h3>I AM A HOST</h3>
+         <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <!-- put a DJ thing here-->
+        </b-col>
+        <b-col>
+          <!-- PUT another DJ thing here-->
+        </b-col>
+      </b-row>
+</b-container>
+
+      </div>
       
       
   </div>
@@ -32,9 +72,18 @@ export default {
   components: { 
     EventSearch,
     DjGrid  },
-  created(){
-    console.log(this.$store.state.user.authorities[0].name);
-  }
+    computed: {
+      isAuthenticated(){
+        return this.$store.state.token != ''
+        },
+      userType(){
+        return this.$store.state.user.authorities[0].name;
+      }
+      
+    }
+  // created(){
+  //   console.log(this.$store.state.user.authorities[0].name);
+  // }
 };
 </script>
 
