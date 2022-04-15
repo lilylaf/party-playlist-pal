@@ -1,15 +1,19 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Event;
+import com.techelevator.model.EventHost;
 import com.techelevator.model.EventNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +97,31 @@ public class JdbcEventDao implements EventDao{
         } else {
             throw new EventNotFoundException();
         }
+
+    }
+
+    @Override
+    public Event addHost(Long eventId, List<Long> hosts) throws EventNotFoundException {
+        EventHost eh = new EventHost();
+        String sql = "INSERT INTO event_host(event_id, user_id)\n" +
+                "VALUES (?, ?);";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Long hostId = hosts.get(i);
+                ps.setLong(1, eventId);
+                ps.setLong(2, hostId);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return hosts.size();
+            }
+        });
+        Event updatedEvent = getEventById(eventId);
+
+        return updatedEvent;
 
     }
 
