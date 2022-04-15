@@ -2,7 +2,7 @@
 
   <div class="DJ">
       <b-container>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+          
       <h1>DJ page</h1>
       <h2>I am DJ: {{ this.$route.params.username }}</h2>
       <h2 class="Table">My songs:</h2>

@@ -1,6 +1,5 @@
 <template>
   <div class="Event">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
       <h1>
          YOUR EVENT: {{event.name}}
       </h1>

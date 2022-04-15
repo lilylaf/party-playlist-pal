@@ -28,11 +28,10 @@ import DjGrid from '../components/DjGrid.vue';
 import EventSearch from '../components/EventSearch.vue';
 
 export default {
+  name: "home",
   components: { 
     EventSearch,
     DjGrid  },
-  name: "home",
-
   created(){
     console.log(this.$store.state.user.authorities[0].name);
   }
