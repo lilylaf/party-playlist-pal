@@ -3,9 +3,10 @@
     <div id="nav">
   <b-nav>   
 
-    <router-link v-bind:to="{ name: 'home' }"><b-button variant="outline-light">Home</b-button></router-link>
-    <router-link v-bind:to="{name: 'login'}" v-if="$store.state.token == '' "><b-button variant="outline-light" >Login as DJ or Host</b-button></router-link> 
-    <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"><b-nav-item>Logout</b-nav-item></router-link>
+   <b-button variant="outline-light"><router-link v-bind:to="{ name: 'home' }">Home</router-link></b-button>
+    <b-button v-if="$store.state.token == ''" variant="outline-light"><router-link v-bind:to="{name: 'login'}" >Login as DJ or Host </router-link> </b-button>
+    <b-nav-item v-if="$store.state.token != ''"><router-link v-bind:to="{ name: 'logout' }" >Logout</router-link></b-nav-item>
+
    
   </b-nav>
   
