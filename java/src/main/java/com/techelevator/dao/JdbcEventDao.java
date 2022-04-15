@@ -65,6 +65,13 @@ public class JdbcEventDao implements EventDao{
         return newEvent;
     }
 
+//    @Override
+//    public void deleteEvent(Long id) throws EventNotFoundException {
+//        boolean found = false;
+//
+//        //
+//    }
+
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();

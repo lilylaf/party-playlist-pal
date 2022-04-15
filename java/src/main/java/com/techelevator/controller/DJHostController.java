@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.DjHostDao;
 import com.techelevator.model.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class DJHostController {
 
     /*
@@ -34,6 +36,7 @@ public class DJHostController {
 
     //return list of hosts
     //currently not authorized
+    @PreAuthorize("hasRole('DJ')")
     @RequestMapping(value="/hosts", method = RequestMethod.GET)
     public List<User> getListOfHosts(){
         return djHostDao.listOfHosts();
