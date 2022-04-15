@@ -4,7 +4,9 @@ package com.techelevator.controller;
 import com.techelevator.dao.EventDao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventNotFoundException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,17 +52,16 @@ public class EventController {
     }
 
 
-    //todo -> as an authorized DJ, I need to be able to delete an event
-//    @PreAuthorize("hasRole('ROLE_DJ')")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @RequestMapping(value = "", method= RequestMethod.DELETE)
-//    public void deleteEvent(@Valid @RequestBody Long id) throws EventNotFoundException {
-//        //something goes here
-//    }
-        //Parameters: user_id, event_id
-        //Return: void, no return
-        //method location: EventDao/JdbcEventDao
-        //additional concerns:
+    //as an authorized DJ, I need to be able to delete an event
+    @PreAuthorize("hasRole('ROLE_DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "event/{id}", method= RequestMethod.DELETE)
+    public ResponseEntity deleteEvent(@PathVariable Long id) throws EventNotFoundException {
+         return eventDao.deleteEvent(id);
+    }
+
+
+
 
 
     //todo -> as an authorized Host OR an authorized DJ, I need to be able to update event details
