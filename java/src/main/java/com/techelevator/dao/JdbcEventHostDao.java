@@ -29,8 +29,7 @@ public class JdbcEventHostDao implements EventHostDao{
 
         }
 
-
-
         return null;
+        //todo -> this method needs to be finished
     }
 }
