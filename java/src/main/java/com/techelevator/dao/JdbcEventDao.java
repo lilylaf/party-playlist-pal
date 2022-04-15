@@ -2,10 +2,13 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Event;
 import com.techelevator.model.EventNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,12 +68,33 @@ public class JdbcEventDao implements EventDao{
         return newEvent;
     }
 
-//    @Override
-//    public void deleteEvent(Long id) throws EventNotFoundException {
-//        boolean found = false;
-//
-//        //
-//    }
+
+    @Override
+    public ResponseEntity deleteEvent(Long id) throws EventNotFoundException {
+
+
+        String sql = "BEGIN TRANSACTION;\n" +
+                "DELETE FROM event_host\n" +
+                "WHERE event_id = ?;\n" +
+                "DELETE FROM event_song\n" +
+                "WHERE event_id = ?;\n" +
+                "DELETE FROM event_genre\n" +
+                "WHERE event_id = ?;\n" +
+                "DELETE FROM event\n" +
+                "WHERE event_id = ?;\n" +
+                "COMMIT TRANSACTION;";
+
+
+        int numRows = jdbcTemplate.update(sql, id, id, id, id);
+
+
+        if(numRows > 0){
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } else {
+            throw new EventNotFoundException();
+        }
+
+    }
 
 
     private Event mapRowToEvent(SqlRowSet rowSet){
