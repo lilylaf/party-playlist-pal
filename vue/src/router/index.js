@@ -7,6 +7,8 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import Event from '../views/Event.vue'
 import Dj from '../views/Dj.vue'
+import DjHome from '../views/DjHome.vue'
+import HostHome from '../views/HostHome.vue'
 
 
 Vue.use(Router)
@@ -70,6 +72,22 @@ const router = new Router({
       component: Dj,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: '/dj',
+      name: 'djHome',
+      component: DjHome,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/host',
+      name: 'hostHome',
+      component: HostHome,
+      meta: {
+        requiresAuth: true
       }
     },
   ]

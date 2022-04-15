@@ -1,7 +1,7 @@
 <template>
     
   <div class="Home">
-    <h1>Party Animals</h1>
+    <img src="..\images\jampinktransp.png" />
     <p>you don't need to be authenticated to party</p>
       <b-container class="bv-example-row">
       <b-row>
@@ -12,7 +12,10 @@
       </b-row>
 </b-container>
       <main>
-        
+    <head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+
+    </head>
         
       </main>
       
@@ -25,10 +28,13 @@ import DjGrid from '../components/DjGrid.vue';
 import EventSearch from '../components/EventSearch.vue';
 
 export default {
+  name: "home",
   components: { 
     EventSearch,
     DjGrid  },
-  name: "home"
+  created(){
+    console.log(this.$store.state.user.authorities[0].name);
+  }
 };
 </script>
 
@@ -37,6 +43,7 @@ export default {
 .Home{
   background-color: #090531;
   color: white;
+  font-family: "Audiowide", sans-serif;
 }
 
 .event-search{
@@ -50,21 +57,8 @@ export default {
 .event-search{
   background-color: #FC05F4;
 }
-  /* main {
-    display: grid;
-    grid-template-areas:
-    "event dj";
-    grid-template-columns: 1fr 1fr;
-    column-gap: 10px;
-} */
 
-/* .event-search {
-  grid-area:event;
-
+.Home{
+  text-align: center;
 }
-
-.dj-grid {
-  grid-area: dj;
-} */
-
 </style>

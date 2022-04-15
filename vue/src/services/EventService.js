@@ -8,6 +8,10 @@ export default {
     getEventById(id){
         return axios.get(`/event/${id}`)
 
+    },
+
+    createEvent(newEvent){
+        return axios.post('/event', newEvent)
     }
 
 

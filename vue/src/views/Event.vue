@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div class="Event">
       <h1>
          YOUR EVENT: {{event.name}}
       </h1>
     <h4>
         THE DEETS:  {{event.information}}
     </h4>
+    <div class="Table">
     <h4>The Songs:</h4>
      <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
-
+    </div>
   </div>
 </template>
 
@@ -45,5 +46,13 @@ export default {
 </script>
 
 <style>
-
+.Event{
+    background-color: #090531;
+    color: white;
+    font-family: "Audiowide", sans-serif;
+}
+.Table{
+    background-color: #01F8E9;
+    
+}
 </style>
