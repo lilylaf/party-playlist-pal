@@ -21,7 +21,7 @@
          <b-container class="bv-example-row">
       <b-row>
         <b-col>
-          <!-- put a DJ thing here-->
+          <my-dj-songs />
         </b-col>
         <b-col>
           <!-- PUT another DJ thing here-->
@@ -66,25 +66,31 @@
 <script>
 import DjGrid from '../components/DjGrid.vue';
 import EventSearch from '../components/EventSearch.vue';
+import MyDjSongs from '../components/MyDjSongs.vue';
 
 export default {
   name: "home",
+  
   components: { 
     EventSearch,
-    DjGrid  },
-    computed: {
-      isAuthenticated(){
-        return this.$store.state.token != ''
-        },
-      userType(){
-        return this.$store.state.user.authorities[0].name;
-      }
-      
+    DjGrid,
+    MyDjSongs  },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.token != ''
+      },
+    userType(){
+      if(this.$store.state.token == ''){
+        return null
+          }
+        else {
+          return this.$store.state.user.authorities[0].name ;
+        }
     }
-  // created(){
-  //   console.log(this.$store.state.user.authorities[0].name);
-  // }
-};
+  }
+}
+
 </script>
 
 <style scoped>

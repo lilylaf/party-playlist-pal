@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h2>I am a DJ - I am logged in {{this.$store.state.user}}</h2>
+      <h2>I am a DJ - I am logged in {{this.$store.state.user.username}}</h2>
       <b-container>
         <b-table striped hover :items="songs" :fields="fields"></b-table>
       </b-container>
@@ -30,5 +30,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
+</style>
