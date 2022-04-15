@@ -29,6 +29,7 @@ public class DJHostController {
 
     //return list of djs
     //currently not authorized
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/djs", method= RequestMethod.GET)
     public List<User> getListOfDjs() {
         return djHostDao.listOfDjs();

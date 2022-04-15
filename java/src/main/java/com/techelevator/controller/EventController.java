@@ -28,12 +28,14 @@ public class EventController {
 
 
     //as an unauthorized guest, I need to view a list of events
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/events", method = RequestMethod.GET) //todo -> do we want to pull DJ username in this as well?
     public List<Event> getAllEvents(){
         return eventDao.listOfEvents();
     }
 
     //as an unauthorized guest, I need to view a specific event
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/event/{id}", method = RequestMethod.GET)
     public Event selectedEvent(@PathVariable Long id) throws EventNotFoundException {
         return eventDao.getEventById(id); //insert method here
@@ -49,12 +51,12 @@ public class EventController {
 
 
     //todo -> as an authorized DJ, I need to be able to delete an event
-    @PreAuthorize("hasRole('ROLE_DJ')")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "", method= RequestMethod.DELETE)
-    public void deleteEvent(@Valid @RequestBody Long id) throws EventNotFoundException {
-        //something goes here
-    }
+//    @PreAuthorize("hasRole('ROLE_DJ')")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @RequestMapping(value = "", method= RequestMethod.DELETE)
+//    public void deleteEvent(@Valid @RequestBody Long id) throws EventNotFoundException {
+//        //something goes here
+//    }
         //Parameters: user_id, event_id
         //Return: void, no return
         //method location: EventDao/JdbcEventDao

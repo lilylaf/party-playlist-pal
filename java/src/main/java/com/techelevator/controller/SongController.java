@@ -38,12 +38,14 @@ public class SongController {
 
 
     //as an unauthorized guest, I need to see a list of a DJ's song library
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/dj/{id}/songs", method= RequestMethod.GET)
     public List<Song> getListOfSongs(@PathVariable Long id) {
         return songDao.djSongList(id);
     }
 
     //as an unauthorized guest, I need to view the songs in the event playlist
+    @PreAuthorize("permitAll")
     @RequestMapping(value="event/{id}/songs", method = RequestMethod.GET)
     public List<Song> getEventPlaylist(@PathVariable Long id) {
         return songDao.eventPlaylist(id);
