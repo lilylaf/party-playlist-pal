@@ -60,7 +60,19 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+            // AND push based on the type of user...
+            // PUSH them to an appropriate page
+            const userRole = this.$store.state.user.authorities[0].name;
+
+            if(userRole == 'ROLE_HOST'){
+                console.log("I am a HOST!")
+                this.$router.push('/host')
+            } else if(userRole == 'ROLE_DJ'){
+                console.log("I AM A DJ!!!")
+                this.$router.push('/dj')
+            }
+            
+            //this.$router.push("/");
           }
         })
         .catch(error => {
