@@ -35,10 +35,12 @@
 
 <script>
 import eventService from '../services/EventService.js'
+
 export default {
     name: 'CreateEventForm',
     data() {
       return {
+        hosts: [],
         form: {
           name: '',
           information: '',
@@ -71,7 +73,7 @@ export default {
           this.show = true
         })
       }
-    }
+    },
 
 }
 </script>
