@@ -84,18 +84,12 @@ public class JdbcEventDao implements EventDao{
                 "WHERE event_id = ?;\n" +
                 "COMMIT TRANSACTION;";
 
-        //get count from events table
-        String getCount = "SELECT COUNT(event_id)\n" +
-                "FROM event";
-        int count = jdbcTemplate.update(getCount);
-        int numRows = jdbcTemplate.update(sql, id, id, id, id);
-        //get count from events table
-        String newCount = "SELECT COUNT(event_id)\n" +
-                "FROM event";
-        int getNewCount = jdbcTemplate.update(newCount);
 
-        if(count != getNewCount){ //why is this not
-            return new ResponseEntity(HttpStatus.NO_CONTENT); //this should be a 200 message
+        int numRows = jdbcTemplate.update(sql, id, id, id, id);
+
+
+        if(numRows > 0){
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         } else {
             throw new EventNotFoundException();
         }
