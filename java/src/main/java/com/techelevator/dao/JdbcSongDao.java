@@ -55,6 +55,13 @@ public class JdbcSongDao implements SongDao{
         return eventPlaylistSongs;
     }
 
+    @Override
+    public Song submitSong(Long eventId, Long songId) {
+
+
+        return null;
+    }
+
 
     private Song mapRowToSong(SqlRowSet rowSet){
         Song s = new Song();
