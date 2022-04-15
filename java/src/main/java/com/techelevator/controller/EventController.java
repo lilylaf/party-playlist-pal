@@ -29,7 +29,7 @@ public class EventController {
 
     public EventController(EventDao eventDao, EventHostDao eventHostDao){
         this.eventDao = eventDao;
-        this. eventHostDao = eventHostDao;
+//        this. eventHostDao = eventHostDao;
     }
 
 
@@ -57,9 +57,9 @@ public class EventController {
 
 
     //as an authorized DJ, I need to be able to delete an event
-    @PreAuthorize("hasRole('ROLE_DJ')")
+    @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "event/{id}", method= RequestMethod.DELETE)
+    @RequestMapping(value = "/event/{id}", method= RequestMethod.DELETE)
     public ResponseEntity deleteEvent(@PathVariable Long id) throws EventNotFoundException {
          return eventDao.deleteEvent(id);
     }
@@ -75,14 +75,12 @@ public class EventController {
         //additional concerns:
 
 
-
-
     //todo -> as an authorized DJ, I can add a host to an event
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="event/{id}/host/{id}", method = RequestMethod.POST)
-    public EventHost addHostsToEvent(@PathVariable Long eventId, Long[] hosts){
-        return eventHostDao.addHost(eventId, hosts);
+    @RequestMapping(value="/event/{id}/host", method = RequestMethod.POST)
+    public Event addHostsToEvent(@PathVariable Long id, @Valid @RequestBody List<Long> hosts) throws EventNotFoundException {
+        return eventDao.addHost(id, hosts);
     }
 }
 
