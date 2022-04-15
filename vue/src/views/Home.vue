@@ -28,7 +28,11 @@ export default {
   components: { 
     EventSearch,
     DjGrid  },
-  name: "home"
+  name: "home",
+
+  created(){
+    console.log(this.$store.state.user.authorities[0].name);
+  }
 };
 </script>
 
