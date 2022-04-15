@@ -1,8 +1,8 @@
 <template>
   <div>
       <h2>I am a DJ - I am logged in {{this.$store.state.user.username}}</h2>
-      <b-container>
-        <b-table striped hover :items="songs" :fields="fields"></b-table>
+      <b-container class="dj=songs">
+        <b-table striped hover dark :items="songs" :fields="fields"></b-table>
       </b-container>
   </div>
 </template>
@@ -31,5 +31,8 @@ export default {
 </script>
 
 <style scoped>
+.dj-songs {
+    color: white;
+}
 
 </style>

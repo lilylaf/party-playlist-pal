@@ -2,8 +2,7 @@
     
   <div class="Home">
     <img src="..\images\jampinktransp.png" />
-    <p>you don't need to be authenticated to party</p>
-      <div v-show="!isAuthenticated">
+      <div v-if="!isAuthenticated">
         
          <b-container class="bv-example-row">
       <b-row>
@@ -21,7 +20,7 @@
          <b-container class="bv-example-row">
       <b-row>
         <b-col>
-          <my-dj-songs />
+          
         </b-col>
         <b-col>
           <!-- PUT another DJ thing here-->
@@ -32,14 +31,13 @@
      
       <div v-if="userType == 'ROLE_DJ' ">
           <h3>I AM A DJ</h3>
+          <p>{{this.$store.state.user.id}}</p>
          <b-container class="bv-example-row">
       <b-row>
-        <b-col>
-          <!-- put a DJ thing here-->
-        </b-col>
-        <b-col>
-          <!-- PUT another DJ thing here-->
-        </b-col>
+           <my-dj-events />
+          </b-row>
+       <b-row>
+         <my-dj-songs />
       </b-row>
 </b-container>
       </div>
@@ -66,6 +64,7 @@
 <script>
 import DjGrid from '../components/DjGrid.vue';
 import EventSearch from '../components/EventSearch.vue';
+import MyDjEvents from '../components/MyDjEvents.vue';
 import MyDjSongs from '../components/MyDjSongs.vue';
 
 export default {
@@ -74,7 +73,8 @@ export default {
   components: { 
     EventSearch,
     DjGrid,
-    MyDjSongs  },
+    MyDjSongs,
+    MyDjEvents  },
 
   computed: {
     isAuthenticated() {

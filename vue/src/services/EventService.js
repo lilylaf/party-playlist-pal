@@ -12,6 +12,12 @@ export default {
 
     createEvent(newEvent){
         return axios.post('/event', newEvent)
+    },
+
+
+    // this doesn't exist yet
+    getEventsByDjID(id){
+        return axios.get(`/dj/${id}/events`)
     }
 
 
