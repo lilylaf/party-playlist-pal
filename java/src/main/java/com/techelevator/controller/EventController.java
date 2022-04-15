@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class EventController {
 
     /*
@@ -27,34 +28,35 @@ public class EventController {
 
 
     //as an unauthorized guest, I need to view a list of events
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/events", method = RequestMethod.GET) //todo -> do we want to pull DJ username in this as well?
     public List<Event> getAllEvents(){
         return eventDao.listOfEvents();
     }
 
     //as an unauthorized guest, I need to view a specific event
+    @PreAuthorize("permitAll")
     @RequestMapping(value="/event/{id}", method = RequestMethod.GET)
     public Event selectedEvent(@PathVariable Long id) throws EventNotFoundException {
         return eventDao.getEventById(id); //insert method here
     }
 
-    //todo -> as an authorized DJ, I need to be able to create an event
+    //as an authorized DJ, I need to be able to create an event
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/event", method= RequestMethod.POST)
     public Event createEvent(@Valid @RequestBody Event event) throws EventNotFoundException {
         return eventDao.create(event);
     }
-        //Parameters: user_id,
-        //Return: Event Object
-        //method location: EventDao/JdbcEventDao
-        //additional concerns:
 
 
     //todo -> as an authorized DJ, I need to be able to delete an event
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    //@RequestMapping(value = "", method= RequestMethod.DELETE)
+//    @PreAuthorize("hasRole('ROLE_DJ')")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @RequestMapping(value = "", method= RequestMethod.DELETE)
+//    public void deleteEvent(@Valid @RequestBody Long id) throws EventNotFoundException {
+//        //something goes here
+//    }
         //Parameters: user_id, event_id
         //Return: void, no return
         //method location: EventDao/JdbcEventDao

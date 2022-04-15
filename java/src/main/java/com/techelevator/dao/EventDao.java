@@ -10,4 +10,5 @@ public interface EventDao {
     List<Event> listOfEvents();
     Event getEventById(Long id) throws EventNotFoundException;
     Event create(Event event) throws EventNotFoundException;
+//    void deleteEvent(Long id) throws EventNotFoundException;
 }
