@@ -1,16 +1,24 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-      <router-link v-bind:to="{name: 'login'}" v-if="$store.state.token == '' ">Login as DJ or Host | </router-link>
-      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-    </div>
-    <router-view />
+  <b-nav>   
+
+    <b-button variant="outline-light"><router-link v-bind:to="{ name: 'home' }">Home</router-link></b-button>
+    <b-button variant="outline-light"><router-link v-bind:to="{name: 'login'}" v-if="$store.state.token == '' ">Login as DJ or Host </router-link> </b-button>
+    <b-nav-item><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">| Logout</router-link></b-nav-item>
+   
+  </b-nav>
+  
+</div>
+  <router-view />
+
   </div>
+  
 </template>
 <style scoped>
 #nav{
-  background-color: #0278E4;
+  background-color: #FC05F4;
+  font-family: "Audiowide", sans-serif;
    
 }
 a{
