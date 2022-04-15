@@ -4,9 +4,11 @@ import com.techelevator.dao.DjLibraryDao;
 import com.techelevator.dao.EventSongDao;
 import com.techelevator.dao.GenreDao;
 import com.techelevator.dao.SongDao;
+import com.techelevator.model.EventHost;
 import com.techelevator.model.Genre;
 import com.techelevator.model.Song;
 import com.techelevator.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,17 @@ public class SongController {
     public List<Song> getEventPlaylist(@PathVariable Long id) {
         return songDao.eventPlaylist(id);
     }
+
+    //as an unauthorized guest, I need to submit a song from the dj_library to event_song
+//    @PreAuthorize("permitAll")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RequestMapping(value="", method = RequestMethod.POST)
+//    public Song submitToEventPlaylist(@PathVariable Long eventId, Long songId){
+//        return songDao //insert method here ;
+//    }
+
+
+
 
     //todo -> ******************************************************* THIS NEEDS TO BE AUTHORIZED FOR A DJ
     //as an authorized DJ, I need to see a list of my current genres
@@ -104,6 +117,7 @@ public class SongController {
         //Return: Song s
         //method location: SongDao/JdbcSongDao
         //additional concerns: not sure if this one is mapped out correctly
+
 
 
 }

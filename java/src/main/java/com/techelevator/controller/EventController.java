@@ -2,7 +2,9 @@ package com.techelevator.controller;
 
 
 import com.techelevator.dao.EventDao;
+import com.techelevator.dao.EventHostDao;
 import com.techelevator.model.Event;
+import com.techelevator.model.EventHost;
 import com.techelevator.model.EventNotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -23,9 +25,11 @@ public class EventController {
      */
 
     private EventDao eventDao;
+    private EventHostDao eventHostDao;
 
-    public EventController(EventDao eventDao){
+    public EventController(EventDao eventDao, EventHostDao eventHostDao){
         this.eventDao = eventDao;
+        this. eventHostDao = eventHostDao;
     }
 
 
@@ -62,8 +66,6 @@ public class EventController {
 
 
 
-
-
     //todo -> as an authorized Host OR an authorized DJ, I need to be able to update event details
     //@PreAuthorize("hasRole('ROLE_DJ'),('ROLE_HOST')")
     //@RequestMapping(value="", method = RequestMethod.POST)
@@ -73,4 +75,24 @@ public class EventController {
         //additional concerns:
 
 
+
+
+    //todo -> as an authorized DJ, I can add a host to an event
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="event/{id}/host/{id}", method = RequestMethod.POST)
+    public EventHost addHostsToEvent(@PathVariable Long eventId, Long[] hosts){
+        return eventHostDao.addHost(eventId, hosts);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
