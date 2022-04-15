@@ -13,4 +13,7 @@ public interface EventDao {
     Event getEventById(Long id) throws EventNotFoundException;
     Event create(Event event) throws EventNotFoundException;
     ResponseEntity deleteEvent(Long id) throws EventNotFoundException;
+
+    Event addHost(Long eventId, List<Long> hosts) throws EventNotFoundException;
+
 }
