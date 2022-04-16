@@ -1,13 +1,16 @@
 <template>
   <div class="Event">
-      <h1>
-         EVENT: {{event.name}}
-      </h1>
-    <h4>
-        THE DEETS:  {{event.information}}
-    </h4>
-    <div v-if="hasPermissionToDeleteEvent"><b-button variant="danger">DELETE this Event</b-button></div>
-    <div class="Table">
+      <div v-if="dataLoaded" class="event-data">
+        <h1>
+            EVENT: {{event.name}}
+        </h1>
+        <h4>
+            THE DEETS:  {{event.information}}
+        </h4>
+        <div v-if="hasPermissionToDeleteEvent"><b-button variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button></div>
+    </div>
+
+    <div v-if="eventSongs !== null" class="Table">
     <h4>The Songs:</h4>
      <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
@@ -22,6 +25,7 @@ export default {
     name: 'event',
     data(){
         return {  
+            dataLoaded: false,
             fields: ['artistName', 'name'],
             event: null,
             eventSongs: null
@@ -29,8 +33,15 @@ export default {
     },
     methods: {
         deleteEvent(){
-
-        }
+            if(confirm("Are you sure you want to delete this event?")){
+               console.log("Off to delete event!");
+               console.log();
+               eventService.deleteEventById(this.event.id)
+                .then((response)=> {
+                    console.log(response)
+                    this.$router.push("/");
+                })
+            }}
     },
     computed: {
         hasPermissionToDeleteEvent(){
@@ -48,6 +59,7 @@ export default {
         .then(
             (response)=>{
                 this.event = response.data; 
+                this.dataLoaded = true;
             }
             );
         
