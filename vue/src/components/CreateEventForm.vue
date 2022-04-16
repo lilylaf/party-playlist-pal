@@ -55,18 +55,19 @@ export default {
         const newEvent = this.form;
         newEvent.userId = this.$store.state.user.id
         eventService.createEvent(this.form)
-            .then((response) =>
-        console.log(response))
-        this.$store.state.user.id
+            .then((response) => {
+              this.$router.push({name: 'event', params: {id: response.data.id}})
+            }
+
+        )
+        
         // alert(JSON.stringify(this.form))
       },
       onReset(event) {
         event.preventDefault()
         // Reset our form values
-        this.form.email = ''
         this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
+        this.form.information = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {

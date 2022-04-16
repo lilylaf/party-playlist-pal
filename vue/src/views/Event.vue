@@ -1,11 +1,12 @@
 <template>
   <div class="Event">
       <h1>
-         YOUR EVENT: {{event.name}}
+         EVENT: {{event.name}}
       </h1>
     <h4>
         THE DEETS:  {{event.information}}
     </h4>
+    <div v-if="hasPermissionToDeleteEvent"><b-button variant="danger">DELETE this Event</b-button></div>
     <div class="Table">
     <h4>The Songs:</h4>
      <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
@@ -25,6 +26,21 @@ export default {
             event: null,
             eventSongs: null
         }
+    },
+    methods: {
+        deleteEvent(){
+
+        }
+    },
+    computed: {
+        hasPermissionToDeleteEvent(){
+            if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.event.userId){
+                return true;
+            }else{
+                return false;
+            }
+        },
+
     },
     created(){
         //todo add error handling for the request

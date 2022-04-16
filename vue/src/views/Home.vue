@@ -39,6 +39,11 @@
        <b-row>
          <my-dj-songs />
       </b-row>
+      <b-row>
+      </b-row>
+      <b-row>
+        <create-event-form />
+      </b-row>
 </b-container>
       </div>
 
@@ -47,10 +52,10 @@
          <b-container class="bv-example-row">
       <b-row>
         <b-col>
-          <!-- put a DJ thing here-->
+          <!-- put a HOST thing here-->
         </b-col>
         <b-col>
-          <!-- PUT another DJ thing here-->
+          <!-- PUT another HOST thing here-->
         </b-col>
       </b-row>
 </b-container>
@@ -66,6 +71,7 @@ import DjGrid from '../components/DjGrid.vue';
 import EventSearch from '../components/EventSearch.vue';
 import MyDjEvents from '../components/MyDjEvents.vue';
 import MyDjSongs from '../components/MyDjSongs.vue';
+import CreateEventForm from '../components/CreateEventForm.vue'
 
 export default {
   name: "home",
@@ -74,7 +80,8 @@ export default {
     EventSearch,
     DjGrid,
     MyDjSongs,
-    MyDjEvents  },
+    MyDjEvents,
+    CreateEventForm  },
 
   computed: {
     isAuthenticated() {

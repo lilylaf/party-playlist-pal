@@ -14,7 +14,10 @@ export default {
         return axios.post('/event', newEvent)
     },
 
-
+    deleteEventById(id){
+        return axios.delete(`/event/${id}`)
+    },
+        
     // this doesn't exist yet
     getEventsByDjID(id){
         return axios.get(`/dj/${id}/events`)

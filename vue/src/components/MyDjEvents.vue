@@ -53,8 +53,9 @@ export default {
     created(){
         eventService.getEvents()
         .then((response) => {
-            this.eventsAll = response.data;
-            console.log(response.data);
+            const responseEventsAll = response.data;
+            this.eventsAll = responseEventsAll.filter((event) => event.userId == this.$store.state.user.id);
+            
         })
     }
 
