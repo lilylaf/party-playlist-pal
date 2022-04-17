@@ -44,10 +44,9 @@ public class JdbcEventDao implements EventDao{
     @Override
     public Event getEventById(Long id) throws EventNotFoundException {
 
-        String sql = "SELECT event.user_id, event.event_name, event.information, event.picture, event_host.user_id \n" +
-                "FROM event\n" +
-                "LEFT JOIN event_host ON event.event_id = event_host.event_id\n" +
-                "WHERE event.event_id = ?;";
+        String sql = "SELECT event_id, user_id, event_name, information " +
+                "FROM event " +
+                "WHERE event_id =?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
 
@@ -130,11 +129,10 @@ public class JdbcEventDao implements EventDao{
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();
 
-        event.setId(rowSet.getLong("event.event_id"));
-        event.setUserId(rowSet.getLong("event.user_id"));
-        event.setHostId(rowSet.getLong("event_host.user_id"));
-        event.setName(rowSet.getString("event.event_name"));
-        event.setInformation(rowSet.getString("event.information"));
+        event.setId(rowSet.getLong("event_id"));
+        event.setUserId(rowSet.getLong("user_id"));
+        event.setName(rowSet.getString("event_name"));
+        event.setInformation(rowSet.getString("information"));
 
         //todo deal with the picture at some point
 

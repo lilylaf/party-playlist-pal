@@ -1,10 +1,16 @@
 package com.techelevator.model;
 
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
 public class Event {
 
     private Long id;
     private Long userId;
-    private Long hostId;
+    private List<Long> hostId;
     private String name;
     private String information;
 
@@ -31,11 +37,11 @@ public class Event {
         this.userId = userId;
     }
 
-    public Long getHostId() {
+    public List<Long> getHostId() {
         return hostId;
     }
-    public void setHostId(Long hostId) {
-        this.hostId = hostId;
+    public void setHostId(Long id) {
+        this.hostId.add(id);
     }
 
     //todo also represent the photo at some point

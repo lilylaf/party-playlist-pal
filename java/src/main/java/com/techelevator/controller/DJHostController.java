@@ -1,12 +1,10 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.DjHostDao;
+import com.techelevator.model.EventHost;
 import com.techelevator.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +40,14 @@ public class DJHostController {
     public List<User> getListOfHosts(){
         return djHostDao.listOfHosts();
     }
+
+    //return list of hosts by event id
+    @PreAuthorize("permitAll")
+    @RequestMapping(value="/hosts/{id}", method = RequestMethod.GET)
+    public List<User> getHostsForEvent(@PathVariable Long id){
+        return djHostDao.hostsForEvent(id);
+    }
+
 
     //todo -> as an authorized DJ, I need to be able to assign a host to an event
     //@PreAuthorize("hasRole('ROLE_DJ')")
