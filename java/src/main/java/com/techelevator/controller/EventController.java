@@ -66,14 +66,24 @@ public class EventController {
 
 
 
-    //todo -> as an authorized Host OR an authorized DJ, I need to be able to update event details
-    //@PreAuthorize("hasRole('ROLE_DJ'),('ROLE_HOST')")
-    //@RequestMapping(value="", method = RequestMethod.POST)
-        //Parameters: user_id, event_id
-        //Return: updated event object
-        //method location: EventDao, JdbcEventDao
-        //additional concerns:
+    //todo -> as an authorized Host I need to be able to update event details
+    @PreAuthorize("permitAll")
+    @RequestMapping(value="update/event/{id}/host", method = RequestMethod.PUT)
+    public Event updateEventAsHost(@RequestBody Event event, @PathVariable Long id) throws EventNotFoundException {
+        return null;
+    }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //todo ->> as an authorized DJ I need to be able to update event details
+    @PreAuthorize("permitAll")
+    @RequestMapping(value="update/event/{id}/dj", method = RequestMethod.PUT)
+    public Event updateEventAsDj(@RequestBody Event event, @PathVariable Long id) throws EventNotFoundException{
+        return eventDao.DjUpdateEvent(event, id);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //todo -> as an authorized DJ, I can add a host to an event
     @PreAuthorize("hasRole('DJ')")

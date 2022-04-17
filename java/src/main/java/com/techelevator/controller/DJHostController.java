@@ -47,14 +47,4 @@ public class DJHostController {
     public List<User> getHostsForEvent(@PathVariable Long id){
         return djHostDao.hostsForEvent(id);
     }
-
-
-    //todo -> as an authorized DJ, I need to be able to assign a host to an event
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)
-    //@RequestMapping(value="", method = RequestMethod.POST)
-        //Parameters: user_id(auth dj), user_id(host), event_id
-        //Return: EventHost object
-        //method location: EventHostDao/JdbcEventHost
-        //additional concerns:
 }

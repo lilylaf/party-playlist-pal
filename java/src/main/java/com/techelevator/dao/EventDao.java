@@ -16,4 +16,7 @@ public interface EventDao {
 
     Event addHost(Long eventId, List<Long> hosts) throws EventNotFoundException;
 
+    Event DjUpdateEvent(Event event, Long id) throws EventNotFoundException;
+    Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException;
+
 }
