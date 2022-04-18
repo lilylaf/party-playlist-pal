@@ -59,12 +59,17 @@ public class JdbcSongDao implements SongDao{
         return eventPlaylistSongs;
     }
 
-    @Override
-    public Song submitSong(Long eventId, Long songId) {
+//    @Override
+//    public Song submitSong(Long eventId, Long songId) {
+//        return null;
+//    }
 
-
-        return null;
-    }
+//    @Override
+//    public Song submitSong(Long id) {
+//
+//
+//        return null;
+//    }
 
     @Override
     public void deleteSongFromLibrary(Long songId, Long userId) {
@@ -74,17 +79,28 @@ public class JdbcSongDao implements SongDao{
         int numRows = jdbcTemplate.update(sql, userId, songId);
     }
 
-//    @Override
-//    public DjLibrary addSong(Long userId, Long songId) {
-//        DjLibrary newSong = null;
-//
-//        String sql = "String sql = INSERT INTO dj_library (user_id, song_id) " +
-//                "VALUES (?,?);";
-//
-//        SqlRowSet results = jdbcTemplate.queryForObject(sql, userId, songId);
-//
-//        return newSong;
-//    }
+    @Override
+    public DjLibrary addSong(Long id, Long userId) {
+        DjLibrary addedSong = new DjLibrary();
+
+        String sql = "INSERT INTO dj_library (user_id, song_id) " +
+                "VALUES (?,?);";
+
+        jdbcTemplate.update(sql, userId, id);
+
+
+        addedSong.setUserId(userId);
+        addedSong.setSongId(id);
+
+        return addedSong;
+
+        //error message I am getting:
+        //"message": "PreparedStatementCallback; SQL [INSERT INTO dj_library (user_id, song_id) VALUES (?,?);];
+        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
+        // Detail: Key (user_id, song_id)=(3, 22) already exists.; nested exception is org.postgresql.util.PSQLException:
+        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
+        // Detail: Key (user_id, song_id)=(3, 22) already exists
+    }
 
 
     private Song mapRowToSong(SqlRowSet rowSet){

@@ -10,8 +10,8 @@ public interface SongDao {
 
     List<Song> djSongList(Long id);
     List<Song> eventPlaylist(Long id);
-    Song submitSong(Long eventId, Long songId);
+    //Song submitSong(Long eventId, Long songId);
     void deleteSongFromLibrary(Long userId, Long songId);
-//    DjLibrary addSong(DjLibrary song);
+    DjLibrary addSong(Long id, Long userId);
 }
 
