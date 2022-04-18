@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 
+import com.techelevator.model.EventHost;
 import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -51,6 +52,23 @@ public class JdbcDjHostDao implements DjHostDao{
             hosts.add(mapRowToUser(results));
         }
         return hosts;
+    }
+
+    @Override
+    public List<User> hostsForEvent(Long eventId) {
+        List<User> hosts = new ArrayList<>();
+
+        String sql = "SELECT user_id, username\n" +
+                "FROM users\n" +
+                "NATURAL JOIN event_host\n" +
+                "WHERE event_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, eventId);
+        while (results.next()) {
+            hosts.add(mapRowToUser(results));
+        }
+        return hosts;
+
     }
 
     private User mapRowToUser(SqlRowSet rs) {

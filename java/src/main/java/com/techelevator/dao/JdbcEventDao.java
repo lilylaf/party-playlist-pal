@@ -42,11 +42,28 @@ public class JdbcEventDao implements EventDao{
     }
 
     @Override
+    public List<Event> eventsByDjId(Long id) {
+        List<Event> eventList = new ArrayList<>();
+
+        String sql = "SELECT event_id, user_id, event_name, information, picture " +
+                "FROM event " +
+                "WHERE user_id = ? " +
+                "ORDER BY event_id ASC;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()) {
+            eventList.add(mapRowToEvent(results));
+        }
+
+        return eventList;
+    }
+
+    @Override
     public Event getEventById(Long id) throws EventNotFoundException {
 
-        String sql = "SELECT event_id, user_id, event_name, information, picture\n" +
-                "FROM event\n" +
-                "WHERE event_id = ?;";
+        String sql = "SELECT event_id, user_id, event_name, information " +
+                "FROM event " +
+                "WHERE event_id =?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
 
@@ -74,29 +91,20 @@ public class JdbcEventDao implements EventDao{
 
 
     @Override
-    public ResponseEntity deleteEvent(Long id) throws EventNotFoundException {
+    public void deleteEvent(Long id) {
 
 
-        String sql = "BEGIN TRANSACTION;\n" +
-                "DELETE FROM event_host\n" +
+        String sql = "DELETE FROM event_host\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event_song\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event_genre\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event\n" +
-                "WHERE event_id = ?;\n" +
-                "COMMIT TRANSACTION;";
+                "WHERE event_id = ?;";
 
 
         int numRows = jdbcTemplate.update(sql, id, id, id, id);
-
-
-        if(numRows > 0){
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } else {
-            throw new EventNotFoundException();
-        }
 
     }
 
@@ -124,7 +132,43 @@ public class JdbcEventDao implements EventDao{
         return updatedEvent;
 
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//    @Override
+//    public Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException{
+//
+//        String sql = "UPDATE event \n" +
+//                "SET event_name = ?, information = ? \n" +
+//                "FROM event_host \n" +
+//                "WHERE event.event_id = ?;";
+//
+//        int numRows = jdbcTemplate.update(sql, eventName, information, id); //why is this a type int
+//
+//        Event updatedEvent = getEventById(id);
+//
+//        return updatedEvent;
+//
+//    }
+//    //todo -> this doesn't work yet
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public Event updateEvent(Event event, Long id) throws EventNotFoundException {
+
+        String sql = "UPDATE event \n" +
+                "SET event_name = ?, information = ? \n" +
+                "WHERE event_id = ?;";
+
+
+
+        jdbcTemplate.update(sql, event.getName(),event.getInformation(), id); //why is this a type int
+
+        Event updatedEvent = getEventById(id);
+
+        return updatedEvent;
+    }
+    //todo -> this doesn't work yet
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();

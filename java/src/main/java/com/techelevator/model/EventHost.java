@@ -4,7 +4,7 @@ public class EventHost {
 
     private Long eventId;
     private Long hostId;
-
+    private String name;
 
 
     public Long getEventId(){
@@ -21,5 +21,10 @@ public class EventHost {
         this.hostId = hostId;
     }
 
-
+    public String getName(){
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 }

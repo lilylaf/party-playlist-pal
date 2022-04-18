@@ -1,9 +1,6 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.DjLibraryDao;
-import com.techelevator.dao.EventSongDao;
-import com.techelevator.dao.GenreDao;
-import com.techelevator.dao.SongDao;
+import com.techelevator.dao.*;
 import com.techelevator.model.EventHost;
 import com.techelevator.model.Genre;
 import com.techelevator.model.Song;
@@ -11,7 +8,9 @@ import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,26 +28,28 @@ public class SongController {
     private GenreDao genreDao;
     private EventSongDao eventSongDao;
     private DjLibraryDao djLibraryDao;
+    private UserDao userDao;
 
-    public SongController(SongDao songDao, GenreDao genreDao, EventSongDao eventSongDao, DjLibraryDao djLibraryDao) {
+    public SongController(SongDao songDao, GenreDao genreDao, EventSongDao eventSongDao, DjLibraryDao djLibraryDao, UserDao userDao) {
         this.songDao = songDao;
         this.genreDao = genreDao;
         this.eventSongDao = eventSongDao;
         this.djLibraryDao = djLibraryDao;
+        this.userDao = userDao;
     }
 
 
 
     //as an unauthorized guest, I need to see a list of a DJ's song library
     @PreAuthorize("permitAll")
-    @RequestMapping(value="/dj/{id}/songs", method= RequestMethod.GET)
+    @RequestMapping(value="/djs/{id}/songs", method= RequestMethod.GET)
     public List<Song> getListOfSongs(@PathVariable Long id) {
         return songDao.djSongList(id);
     }
 
     //as an unauthorized guest, I need to view the songs in the event playlist
     @PreAuthorize("permitAll")
-    @RequestMapping(value="event/{id}/songs", method = RequestMethod.GET)
+    @RequestMapping(value="events/{id}/songs", method = RequestMethod.GET)
     public List<Song> getEventPlaylist(@PathVariable Long id) {
         return songDao.eventPlaylist(id);
     }
@@ -71,8 +72,8 @@ public class SongController {
 //    public List<Genre> getGenresByDj(@PathVariable Long id) { //do we need Principal principal in here?
 //        return genreDao.listOfDjLibraryGenres(id);
 //    }
-
-    //as an unauthorized guest, I want to be able to submit a song from dj_library to event playlist
+//
+//    as an unauthorized guest, I want to be able to submit a song from dj_library to event playlist
 //    @RequestMapping(value="", method = RequestMethod.POST)
 //    public Song submitSongToEventPlaylist(Long songId, Long eventId){
 //        return eventSongDao.submitSong(songId, eventId);
@@ -99,20 +100,36 @@ public class SongController {
         //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page?
 
 
-    //todo -> as an authorized DJ, I can delete a song from my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    //@RequestMapping(value="", method= RequestMethod.DELETE)
-        //Parameters: user_id, song_id
-        //Return: void, will not return anything
-        //method location: SongDao/JdbcSongDao
-        //additional concerns:
+//    todo -> this won't work on postman, I think its a lily error trying to do the request body
+//    as an authorized DJ, I can delete a song from my dj-Library
+    @PreAuthorize("hasRole('ROLE_DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value="/dj/song/{id}", method= RequestMethod.DELETE)
+    public void deleteSong(@PathVariable("id") Long id, Principal principal) {
+        String username = principal.getName();
+        songDao.deleteSongFromLibrary(id, (long) userDao.findIdByUsername(username));
+    }
+
+
+//    @RequestMapping(path = "/account/balance", method = RequestMethod.GET) //creating our endpoint for client-facing access
+//    public @ResponseBody BigDecimal getUserBalance(Principal principal) {
+//        int userId = userDao.findIdByUsername(principal.getName());
+//        return accountDao.getUserBalance(userId); //calling method to get balance, and returning that balance
+//    }
+//
+//
+
+
 
 
     //todo -> as an authorized DJ, I can add a song to my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)?
-    //@RequestMapping(value="", method = RequestMethod.POST)
+    //hasRole('ROLE_DJ')
+//    @PreAuthorize("permitAll")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RequestMapping(value="dj/song", method = RequestMethod.POST)
+//    public Song addSong(@Valid @RequestBody Song song) {
+//        return null; //
+//    }
         //Parameters: user_id, song_id
         //Return: Song s
         //method location: SongDao/JdbcSongDao
