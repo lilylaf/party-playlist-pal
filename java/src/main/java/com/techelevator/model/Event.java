@@ -10,10 +10,11 @@ public class Event {
 
     private Long id;
     private Long userId;
-    private List<Long> hostId;
+
     private String name;
     private String information;
 
+    //    private List<Long> hostId;
 
     public Long getId() {return id;}
     public void setId(Long id) {
@@ -30,19 +31,17 @@ public class Event {
         this.information = information;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Long getUserId() {return userId;}
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public List<Long> getHostId() {
-        return hostId;
-    }
-    public void setHostId(Long id) {
-        this.hostId.add(id);
-    }
+//    public List<Long> getHostId() {
+//        return hostId;
+//    }
+//    public void setHostId(Long id) {
+//        this.hostId.add(id);
+//    }
 
     //todo also represent the photo at some point
 

@@ -12,12 +12,12 @@ public interface EventDao {
     List<Event> listOfEvents();
     Event getEventById(Long id) throws EventNotFoundException;
     Event create(Event event) throws EventNotFoundException;
-    void deleteEvent(Long id) throws EventNotFoundException;
+    void deleteEvent(Long id);
 
     Event addHost(Long eventId, List<Long> hosts) throws EventNotFoundException;
 
-    Event DjUpdateEvent(Event event, Long id) throws EventNotFoundException;
-    Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException;
+    Event updateEvent(Event event, Long id) throws EventNotFoundException;
+//    Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException;
 
     List<Event> eventsByDjId(Long id);
 

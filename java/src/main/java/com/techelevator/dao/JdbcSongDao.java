@@ -67,11 +67,11 @@ public class JdbcSongDao implements SongDao{
     }
 
     @Override
-    public void deleteSongFromLibrary(Long userId, Long songId) {
+    public void deleteSongFromLibrary(Long songId, Long userId) {
         String sql = "DELETE FROM dj_library " +
                 "WHERE user_id = ? AND song_id = ?;";
 
-        jdbcTemplate.update(sql, userId, songId);
+        int numRows = jdbcTemplate.update(sql, userId, songId);
     }
 
 //    @Override

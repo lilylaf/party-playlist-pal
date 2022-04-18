@@ -91,7 +91,7 @@ public class JdbcEventDao implements EventDao{
 
 
     @Override
-    public void deleteEvent(Long id) throws EventNotFoundException {
+    public void deleteEvent(Long id) {
 
 
         String sql = "DELETE FROM event_host\n" +
@@ -105,11 +105,6 @@ public class JdbcEventDao implements EventDao{
 
 
         int numRows = jdbcTemplate.update(sql, id, id, id, id);
-
-
-        if(numRows == 0) {
-            throw new EventNotFoundException();
-        }
 
     }
 
@@ -139,32 +134,34 @@ public class JdbcEventDao implements EventDao{
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException{
-
-        String sql = "UPDATE event \n" +
-                "SET event_name = ?, information = ? \n" +
-                "FROM event_host \n" +
-                "WHERE event.event_id = ?;";
-
-        int numRows = jdbcTemplate.update(sql, eventName, information, id); //why is this a type int
-
-        Event updatedEvent = getEventById(id);
-
-        return updatedEvent;
-
-    }
-    //todo -> this doesn't work yet
+//    @Override
+//    public Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException{
+//
+//        String sql = "UPDATE event \n" +
+//                "SET event_name = ?, information = ? \n" +
+//                "FROM event_host \n" +
+//                "WHERE event.event_id = ?;";
+//
+//        int numRows = jdbcTemplate.update(sql, eventName, information, id); //why is this a type int
+//
+//        Event updatedEvent = getEventById(id);
+//
+//        return updatedEvent;
+//
+//    }
+//    //todo -> this doesn't work yet
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Event DjUpdateEvent(Event event, Long id) throws EventNotFoundException {
+    public Event updateEvent(Event event, Long id) throws EventNotFoundException {
 
         String sql = "UPDATE event \n" +
                 "SET event_name = ?, information = ? \n" +
                 "WHERE event_id = ?;";
 
-        int numRows = jdbcTemplate.update(sql, event, id); //why is this a type int
+
+
+        jdbcTemplate.update(sql, event.getName(),event.getInformation(), id); //why is this a type int
 
         Event updatedEvent = getEventById(id);
 

@@ -27,11 +27,9 @@ public class EventController {
     private EventDao eventDao;
     //private EventHostDao eventHostDao;
 
-    public EventController(EventDao eventDao, EventHostDao eventHostDao){
+    public EventController(EventDao eventDao){
         this.eventDao = eventDao;
-//        this. eventHostDao = eventHostDao;
     }
-
 
     //as an unauthorized guest, I need to view a list of events
     @PreAuthorize("permitAll")
@@ -67,37 +65,20 @@ public class EventController {
     @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/events/{id}", method= RequestMethod.DELETE)
-    public void deleteEvent(@PathVariable Long id) throws EventNotFoundException {
+    public void deleteEvent(@PathVariable Long id) {
          eventDao.deleteEvent(id);
     }
 
-
-
-    //todo -> as an authorized Host I need to be able to update event details
-    @PreAuthorize("permitAll")
-    @RequestMapping(value="update/event/{id}/host", method = RequestMethod.PUT)
-    public Event updateEventAsHost(@RequestBody Event event, @PathVariable Long id) throws EventNotFoundException {
-        return null;
+    @PreAuthorize("hasAnyRole('DJ','HOST')")
+    @RequestMapping(value="/events/{id}", method = RequestMethod.PUT)
+    public Event updateEvent(@RequestBody Event event, @PathVariable Long id) throws EventNotFoundException{
+        return eventDao.updateEvent(event, id);
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //todo ->> as an authorized DJ I need to be able to update event details
-    //not working
-    @PreAuthorize("permitAll")
-    @RequestMapping(value="update/event/{id}/dj", method = RequestMethod.PUT)
-    public Event updateEventAsDj(@RequestBody Event event, @PathVariable Long id) throws EventNotFoundException{
-        return eventDao.DjUpdateEvent(event, id);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //todo -> as an authorized DJ, I can add a host to an event
-    //not working
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="/event/{id}/host", method = RequestMethod.POST)
+    @RequestMapping(value="/events/{id}/hosts", method = RequestMethod.POST)
     public Event addHostsToEvent(@PathVariable Long id, @Valid @RequestBody List<Long> hosts) throws EventNotFoundException {
         return eventDao.addHost(id, hosts);
     }
