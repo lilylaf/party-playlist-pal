@@ -142,19 +142,43 @@ COMMIT TRANSACTION;
 
 
 --start of mock data
+--djs	
 INSERT INTO users(username, password_hash, role)
-
 VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
-
 
 INSERT INTO users(username, password_hash, role)
 VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
 INSERT INTO users(username, password_hash, role)
+VALUES ('LoopDaddy', '$2a$10$yF950I.DGZQFmFDISRH/N.8bYFUtHQ6EEF5F2j6xZzt7gYN7Zeex.', 'ROLE_DJ');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('DropTablesANDtheBass', '$2a$10$.abxEVP6wFAzuWWt.AbrLOXHcXWITpHE/cqu2SfomKe634MUzk5Ga', 'ROLE_DJ');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('IntelliJamz', '$2a$10$kZy7w217YKjt7fq3dYz3cOksedrCHVYQzU9vS2YN4R3Vlv89sHmkC', 'ROLE_DJ');
+
+
+
+
+--hosts
+INSERT INTO users(username, password_hash, role)
 VALUES ('LilDebbie', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_HOST');
 
 INSERT INTO users(username, password_hash, role)
 VALUES ('JayGatsby', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_HOST');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('POJOdojo','$2a$10$MCkkNB9Vx.RxaABGJolB2eGpV/.pqitsj/SQqQgdqW9OpiIA32vWK', 'ROLE_HOST');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('DOMDeLuise','$2a$10$aG8BhPop20EJ8D01Anv8DezPcG305OouGcMWL/2YAob0576BWM2Ue', 'ROLE_HOST');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('BubbaHTTP', '$2a$10$UW8TMBSUCL/7WpTNFVk4Huf7MPzX11mZGTI3JNpv0iXjbWpQKNoO2', 'ROLE_HOST');
+
+
+
 
 INSERT INTO event(user_id, event_name, information)
 VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic'), ('3','Delete Me','For removal purposes,yo');
@@ -173,6 +197,7 @@ VALUES ('P!nk'), ('LMFAO'), ('Outkast'), ('Usher'),('Salt-N-Pepa'), ('DJ Casper'
 ('ABBA'),('Aqua'),('Third Eye Blind'),('Chumbawamba'),('Katy Perry'),('Juicy J'),('Guns N'' Roses'),('Twisted Sister'),('Journey'),('Foreigner'),('Duran Duran'),('The Beetles'),('Billy Joel'),
 ('John Mellencamp'),('Eagles'),('Sia'),('Lorde'),('Rihanna'),('Miley Cyrus'),('Desiigner'),('Five Finger Death Punch'),('Pantera'),('Hawthorne Heights'),('Poison'),('Bon Jovi'),('Ozzy Osbourne'),
 ('The Weather Girls'),('TLC'),('MC Hammer'),('Backstreet Boys'),('No Doubt');
+
 
 
 INSERT INTO song (artist_name,song_name,featured_artist)
@@ -467,22 +492,67 @@ VALUES
 ('love',69),
 ('party',72);
 
+--event songs
 INSERT INTO event_song(event_id, song_id)
-VALUES (1, '6'),(1, '8');
+VALUES (1, '6'),(1, '8'), (1,'10'),(1,'11'),(1,'12'),(1,'13'),(1,'15'),(1,'18'),(1,'19'),(1,'24'),(1,'29'),(1,'43'),(1,'48'),(1,'49'),(1,'62'),
+(1,'73'),(1,'75'),(1,'76'),(1,'77'),(1,'86'),(1,'95'),(1,'96'),(1,'97'),(1,'98'),(1,'102'),(1,'103'),(1,'104'),
+(1,'106'),(1,'107'),(1,'108'),(1,'109'),(1,'122'),(1,'126'),(1,'131'),(1,'132'),(1,'133'),(1, '134'),
+(1,'135'),(1,'136'),(1,'137');
 
 INSERT INTO event_song(event_id, song_id)
-VALUES (2, '18'), (2, '20'), (2, '22');
+VALUES (2, '18'), (2, '20'), (2, '22'),(2,'21'),(2,'25'),(2,'26'),(2,'34'),(2,'36'),(2,'37'),(2,'42'),(2,'44'),(2,'53'),(2,'54'),(2,'55'),(2,'57'),
+(2,'61'),(2,'64'),(2,'65'),(2,'78'),(2,'79'),(2,'80'),(2, '82'),(2,'81'),(2,'87'),(2,'119'),(2,'115'),(2,'120');
 
 INSERT INTO event_song(event_id, song_id)
-VALUES (3, '1'), (3, '7'), (3, '11');
+VALUES (3,'21'),(3,'29'),(3,'31'),(3,'33'),(3,'35'),(3,'41'),(3,'47'),(3,'55'),(3,'56'),(3,'63'),(3,'70'),(3,'105'),(3,'116'),
+(3,'123'),(3,'124'),(3,'126'),(3,'127'),(3,'128'),(3,'129'),(3,'130');
+
+
+--DJ libraries
+INSERT INTO dj_library(user_id, song_id)
+VALUES ('3', '1'), ('3', '2'), ('3', '3'), ('3', '4'),('3','5'), ('3','9'),('3','14'),('3','16'),('3','18'),('3','20'),('3','23'),('3','24'),('3','25'),
+('3','26'),('3','28'),('3','30'),('3','31'),('3','33'),('3','34'),('3','35'),('3','36'),('3','39'),('3','42'),
+('3','44'),('3','47'),('3','49'),('3','52'),('3','53'),('3','54'),('3','57'),('3','61'),('3','63'),('3','65'),
+('3', '71'),('3','73'),('3','76'),('3','78'),('3','80'),('3','82'),('3','87'),('3','89'),('3','95'),('3','99'),
+('3','108'),('3','110'),('3','111'),('3','114'),('3','125'),('3','127'),('3','129'),('3','131'),('3','134'),
+('3','137');
 
 INSERT INTO dj_library(user_id, song_id)
-VALUES ('3', '1'), ('3', '2'), ('3', '3');
+VALUES ('4','1'),('4','3'),('4','5'),('4','7'),('4','9'),('4','11'),('4','13'),('4','15'),('4','17'),('4','19'),('4','21'),
+('4','33'),('4','34'),('4','35'),('4','36'),('4','41'),('4','43'),('4','45'),('4','47'),('4','49'),('4','50'),('4','51'),
+('4','52'),('4','61'),('4','63'),('4','65'),('4','67'),('4','69'),('4','77'),('4','78'),('4','79'),('4','80'),
+('4', '81'),('4','83'),('4','85'),('4','87'),('4','89'),('4','92'),('4','94'),('4','96'),('4','101'),('4','103'),
+('4','105'),('4','107'),('4','109'),('4','115'),('4','119'),('4','121'),('4','123'),('4','125'),('4','127'),('4','129'),
+('4', '136'),('4','137');
+
+INSERT INTO dj_library(user_id, song_id)
+VALUES ('7','3'),('7','17'),('7','32'),('7','44'),('7','54'),('7','56'),('7','68'),('7','79'),('7','94'),('7','99');
+
+INSERT INTO dj_library(user_id, song_id)
+VALUES ('10','124'),('10','125'),('10','126'),('10','127'),('10','128'),('10','129'),('10','130'),('10','131');
+
+INSERT INTO dj_library(user_id, song_id)
+VALUES ('12','94'),('12','95'),('12','96'),('12','97'),('12','98'),('12','99'),('12','100'),('12','13'),('12','14'),('12','15'),
+('12','37');
 
 INSERT INTO event_genre(genre_name, event_id)
 VALUES ('party', 1), ('rap', 2), ('pop', 3);
 
+--event hosts
+INSERT INTO event_host (user_id,event_id)
+VALUES (9,1), (6,1);
+
+INSERT INTO event_host (user_id,event_id)
+VALUES (11,2);
+
+INSERT INTO event_host (user_id,event_id)
+VALUES (9,3), (11,3);
+
 INSERT INTO event_host (user_id,event_id)
 VALUES (6,4);
+
+
+
+
 
 --end of mock data
