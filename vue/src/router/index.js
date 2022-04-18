@@ -9,6 +9,7 @@ import Event from '../views/Event.vue'
 import Dj from '../views/Dj.vue'
 import DjHome from '../views/DjHome.vue'
 import HostHome from '../views/HostHome.vue'
+import EventEdit from '../views/EventEdit.vue'
 
 
 Vue.use(Router)
@@ -64,6 +65,14 @@ const router = new Router({
       component: Event,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: "/event/:id/edit",
+      name: "eventEdit",
+      component: EventEdit,
+      meta: {
+        requiresAuth: true
       }
     },
     {

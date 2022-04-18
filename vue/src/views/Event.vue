@@ -15,24 +15,39 @@
         <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
 
-    <div v-if="hasPermissionToDeleteEvent"><b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button></div>
+    <div v-if="hasPermissionToDeleteEvent">
+       
+            <b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button>
+       
+    </div>
+     <div  v-if="hasPermissionToEditEvent">
+         <router-link v-bind:to="{name: 'eventEdit', params:{id: this.event.id}}">
+            <b-button  variant="warning">EDIT this Event</b-button>
+        </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 import eventService from '../services/EventService.js'
 import songService from '../services/SongService.js'
+import hostService from '../services/HostService.js'
 
 export default {
     name: 'event',
     data(){
         return {  
             fields: ['artistName', 'name'],
-            event: null,
-            eventSongs: null
+            event: {},
+            eventSongs: [],
+            hosts: []
         }
     },
     methods: {
+        editEvent(){
+            this.$
+        }
+        ,
         deleteEvent(){
             if(confirm("Are you sure you want to delete this event?")){
                console.log("Off to delete event!");
@@ -45,6 +60,15 @@ export default {
             }}
     },
     computed: {
+         hasPermissionToEditEvent(){
+            if(this.$store.state.token == ''){
+                return false;
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST '&& this.$store.state.user.id == this.event.userId){
+                return true;
+            } else {
+                return false;
+            }
+        },
         hasPermissionToDeleteEvent(){
             if(this.$store.state.token == ''){
                 return false;
@@ -63,14 +87,18 @@ export default {
             (response)=>{
                 this.event = response.data; 
             
-            }
-            );
+            });
         
         songService.getSongsByEvent(this.$route.params.id)
-        .then((response) => {
-            this.eventSongs = response.data;
-        })
-
+            .then((response) => {
+                this.eventSongs = response.data;
+            });
+        
+        // this really only needs to be done for the DJ view - when logged in
+        hostService.getHosts()
+            .then((response) => {
+                this.hosts = response.data;
+            });
     }
 }
 
