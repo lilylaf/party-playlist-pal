@@ -9,22 +9,16 @@
         </h4>
         
     </div>
-    
-    <div v-if="eventSongs !== null" class="Table">
-        <h4>The Songs:</h4>
-        <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
-    </div>
-
-    <div v-if="hasPermissionToDeleteEvent">
-       
-            <b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button>
-       
-    </div>
-     <div  v-if="hasPermissionToEditEvent">
+       <div v-if="hasPermissionToEditEvent">
          <router-link v-bind:to="{name: 'eventEdit', params:{id: this.event.id}}">
             <b-button  variant="warning">EDIT this Event</b-button>
         </router-link>
     </div>
+    <div v-if="eventSongs !== null" class="Table">
+        <h4>The Songs:</h4>
+        <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
+    </div>
+  
   </div>
 </template>
 
@@ -44,20 +38,7 @@ export default {
         }
     },
     methods: {
-        editEvent(){
-            this.$
-        }
-        ,
-        deleteEvent(){
-            if(confirm("Are you sure you want to delete this event?")){
-               console.log("Off to delete event!");
-               console.log();
-               eventService.deleteEventById(this.event.id)
-                .then((response)=> {
-                    console.log(response)
-                    this.$router.push("/");
-                })
-            }}
+      
     },
     computed: {
          hasPermissionToEditEvent(){
@@ -68,17 +49,7 @@ export default {
             } else {
                 return false;
             }
-        },
-        hasPermissionToDeleteEvent(){
-            if(this.$store.state.token == ''){
-                return false;
-            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.event.userId){
-                return true;
-            } else {
-                return false;
-            }
-        },
-
+        }
     },
     created(){
         //todo add error handling for the request

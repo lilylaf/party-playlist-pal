@@ -24,9 +24,15 @@
       max-rows="6"
     ></b-form-textarea>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary">Update</b-button>
+
     </b-form>
+    <br>
+      <div v-if="hasPermissionToDeleteEvent">
+       
+            <b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button>
+       
+    </div>
   </div>
 </template>
 
@@ -41,8 +47,36 @@ export default {
             form: {},
         }
     },
+    computed: {
+         hasPermissionToDeleteEvent(){
+            if(this.$store.state.token == ''){
+                return false;
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.form.userId){
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
     methods: {
+        onSubmit(event){
+            event.preventDefault()
+            const editedEvent = this.form;
 
+            eventService.updateEvent(this.form.id, editedEvent)
+            // some message back to the user that the event was updated successfully?!
+            
+        },
+        deleteEvent(){
+            if(confirm("Are you sure you want to delete this event?")){
+               console.log("Off to delete event!");
+               console.log();
+               eventService.deleteEventById(this.form.id)
+                .then((response)=> {
+                    console.log(response)
+                    this.$router.push("/");
+                })
+            }}
     },
     created(){
         // get the event data and load it in

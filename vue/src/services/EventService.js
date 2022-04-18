@@ -18,9 +18,12 @@ export default {
         return axios.delete(`/events/${id}`)
     },
         
-    // this doesn't exist yet
     getEventsByDjID(id){
         return axios.get(`/dj/${id}/events`)
+    },
+
+    updateEvent(id, event){
+        return axios.put(`/events/${id}`, event)
     }
 
 

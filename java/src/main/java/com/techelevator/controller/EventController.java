@@ -75,7 +75,7 @@ public class EventController {
         return eventDao.updateEvent(event, id);
     }
 
-
+    
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="/events/{id}/hosts", method = RequestMethod.POST)
