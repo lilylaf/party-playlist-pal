@@ -58,7 +58,7 @@ public class SongController {
 //    @PreAuthorize("permitAll")
 //    @ResponseStatus(HttpStatus.CREATED)
 //    @RequestMapping(value="", method = RequestMethod.POST)
-//    public Song submitToEventPlaylist(@PathVariable Long eventId, Long songId){
+//    public Song submitToEventPlaylist(@PathVariable Long id, Principal principal){
 //        return songDao //insert method here ;
 //    }
 
@@ -67,11 +67,11 @@ public class SongController {
 
     //todo -> ******************************************************* THIS NEEDS TO BE AUTHORIZED FOR A DJ
     //as an authorized DJ, I need to see a list of my current genres
-//    @PreAuthorize("hasRole('ROLE_DJ'),('ROLE_HOST')") //not sure if this syntax is correct for 2 roles
-//    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
-//    public List<Genre> getGenresByDj(@PathVariable Long id) { //do we need Principal principal in here?
-//        return genreDao.listOfDjLibraryGenres(id);
-//    }
+    @PreAuthorize("hasAnyRole('DJ','HOST')") //not sure if this syntax is correct for 2 roles
+    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
+    public List<Genre> getGenresByDj(@PathVariable Long id) { //do we need Principal principal in here?
+        return genreDao.listOfDjLibraryGenres(id);
+    }
 //
 //    as an unauthorized guest, I want to be able to submit a song from dj_library to event playlist
 //    @RequestMapping(value="", method = RequestMethod.POST)
