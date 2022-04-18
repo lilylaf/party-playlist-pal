@@ -42,6 +42,23 @@ public class JdbcEventDao implements EventDao{
     }
 
     @Override
+    public List<Event> eventsByDjId(Long id) {
+        List<Event> eventList = new ArrayList<>();
+
+        String sql = "SELECT event_id, user_id, event_name, information, picture " +
+                "FROM event " +
+                "WHERE user_id = ? " +
+                "ORDER BY event_id ASC;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()) {
+            eventList.add(mapRowToEvent(results));
+        }
+
+        return eventList;
+    }
+
+    @Override
     public Event getEventById(Long id) throws EventNotFoundException {
 
         String sql = "SELECT event_id, user_id, event_name, information " +
@@ -74,27 +91,23 @@ public class JdbcEventDao implements EventDao{
 
 
     @Override
-    public ResponseEntity deleteEvent(Long id) throws EventNotFoundException {
+    public void deleteEvent(Long id) throws EventNotFoundException {
 
 
-        String sql = "BEGIN TRANSACTION;\n" +
-                "DELETE FROM event_host\n" +
+        String sql = "DELETE FROM event_host\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event_song\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event_genre\n" +
                 "WHERE event_id = ?;\n" +
                 "DELETE FROM event\n" +
-                "WHERE event_id = ?;\n" +
-                "COMMIT TRANSACTION;";
+                "WHERE event_id = ?;";
 
 
         int numRows = jdbcTemplate.update(sql, id, id, id, id);
 
 
-        if(numRows > 0){
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } else {
+        if(numRows == 0) {
             throw new EventNotFoundException();
         }
 
@@ -141,7 +154,7 @@ public class JdbcEventDao implements EventDao{
         return updatedEvent;
 
     }
-
+    //todo -> this doesn't work yet
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -157,7 +170,7 @@ public class JdbcEventDao implements EventDao{
 
         return updatedEvent;
     }
-
+    //todo -> this doesn't work yet
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private Event mapRowToEvent(SqlRowSet rowSet){

@@ -1,7 +1,11 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.DjLibrary;
+import com.techelevator.model.EventNotFoundException;
 import com.techelevator.model.Song;
 import com.techelevator.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -62,6 +66,26 @@ public class JdbcSongDao implements SongDao{
         return null;
     }
 
+    @Override
+    public void deleteSongFromLibrary(Long userId, Long songId) {
+        String sql = "DELETE FROM dj_library " +
+                "WHERE user_id = ? AND song_id = ?;";
+
+        jdbcTemplate.update(sql, userId, songId);
+    }
+
+//    @Override
+//    public DjLibrary addSong(Long userId, Long songId) {
+//        DjLibrary newSong = null;
+//
+//        String sql = "String sql = INSERT INTO dj_library (user_id, song_id) " +
+//                "VALUES (?,?);";
+//
+//        SqlRowSet results = jdbcTemplate.queryForObject(sql, userId, songId);
+//
+//        return newSong;
+//    }
+
 
     private Song mapRowToSong(SqlRowSet rowSet){
         Song s = new Song();
@@ -72,6 +96,15 @@ public class JdbcSongDao implements SongDao{
         s.setFeatured(rowSet.getString("featured_artist"));
 
         return s;
+    }
+
+    private DjLibrary mapRowToSongEvent(SqlRowSet rowSet){
+        DjLibrary djSong = new DjLibrary();
+
+        djSong.setUserId(rowSet.getLong("user_id"));
+        djSong.setSongId(rowSet.getLong("song_id"));
+
+        return djSong;
     }
 
 }

@@ -11,7 +11,9 @@ import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -99,20 +101,30 @@ public class SongController {
         //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page?
 
 
-    //todo -> as an authorized DJ, I can delete a song from my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    //@RequestMapping(value="", method= RequestMethod.DELETE)
-        //Parameters: user_id, song_id
-        //Return: void, will not return anything
-        //method location: SongDao/JdbcSongDao
-        //additional concerns:
+    //todo -> this won't work on postman, I think its a lily error trying to do the request body
+    //as an authorized DJ, I can delete a song from my dj-Library
+//    @PreAuthorize("permitAll")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @RequestMapping(value="dj/song/{id}", method= RequestMethod.DELETE)
+//    public void deleteSong(@PathVariable("id") Long userId, Principal principal) {
+//        songDao.deleteSongFromLibrary(id, principal.getName());
+//    }
+    // {'userId': 3}
+    //
+    //
+    //
+    //
+
 
 
     //todo -> as an authorized DJ, I can add a song to my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)?
-    //@RequestMapping(value="", method = RequestMethod.POST)
+    //hasRole('ROLE_DJ')
+//    @PreAuthorize("permitAll")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RequestMapping(value="dj/song", method = RequestMethod.POST)
+//    public Song addSong(@Valid @RequestBody Song song) {
+//        return null; //
+//    }
         //Parameters: user_id, song_id
         //Return: Song s
         //method location: SongDao/JdbcSongDao
