@@ -6,16 +6,16 @@ export default {
     },
 
     getEventById(id){
-        return axios.get(`/event/${id}`)
+        return axios.get(`/events/${id}`)
 
     },
 
     createEvent(newEvent){
-        return axios.post('/event', newEvent)
+        return axios.post('/events', newEvent)
     },
 
     deleteEventById(id){
-        return axios.delete(`/event/${id}`)
+        return axios.delete(`/events/${id}`)
     },
         
     // this doesn't exist yet

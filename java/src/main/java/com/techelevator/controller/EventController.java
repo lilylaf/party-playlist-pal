@@ -40,7 +40,7 @@ public class EventController {
 
     //as an authorized dj, I need to view a list of my events
     @PreAuthorize("hasRole('DJ')")
-    @RequestMapping(value="/events/dj/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/dj/{id}/events", method = RequestMethod.GET)
     public List<Event> getEventsByUserId(@PathVariable Long id){
         return eventDao.eventsByDjId(id);
     }

@@ -1,19 +1,21 @@
 <template>
   <div class="Event">
-      <div v-if="dataLoaded" class="event-data">
+      <div class="event-data">
         <h1>
             EVENT: {{event.name}}
         </h1>
         <h4>
             THE DEETS:  {{event.information}}
         </h4>
-        <div v-if="hasPermissionToDeleteEvent"><b-button variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button></div>
+        
+    </div>
+    
+    <div v-if="eventSongs !== null" class="Table">
+        <h4>The Songs:</h4>
+        <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
 
-    <div v-if="eventSongs !== null" class="Table">
-    <h4>The Songs:</h4>
-     <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
-    </div>
+    <div v-if="hasPermissionToDeleteEvent"><b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button></div>
   </div>
 </template>
 
@@ -25,7 +27,6 @@ export default {
     name: 'event',
     data(){
         return {  
-            dataLoaded: false,
             fields: ['artistName', 'name'],
             event: null,
             eventSongs: null
@@ -45,9 +46,11 @@ export default {
     },
     computed: {
         hasPermissionToDeleteEvent(){
-            if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.event.userId){
+            if(this.$store.state.token == ''){
+                return false;
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.event.userId){
                 return true;
-            }else{
+            } else {
                 return false;
             }
         },
@@ -59,7 +62,7 @@ export default {
         .then(
             (response)=>{
                 this.event = response.data; 
-                this.dataLoaded = true;
+            
             }
             );
         

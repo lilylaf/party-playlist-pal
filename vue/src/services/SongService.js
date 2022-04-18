@@ -2,12 +2,12 @@ import axios from 'axios';
 
 export default {
     getSongsByDjId(id){
-        return axios.get(`/dj/${id}/songs`)
+        return axios.get(`/djs/${id}/songs`)
 
     },
 
     getSongsByEvent(eventId){
-        return axios.get(`/event/${eventId}/songs`)
+        return axios.get(`/events/${eventId}/songs`)
     }
 
 
