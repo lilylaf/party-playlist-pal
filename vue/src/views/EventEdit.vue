@@ -1,6 +1,10 @@
 <template>
   <div>
       <h2>EDIT THIS EVENT</h2>
+  
+        <b-alert v-model="showDismissibleAlert" variant="success" fade dismissible>
+        Successfully Updated Event
+        </b-alert>
       <b-form @submit="onSubmit" v-if="isFormDataLoaded">
       <b-form-group
         id="input-group-1"
@@ -45,6 +49,7 @@ export default {
         return {
             isFormDataLoaded: false,
             form: {},
+            showDismissibleAlert: false
         }
     },
     computed: {
@@ -65,7 +70,8 @@ export default {
 
             eventService.updateEvent(this.form.id, editedEvent)
             // some message back to the user that the event was updated successfully?!
-            
+            this.showDismissibleAlert = true;
+
         },
         deleteEvent(){
             if(confirm("Are you sure you want to delete this event?")){
