@@ -93,9 +93,13 @@ public class SongController {
 
 
     //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    //@RequestMapping(value="", method= RequestMethod.DELETE)
+    //currently does not work
+    @PreAuthorize("hasRole('ROLE_DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value="dj/genre/{id}", method= RequestMethod.DELETE)
+    public void deleteSongsInGenre(){
+        //
+    }
         //Parameters: user_id, and genre_name
         //Return: void, will not return anything
         //method location: DjLibraryDao/JdbcDjLibraryDao
@@ -103,13 +107,17 @@ public class SongController {
 
 
     //todo -> as an authorized DJ, I need to be able to add all songs of a genre to dj_library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)
-    //@RequestMapping(value="", method = RequestMethod.POST)
+    //currently does not work
+    @PreAuthorize("hasRole('ROLE_DJ')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="dj/genre/{id}", method = RequestMethod.POST)
+    public List<Song> addSongsInGenre(){
+        return null;
+    }
         //Parameters: user_id, genre_name
         //Return: List<Song> addedSongsFromGenre
         //method location: SongDao/JdbcSongDao
-        //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page?
+        //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page
 
 
 

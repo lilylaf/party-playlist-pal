@@ -6,11 +6,14 @@ import com.techelevator.model.Song;
 import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +103,44 @@ public class JdbcSongDao implements SongDao{
         // Detail: Key (user_id, song_id)=(3, 22) already exists.; nested exception is org.postgresql.util.PSQLException:
         // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
         // Detail: Key (user_id, song_id)=(3, 22) already exists
+    }
+
+    //this needs to have that weird batch update stuff
+    @Override
+    public List<Song> addSongsFromGenreToDjLibrary(String name) { //add principle principle
+
+        String sql = "SELECT song_id \n" + //store in list of int
+                "FROM song\n" +
+                "NATURAL JOIN song_genre\n" +
+                "WHERE genre_name = ?";
+        //this will get all songs of a genre
+
+        //second query to get all dj songs //store second list of int
+
+        //remove dups
+
+        //empty list
+        //while results.next()
+            //list.add(results.getLong("song_id"))
+
+        //insert is the prepared statement:
+        //
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                //
+                //user_id
+                //song_id
+            }
+
+            @Override
+            public int getBatchSize() {
+                return 0; //return list/array of new id's .size/.length
+            }
+        });
+
+
+        return null; //return new dj library
     }
 
 
