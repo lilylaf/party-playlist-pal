@@ -27,6 +27,10 @@ export default {
     },
     getEventsByHostId(id){
         return axios.get(`/events/host/${id}`)
+    },
+
+    removeHostFromEvent(hostId){
+        return axios.delete(`/events/${hostId}`)
     }
 
 

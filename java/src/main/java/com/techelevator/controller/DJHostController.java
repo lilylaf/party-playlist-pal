@@ -47,4 +47,5 @@ public class DJHostController {
     public List<User> getHostsForEvent(@PathVariable Long id){
         return djHostDao.hostsForEvent(id);
     }
+
 }
