@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.DjLibrary;
 import com.techelevator.model.Song;
+import com.techelevator.model.SongAlreadyExistsException;
 import com.techelevator.model.User;
 
 import java.util.List;

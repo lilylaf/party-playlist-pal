@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.DjLibrary;
-import com.techelevator.model.EventNotFoundException;
-import com.techelevator.model.Song;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -12,6 +9,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.sql.RowSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import java.util.List;
 
 @Component
 @CrossOrigin
-public class JdbcSongDao implements SongDao{
+public class JdbcSongDao implements SongDao {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -84,29 +82,38 @@ public class JdbcSongDao implements SongDao{
     }
 
     @Override
-    public DjLibrary addSong(Long id, Long userId) {
-        DjLibrary addedSong = new DjLibrary();
+    public DjLibrary addSong(Long id, Long userId) { //put it in a try catch, use generic exception
+        DjLibrary addedSong = new DjLibrary(); //return just the song
+
 
         String sql = "INSERT INTO dj_library (user_id, song_id) " +
                 "VALUES (?,?);";
 
         jdbcTemplate.update(sql, userId, id);
-
-
         addedSong.setUserId(userId);
         addedSong.setSongId(id);
 
         return addedSong;
+        //handle the internal server error
 
-        //make hash set of existing songs, compare before trying to add
-        //possibly make void, bc it will send the created message: to discuss with scott.
+//        String sqlB = "SELECT user_id, song_id \n" +
+//                "FROM dj_library" +
+//                "WHERE user_id = ?";
+//
+//        List<Long> listOfExistingSongs = new ArrayList<>();
+//        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id, userId);
+//
+//        while(result.next()){
+//            listOfExistingSongs.add(result.getLong("song_id"));
+//        }
+//        HashSet<Long> existingSongs = new HashSet<>(listOfExistingSongs);
+//
+//        if (!existingSongs.contains(id)) {
+//            return addedSong;
+//        } else {
+//           return null;
+//        }
 
-        //error message I am getting:
-        //"message": "PreparedStatementCallback; SQL [INSERT INTO dj_library (user_id, song_id) VALUES (?,?);];
-        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
-        // Detail: Key (user_id, song_id)=(3, 22) already exists.; nested exception is org.postgresql.util.PSQLException:
-        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
-        // Detail: Key (user_id, song_id)=(3, 22) already exists
     }
 
     //this needs to have that weird batch update stuff
