@@ -132,25 +132,7 @@ public class JdbcEventDao implements EventDao{
         return updatedEvent;
 
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    @Override
-//    public Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException{
-//
-//        String sql = "UPDATE event \n" +
-//                "SET event_name = ?, information = ? \n" +
-//                "FROM event_host \n" +
-//                "WHERE event.event_id = ?;";
-//
-//        int numRows = jdbcTemplate.update(sql, eventName, information, id); //why is this a type int
-//
-//        Event updatedEvent = getEventById(id);
-//
-//        return updatedEvent;
-//
-//    }
-//    //todo -> this doesn't work yet
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Event updateEvent(Event event, Long id) throws EventNotFoundException {
@@ -167,8 +149,7 @@ public class JdbcEventDao implements EventDao{
 
         return updatedEvent;
     }
-    //todo -> this doesn't work yet
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();

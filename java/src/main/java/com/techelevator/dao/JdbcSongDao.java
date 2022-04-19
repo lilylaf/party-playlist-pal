@@ -6,12 +6,16 @@ import com.techelevator.model.Song;
 import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -59,12 +63,17 @@ public class JdbcSongDao implements SongDao{
         return eventPlaylistSongs;
     }
 
-    @Override
-    public Song submitSong(Long eventId, Long songId) {
+//    @Override
+//    public Song submitSong(Long eventId, Long songId) {
+//        return null;
+//    }
 
-
-        return null;
-    }
+//    @Override
+//    public Song submitSong(Long id) {
+//
+//
+//        return null;
+//    }
 
     @Override
     public void deleteSongFromLibrary(Long songId, Long userId) {
@@ -74,17 +83,90 @@ public class JdbcSongDao implements SongDao{
         int numRows = jdbcTemplate.update(sql, userId, songId);
     }
 
-//    @Override
-//    public DjLibrary addSong(Long userId, Long songId) {
-//        DjLibrary newSong = null;
-//
-//        String sql = "String sql = INSERT INTO dj_library (user_id, song_id) " +
-//                "VALUES (?,?);";
-//
-//        SqlRowSet results = jdbcTemplate.queryForObject(sql, userId, songId);
-//
-//        return newSong;
-//    }
+    @Override
+    public DjLibrary addSong(Long id, Long userId) {
+        DjLibrary addedSong = new DjLibrary();
+
+        String sql = "INSERT INTO dj_library (user_id, song_id) " +
+                "VALUES (?,?);";
+
+        jdbcTemplate.update(sql, userId, id);
+
+
+        addedSong.setUserId(userId);
+        addedSong.setSongId(id);
+
+        return addedSong;
+
+        //make hash set of existing songs, compare before trying to add
+        //possibly make void, bc it will send the created message: to discuss with scott.
+
+        //error message I am getting:
+        //"message": "PreparedStatementCallback; SQL [INSERT INTO dj_library (user_id, song_id) VALUES (?,?);];
+        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
+        // Detail: Key (user_id, song_id)=(3, 22) already exists.; nested exception is org.postgresql.util.PSQLException:
+        // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
+        // Detail: Key (user_id, song_id)=(3, 22) already exists
+    }
+
+    //this needs to have that weird batch update stuff
+    @Override
+    public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) { //add principle principle
+
+        String sqlA = "SELECT song_id \n" +
+                "FROM song\n" +
+                "NATURAL JOIN song_genre\n" +
+                "WHERE genre_name = ?";
+
+        //store first sql statement in a list of ints
+        List<Long> songsInGenre = new ArrayList<>();
+
+        SqlRowSet resultsA = jdbcTemplate.queryForRowSet(sqlA, name);
+        while (resultsA.next()) {
+            songsInGenre.add(resultsA.getLong("song_id"));
+        }
+
+        String sqlB = "SELECT song_id \n" +
+                "FROM dj_library \n" +
+                "WHERE user_id = ?;";
+
+        //second query to get all dj songs //store second list of int
+        List<Long> existingSongsInLibrary = new ArrayList<>();
+
+        SqlRowSet resultsB = jdbcTemplate.queryForRowSet(sqlB, id);
+        while (resultsB.next()) {
+            existingSongsInLibrary.add(resultsB.getLong("song_id"));
+        }
+
+        HashSet<Long> existingSongs = new HashSet<>(existingSongsInLibrary);
+        List<Long> songsToAdd = new ArrayList<>();
+
+        for (Long song: songsInGenre) {
+            if (!existingSongs.contains(song)){
+                songsToAdd.add(song);
+            }
+        }
+
+
+        String sql = "INSERT INTO dj_library(user_id, song_id)\n" +
+                "VALUES (?, ?);";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Long songId = songsToAdd.get(i);
+                ps.setLong(1, id);
+                ps.setLong(2, songId);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return songsToAdd.size();
+            }
+        });
+
+        return djSongList(id);
+    }
 
 
     private Song mapRowToSong(SqlRowSet rowSet){
