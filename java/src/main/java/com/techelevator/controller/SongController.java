@@ -82,7 +82,7 @@ public class SongController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="dj/song/{id}", method = RequestMethod.POST)
     public DjLibrary addSongToLibrary(@PathVariable Long id, Principal principal) { //principal principal and long id
-        String username = principal.getName();;
+        String username = principal.getName();
         return songDao.addSong(id,(long) userDao.findIdByUsername(username));
     }
     //Parameters: user_id, song_id
@@ -96,7 +96,7 @@ public class SongController {
     //currently does not work
     @PreAuthorize("hasRole('ROLE_DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value="dj/genre/{id}", method= RequestMethod.DELETE)
+    @RequestMapping(value="dj/genre/{name}", method= RequestMethod.DELETE)
     public void deleteSongsInGenre(){
         //
     }
@@ -110,9 +110,10 @@ public class SongController {
     //currently does not work
     @PreAuthorize("hasRole('ROLE_DJ')")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="dj/genre/{id}", method = RequestMethod.POST)
-    public List<Song> addSongsInGenre(){
-        return null;
+    @RequestMapping(value="dj/genre/{name}", method = RequestMethod.POST)
+    public List<Song> addSongsInGenre(@PathVariable String name, Principal principal){
+        String username = principal.getName();
+        return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
     }
         //Parameters: user_id, genre_name
         //Return: List<Song> addedSongsFromGenre

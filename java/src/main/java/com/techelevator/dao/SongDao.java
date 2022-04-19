@@ -13,6 +13,6 @@ public interface SongDao {
     //Song submitSong(Long eventId, Long songId);
     void deleteSongFromLibrary(Long userId, Long songId);
     DjLibrary addSong(Long id, Long userId);
-    List<Song> addSongsFromGenreToDjLibrary(String name);
+    List<Song> addSongsFromGenreToDjLibrary(String name, Long id);
 }
 

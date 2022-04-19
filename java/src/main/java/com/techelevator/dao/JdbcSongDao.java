@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -97,6 +98,9 @@ public class JdbcSongDao implements SongDao{
 
         return addedSong;
 
+        //make hash set of existing songs, compare before trying to add
+        //possibly make void, bc it will send the created message: to discuss with scott.
+
         //error message I am getting:
         //"message": "PreparedStatementCallback; SQL [INSERT INTO dj_library (user_id, song_id) VALUES (?,?);];
         // ERROR: duplicate key value violates unique constraint \"pk_dj_library\"\n
@@ -107,40 +111,61 @@ public class JdbcSongDao implements SongDao{
 
     //this needs to have that weird batch update stuff
     @Override
-    public List<Song> addSongsFromGenreToDjLibrary(String name) { //add principle principle
+    public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) { //add principle principle
 
-        String sql = "SELECT song_id \n" + //store in list of int
+        String sqlA = "SELECT song_id \n" +
                 "FROM song\n" +
                 "NATURAL JOIN song_genre\n" +
                 "WHERE genre_name = ?";
-        //this will get all songs of a genre
+
+        //store first sql statement in a list of ints
+        List<Long> songsInGenre = new ArrayList<>();
+
+        SqlRowSet resultsA = jdbcTemplate.queryForRowSet(sqlA, name);
+        while (resultsA.next()) {
+            songsInGenre.add(resultsA.getLong("song_id"));
+        }
+
+        String sqlB = "SELECT song_id \n" +
+                "FROM dj_library \n" +
+                "WHERE user_id = ?;";
 
         //second query to get all dj songs //store second list of int
+        List<Long> existingSongsInLibrary = new ArrayList<>();
 
-        //remove dups
+        SqlRowSet resultsB = jdbcTemplate.queryForRowSet(sqlB, id);
+        while (resultsB.next()) {
+            existingSongsInLibrary.add(resultsB.getLong("song_id"));
+        }
 
-        //empty list
-        //while results.next()
-            //list.add(results.getLong("song_id"))
+        HashSet<Long> existingSongs = new HashSet<>(existingSongsInLibrary);
+        List<Long> songsToAdd = new ArrayList<>();
 
-        //insert is the prepared statement:
-        //
+        for (Long song: songsInGenre) {
+            if (!existingSongs.contains(song)){
+                songsToAdd.add(song);
+            }
+        }
+
+
+        String sql = "INSERT INTO dj_library(user_id, song_id)\n" +
+                "VALUES (?, ?);";
+
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                //
-                //user_id
-                //song_id
+                Long songId = songsToAdd.get(i);
+                ps.setLong(1, id);
+                ps.setLong(2, songId);
             }
 
             @Override
             public int getBatchSize() {
-                return 0; //return list/array of new id's .size/.length
+                return songsToAdd.size();
             }
         });
 
-
-        return null; //return new dj library
+        return djSongList(id);
     }
 
 
