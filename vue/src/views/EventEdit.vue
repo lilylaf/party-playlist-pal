@@ -53,6 +53,9 @@
             </div>
            <b-button v-on:click="showHostForm">Add or Edit Host(s)</b-button>
     <div v-show="isHostFormShown" class="select-host-form">
+        <b-alert v-model="showDismissibleAlertForHostUpdate" variant="success" fade dismissible>
+        Successfully Updated Host
+        </b-alert>
         <label class="typo__label">Select Host(s)</label>
          <multiselect v-model="value" :options="allHosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
         <br>
@@ -84,6 +87,7 @@ export default {
             isFormDataLoaded: false,
             form: {},
             showDismissibleAlert: false,
+            showDismissibleAlertForHostUpdate: false,
             value: [],
             allHosts: [],
             hostOptions: [], //todo filter this DOWN to remove the hosts currently selected for this event
@@ -139,6 +143,7 @@ export default {
             hostService.updateHostsOnEvent(this.$route.params.id, hostIdArray)
                 .then((response) => 
                   console.log(response))
+                  this.showDismissibleAlertForHostUpdate = true;
         }
     },
     created(){
@@ -168,6 +173,7 @@ export default {
             // this gets hosts for THIS event
         hostService.getHostsByEventId(this.$route.params.id)
             .then((response) => {
+                this.hostsForThisEvent = response.data;
                 const hostsForThis = response.data;
                 hostsForThis.forEach((host) => {
                     const hostObject = {};
