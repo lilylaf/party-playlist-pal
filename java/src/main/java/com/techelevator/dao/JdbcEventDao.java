@@ -59,6 +59,16 @@ public class JdbcEventDao implements EventDao{
     }
 
     @Override
+    public List<Event> eventsByHostId(Long id) {
+        List<Event> eventList = new ArrayList<>();
+
+        String sql = "";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,)
+
+    }
+
+    @Override
     public Event getEventById(Long id) throws EventNotFoundException {
 
         String sql = "SELECT event_id, user_id, event_name, information " +
