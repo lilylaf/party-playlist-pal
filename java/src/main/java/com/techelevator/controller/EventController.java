@@ -54,8 +54,8 @@ public class EventController {
 
     //Get events by hostID
     @PreAuthorize("permitAll")
-    @RequestMapping(value="/events?host={id}", method = RequestMethod.GET)
-    public List<Event> getEventsByHostId(@RequestParam Long id){
+    @RequestMapping(value="/events/host/{id}", method = RequestMethod.GET)
+    public List<Event> getEventsByHostId(@PathVariable Long id){
         return eventDao.eventsByHostId(id);
     }
 

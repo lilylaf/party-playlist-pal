@@ -59,9 +59,16 @@ public class JdbcEventDao implements EventDao{
     public List<Event> eventsByHostId(Long id) {
         List<Event> eventList = new ArrayList<>();
 
-        String sql = "";
+        String sql = "SELECT event_host.event_id, event.user_id, event_name, information, picture\n" +
+                "FROM event\n" +
+                "INNER JOIN event_host on event_host.event_id = event.event_id\n" +
+                "WHERE event_host.user_id = ?\n" +
+                "ORDER BY event_id ASC;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()){
+            eventList.add(mapRowToEvent(results));
+        }
 
         return eventList;
     }
