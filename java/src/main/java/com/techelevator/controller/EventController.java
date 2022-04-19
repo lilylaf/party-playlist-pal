@@ -56,7 +56,7 @@ public class EventController {
     @PreAuthorize("permitAll")
     @RequestMapping(value="/events?host={id}", method = RequestMethod.GET)
     public List<Event> getEventsByHostId(@RequestParam Long id){
-
+        return eventDao.eventsByHostId(id);
     }
 
     //as an authorized DJ, I need to be able to create an event
