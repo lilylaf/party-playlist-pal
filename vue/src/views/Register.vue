@@ -90,4 +90,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#register{
+  background-color: #090531;
+  color: white;
+  font-family: "Audiowide", sans-serif;
+}
+</style>

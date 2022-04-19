@@ -1,8 +1,8 @@
 <template>
   <div class="search-event">
       <h2>Event Search</h2>
-      <div>
-        <b-form-input v-model="eventSearchString" placeholder="Type an event"></b-form-input>
+      <div class="norm-core-input">
+        <b-form-input  v-model="eventSearchString" placeholder="Type an event"></b-form-input>
   </div>
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
@@ -71,5 +71,9 @@ export default {
 a{
     color: #003B77;
 }
+.norm-core-input{
+    font-family: sans-serif;
+}
+
     
 </style>
