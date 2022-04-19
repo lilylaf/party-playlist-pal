@@ -34,7 +34,8 @@ export default {
             fields: ['artistName', 'name'],
             event: {},
             eventSongs: [],
-            hosts: []
+            hosts: [],
+            hostsForThisEvent: [],
         }
     },
     methods: {
@@ -42,9 +43,11 @@ export default {
     },
     computed: {
          hasPermissionToEditEvent(){
+            const hasThisHostInEvent = this.hostsForThisEvent.some((host) => host.id = this.$store.state.user.id)
             if(this.$store.state.token == ''){
                 return false;
-            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST '&& this.$store.state.user.id == this.event.userId){
+                // || this.$store.state.user.id == 
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST' && this.$store.state.user.id == this.event.userId || hasThisHostInEvent  ){
                 return true;
             } else {
                 return false;
@@ -69,6 +72,11 @@ export default {
         hostService.getHosts()
             .then((response) => {
                 this.hosts = response.data;
+            });
+        hostService.getHostsByEventId(this.$route.params.id)
+            .then((response) => {
+                console.log(response)
+                this.hostsForThisEvent = response.data;
             });
     }
 }
