@@ -48,7 +48,7 @@
       <br>
       <h3>Hosts for this event:</h3>
         <div v-for="host in hostsForThisEvent" v-bind:key="host.id">
-            <p>{{ host.username }}</p> 
+            <span>{{ host.username }}</span><b-button variant="warning" size="sm">Remove Host</b-button> 
             <!-- ADD REMOVE HOST button next to each host-->
             </div>
            <b-button v-on:click="showHostForm">Add or Edit Host(s)</b-button>
@@ -123,9 +123,7 @@ export default {
 
         },
         deleteEvent(){
-            if(confirm("Are you sure you want to delete this event?")){
-               console.log("Off to delete event!");
-               console.log();
+            if(confirm("Are you sure you want to delete this event PERMANENTLY?")){
                eventService.deleteEventById(this.form.id)
                 .then((response)=> {
                     console.log(response)
@@ -144,7 +142,17 @@ export default {
                 .then((response) => 
                   console.log(response))
                   this.showDismissibleAlertForHostUpdate = true;
-        }
+        },
+        removeHostFromEvent(hostId){
+            
+                if(confirm("Are you sure you want to remove this host?")){
+                    // this eventService method doesn't exist yet
+                     eventService.removeHostFromEvent(this.event.id, hostId)
+                        .then((response) => console.log(response))
+                        this.$router.go()
+                }
+            }
+     
     },
     created(){
         // get the event data and load it in

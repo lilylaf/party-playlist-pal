@@ -11,7 +11,13 @@ export default {
 
     updateHostsOnEvent(id, hostArray) {
         return axios.post(`/events/${id}/hosts`, hostArray)
-    }
+    },
+
+      // //TODO - finish this
+    // removeHostFromEvent(eventId, hostId){
+    //     return axios.delete()
+    // }
+
 
 
 }

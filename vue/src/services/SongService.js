@@ -8,7 +8,9 @@ export default {
 
     getSongsByEvent(eventId){
         return axios.get(`/events/${eventId}/songs`)
-    }
+    },
+
+  
 
 
 }

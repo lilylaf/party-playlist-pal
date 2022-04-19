@@ -53,6 +53,7 @@
       <b-row>
         <b-col>
           <!-- put a HOST thing here-->
+          <my-host-events />
         </b-col>
         <b-col>
           <!-- PUT another HOST thing here-->
@@ -72,6 +73,7 @@ import EventSearch from '../components/EventSearch.vue';
 import MyDjEvents from '../components/MyDjEvents.vue';
 import MyDjSongs from '../components/MyDjSongs.vue';
 import CreateEventForm from '../components/CreateEventForm.vue'
+import MyHostEvents from '../components/MyHostEvents.vue'
 
 export default {
   name: "home",
@@ -81,7 +83,8 @@ export default {
     DjGrid,
     MyDjSongs,
     MyDjEvents,
-    CreateEventForm  },
+    CreateEventForm,
+    MyHostEvents  },
 
   computed: {
     isAuthenticated() {
