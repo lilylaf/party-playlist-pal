@@ -52,6 +52,13 @@ public class EventController {
         return eventDao.getEventById(id); //insert method here
     }
 
+    //Get events by hostID
+    @PreAuthorize("permitAll")
+    @RequestMapping(value="/events?host={id}", method = RequestMethod.GET)
+    public List<Event> getEventsByHostId(@RequestParam Long id){
+        return eventDao.eventsByHostId(id);
+    }
+
     //as an authorized DJ, I need to be able to create an event
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -82,6 +89,9 @@ public class EventController {
     public Event addHostsToEvent(@PathVariable Long id, @Valid @RequestBody List<Long> hosts) throws EventNotFoundException {
         return eventDao.addHost(id, hosts);
     }
+
+
+
 }
 
 
