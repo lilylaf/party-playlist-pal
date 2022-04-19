@@ -10,7 +10,7 @@ export default {
     },
 
     updateHostsOnEvent(id, hostArray) {
-        return axios.get(`/event/${id}/host`, hostArray)
+        return axios.post(`/events/${id}/hosts`, hostArray)
     }
 
 

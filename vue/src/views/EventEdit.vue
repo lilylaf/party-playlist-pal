@@ -51,10 +51,10 @@
             <p>{{ host.username }}</p> 
             <!-- ADD REMOVE HOST button next to each host-->
             </div>
-           <b-button v-on:click="showHostForm">Add Host(s)</b-button>
+           <b-button v-on:click="showHostForm">Add or Edit Host(s)</b-button>
     <div v-show="isHostFormShown" class="select-host-form">
         <label class="typo__label">Select Host(s)</label>
-         <multiselect v-model="value" :options="hosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
+         <multiselect v-model="value" :options="allHosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
         <br>
          <b-button v-on:click="updateHosts" variant="primary">Save Hosts</b-button>
     </div>
@@ -84,10 +84,10 @@ export default {
             isFormDataLoaded: false,
             form: {},
             showDismissibleAlert: false,
-            value: null,
-            hosts: [],
+            value: [],
+            allHosts: [],
             hostOptions: [], //todo filter this DOWN to remove the hosts currently selected for this event
-            options: [{"username":"lilebbiestatic", "id":5}, {"username":"lilhostystatic", "id":6}],
+            //options: [{"username":"lilebbiestatic", "id":5}, {"username":"lilhostystatic", "id":6}],
             isHostFormShown: false,
             hostsForThisEvent: []
 
@@ -107,12 +107,14 @@ export default {
     methods: {
         onSubmit(event){
             event.preventDefault()
-            const editedEvent = this.form;
-            editedEvent.hostId
+            // const editedEvent = this.form;
+            // editedEvent.hostId
             // pass eventID
 
-            eventService.updateEvent(this.form.id, editedEvent)
-            // some message back to the user that the event was updated successfully?!
+            // this is a redundant? passing form and form.id, the method could get the id from the object
+            eventService.updateEvent(this.form.id, this.form)
+
+            // a message back to the user that the event was updated successfully
             this.showDismissibleAlert = true;
 
         },
@@ -130,8 +132,11 @@ export default {
             this.isHostFormShown = true;
         },
         updateHosts(){
-
-            hostService.updateHostsOnEvent(this.$route.params.id, this.value)
+            const hostIdArray = [];
+            this.value.forEach((selectedHost) => {
+                hostIdArray.push(selectedHost.id)
+            })
+            hostService.updateHostsOnEvent(this.$route.params.id, hostIdArray)
                 .then((response) => 
                   console.log(response))
         }
@@ -143,7 +148,8 @@ export default {
                 this.form = response.data;
                 this.isFormDataLoaded = true;
             });
-            // need to figure out how to load in selected hosts already...and then KNow what changed? or was selected and send that whole thing...
+            
+            // This gets ALL hosts
          hostService.getHosts()
             .then((response) => {
                 console.log(response.data)
@@ -154,13 +160,23 @@ export default {
                     const hostObject = {};
                     hostObject.id = host.id;
                     hostObject.username = host.username;
-                    this.hosts.push(hostObject);
+                    // getting current hosts
+                    this.allHosts.push(hostObject);
 
                 });
             });
+            // this gets hosts for THIS event
         hostService.getHostsByEventId(this.$route.params.id)
             .then((response) => {
-                this.hostsForThisEvent = response.data;
+                const hostsForThis = response.data;
+                hostsForThis.forEach((host) => {
+                    const hostObject = {};
+                    hostObject.id = host.id;
+                    hostObject.username = host.username;
+                    this.value.push(hostObject)
+                })
+                
+            
             })
     }
 
