@@ -5,7 +5,7 @@
         <b-alert v-model="showDismissibleAlert" variant="success" fade dismissible>
         Successfully Updated Event
         </b-alert>
-      <b-form @submit="onSubmit" v-if="isFormDataLoaded">
+      <b-form class="information-form" @submit="onSubmit" v-if="isFormDataLoaded">
       <b-form-group
         id="input-group-1"
         label="Event name:"
@@ -19,7 +19,13 @@
           required
         ></b-form-input>
       </b-form-group>
-
+        <br>
+    
+    <b-form-group
+        id="input-information"
+        label="Event information:"
+        label-for="input-information"
+      >
       <b-form-textarea
       id="input-information"
       v-model="form.information"
@@ -27,29 +33,64 @@
       rows="3"
       max-rows="6"
     ></b-form-textarea>
-
-      <b-button type="submit" variant="primary">Update</b-button>
+    </b-form-group>
+     
+      <b-button type="submit" variant="primary">Update Information</b-button>
+      <br>
+      <br>
+ 
+        
+           <br>
+     
 
     </b-form>
-    <br>
-      <div v-if="hasPermissionToDeleteEvent">
-       
-            <b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button>
-       
+
+      <br>
+      <h3>Hosts for this event:</h3>
+        <div v-for="host in hostsForThisEvent" v-bind:key="host.id">
+            <p>{{ host.username }}</p> 
+            <!-- ADD REMOVE HOST button next to each host-->
+            </div>
+           <b-button v-on:click="showHostForm">Add Host(s)</b-button>
+    <div v-show="isHostFormShown" class="select-host-form">
+        <label class="typo__label">Select Host(s)</label>
+         <multiselect v-model="value" :options="hosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
+        <br>
+         <b-button v-on:click="updateHosts" variant="primary">Save Hosts</b-button>
     </div>
+      
+          <div v-if="hasPermissionToDeleteEvent">
+       
+            <b-button class="fixed-bottom" variant="danger" size="sm" v-on:click="deleteEvent()">DELETE this Event</b-button>
+    </div>
+    <br>
+    
+     <br>
+
   </div>
 </template>
 
 <script>
 import eventService from '../services/EventService.js'
 import hostService from '../services/HostService.js'
+import Multiselect from 'vue-multiselect'
+
+ 
 export default {
     name: 'EditEvent',
+    components: {Multiselect},
     data(){
         return {
             isFormDataLoaded: false,
             form: {},
-            showDismissibleAlert: false
+            showDismissibleAlert: false,
+            value: null,
+            hosts: [],
+            hostOptions: [], //todo filter this DOWN to remove the hosts currently selected for this event
+            options: [{"username":"lilebbiestatic", "id":5}, {"username":"lilhostystatic", "id":6}],
+            isHostFormShown: false,
+            hostsForThisEvent: []
+
         }
     },
     computed: {
@@ -67,6 +108,8 @@ export default {
         onSubmit(event){
             event.preventDefault()
             const editedEvent = this.form;
+            editedEvent.hostId
+            // pass eventID
 
             eventService.updateEvent(this.form.id, editedEvent)
             // some message back to the user that the event was updated successfully?!
@@ -82,7 +125,16 @@ export default {
                     console.log(response)
                     this.$router.push("/");
                 })
-            }}
+            }},
+        showHostForm(){
+            this.isHostFormShown = true;
+        },
+        updateHosts(){
+
+            hostService.updateHostsOnEvent(this.$route.params.id, this.value)
+                .then((response) => 
+                  console.log(response))
+        }
     },
     created(){
         // get the event data and load it in
@@ -91,15 +143,37 @@ export default {
                 this.form = response.data;
                 this.isFormDataLoaded = true;
             });
+            // need to figure out how to load in selected hosts already...and then KNow what changed? or was selected and send that whole thing...
          hostService.getHosts()
             .then((response) => {
-                this.hosts = response.data;
+                console.log(response.data)
+                const hostObjects = response.data;
+
+                hostObjects.forEach((host) => {
+                    
+                    const hostObject = {};
+                    hostObject.id = host.id;
+                    hostObject.username = host.username;
+                    this.hosts.push(hostObject);
+
+                });
             });
+        hostService.getHostsByEventId(this.$route.params.id)
+            .then((response) => {
+                this.hostsForThisEvent = response.data;
+            })
     }
 
 }
 </script>
 
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style scoped>
+    .information-form {
+        border: black 2px solid;
+    }
 
+    .select-host-form {
+        border: blue 2px solid;
+    }
 </style>
