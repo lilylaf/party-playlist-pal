@@ -108,6 +108,17 @@ public class SongController {
         return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
     }
 
+
+    //todo -> as an authorized DJ, I can add all songs from a genre to the event-playlist
+//    @PreAuthorize("hasRole('DJ')")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RequestMapping(value="/dj/genre/{name}", method = RequestMethod.POST)
+//    public List<Song> addEventGenreSongsToPlaylist(@PathVariable String name, Principal principal) {
+//        //String username = principal.getName();
+//        //return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
+//        return null;
+//    }
+
     //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
     //currently does not work
     @PreAuthorize("hasRole('DJ')")

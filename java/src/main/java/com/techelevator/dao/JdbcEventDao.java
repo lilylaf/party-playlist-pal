@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventHost;
 import com.techelevator.model.EventNotFoundException;
+import com.techelevator.model.Genre;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -71,6 +72,29 @@ public class JdbcEventDao implements EventDao{
         }
 
         return eventList;
+    }
+
+    @Override
+    public List<String> genreForEvent(Long id, List<String> genres) {
+
+        String sql = "INSERT INTO event_genre(event_id, genre_name)\n" +
+                "VALUES (?, ?);";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                String genreName = genres.get(i);
+                ps.setLong(1, id);
+                ps.setString(2, genreName);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return genres.size();
+            }
+        });
+
+        return genres;
     }
 
     @Override
@@ -164,6 +188,8 @@ public class JdbcEventDao implements EventDao{
 
         return updatedEvent;
     }
+
+
 
 
     private Event mapRowToEvent(SqlRowSet rowSet){

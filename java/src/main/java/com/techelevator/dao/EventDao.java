@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Event;
 import com.techelevator.model.EventNotFoundException;
+import com.techelevator.model.Genre;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -13,14 +14,9 @@ public interface EventDao {
     Event getEventById(Long id) throws EventNotFoundException;
     Event create(Event event) throws EventNotFoundException;
     void deleteEvent(Long id);
-
     Event addHost(Long eventId, List<Long> hosts) throws EventNotFoundException;
-
     Event updateEvent(Event event, Long id) throws EventNotFoundException;
-//    Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException;
-
     List<Event> eventsByDjId(Long id);
-
     List<Event> eventsByHostId(Long id);
-
+    List<String> genreForEvent(Long id, List<String> genres);
 }
