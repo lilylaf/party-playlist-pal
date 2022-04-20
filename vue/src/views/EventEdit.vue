@@ -3,7 +3,7 @@
       <h2>EDIT THIS EVENT</h2>
         
         <h4>Genres</h4>
-         <label class="typo__label">Select Genre(s)</label>
+         <label class="typo__label">Select Genre(s) from this DJ</label>
          <multiselect v-model="genreValue" :options="genres" :multiple="true" label="name" track-by="name" placeholder="Select Genre(s)"></multiselect>
        
 
@@ -133,7 +133,7 @@ export default {
             if(confirm("Are you sure you want to delete this event PERMANENTLY?")){
                eventService.deleteEventById(this.form.id)
                 .then((response)=> {
-                    console.log(response)
+                    // console.log(response)
                     this.$router.push("/");
                 })
             }},
@@ -147,13 +147,13 @@ export default {
             })
             hostService.updateHostsOnEvent(this.$route.params.id, hostIdArray)
                 .then((response) => 
-                  console.log(response))
+                //   console.log(response))
                   this.showDismissibleAlertForHostUpdate = true;
         },
         removeHostFromEvent(hostId){
             
                 if(confirm("Are you sure you want to remove this host?")){
-                    // this eventService method doesn't exist yet
+                    // this eventService method doesn't exist yet ?
                      eventService.removeHostFromEvent(this.event.id, hostId)
                         .then((response) => console.log(response))
                         this.$router.go()
@@ -179,9 +179,9 @@ export default {
             // This gets ALL hosts
          hostService.getHosts()
             .then((response) => {
-                console.log(response.data)
+                // console.log(response.data)
                 const hostObjects = response.data;
-
+                console.log(hostObjects)
                 hostObjects.forEach((host) => {
                     
                     const hostObject = {};
