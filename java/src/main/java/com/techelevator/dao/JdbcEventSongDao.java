@@ -28,6 +28,7 @@ public class JdbcEventSongDao implements EventSongDao{
                 "VALUES (?,?);";
 
         //todo --> how do you write a method for a post :')
+        //good question  Lily :')
 
         return null;
     }

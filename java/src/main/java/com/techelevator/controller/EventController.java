@@ -3,6 +3,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.EventDao;
 import com.techelevator.dao.EventHostDao;
+import com.techelevator.dao.JdbcEventHostDao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventHost;
 import com.techelevator.model.EventNotFoundException;
@@ -25,7 +26,7 @@ public class EventController {
      */
 
     private EventDao eventDao;
-    //private EventHostDao eventHostDao;
+    private EventHostDao eventHostDao;
 
     public EventController(EventDao eventDao){
         this.eventDao = eventDao;
@@ -91,6 +92,15 @@ public class EventController {
     }
 
 
+    //DONE BY DES
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value="/events/{eventId}", method = RequestMethod.DELETE)
+    public void deleteHostFromEvent(@PathVariable("eventId") Long eventId, @RequestBody Long id) {
+        eventHostDao.deleteHostFromEvent(eventId, id);
+
+
+    }
 
 }
 
