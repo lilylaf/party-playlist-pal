@@ -64,7 +64,7 @@ public class EventController {
 
     //as an authorized host/DJ, I need to view a list of genres for an event
     @PreAuthorize("permitAll")
-    @RequestMapping(value="events/{id}/genres", method = RequestMethod.GET)
+    @RequestMapping(value="/events/{id}/genres", method = RequestMethod.GET)
     public List<Genre> listOfEventGenres(@PathVariable Long id) {
         return genreDao.eventGenres(id);
     }
