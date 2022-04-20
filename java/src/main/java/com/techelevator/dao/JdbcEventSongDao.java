@@ -19,19 +19,6 @@ public class JdbcEventSongDao implements EventSongDao{
     }
 
 
-    //submit dj song to event playlist
-    //todo -> Fix this whole thing
-    @Override
-    public Song submitSong(Long eventId, Long songId) {
-
-        String sql ="INSERT INTO event_song (song_id, event_id)\n" +
-                "VALUES (?,?);";
-
-        //todo --> how do you write a method for a post :')
-        //good question  Lily :')
-
-        return null;
-    }
 
     private EventSong mapRowToEvent(SqlRowSet rowSet){
         EventSong es = new EventSong();

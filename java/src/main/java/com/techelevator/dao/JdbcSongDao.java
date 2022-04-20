@@ -61,17 +61,26 @@ public class JdbcSongDao implements SongDao {
         return eventPlaylistSongs;
     }
 
-//    @Override
-//    public Song submitSong(Long eventId, Long songId) {
-//        return null;
-//    }
+    @Override
+    public EventSong submitSong(EventSong e) {
+        EventSong s = new EventSong();
 
-//    @Override
-//    public Song submitSong(Long id) {
-//
-//
-//        return null;
-//    }
+
+        String sql = "INSERT INTO event_song(event_id, song_id) " +
+                "VALUES (?, ?);";
+
+        try {
+            jdbcTemplate.update(sql, e.getEventId(), e.getSongId());
+            s.setSongId(e.getSongId());
+            s.setEventId(e.getEventId());
+        } catch (Exception exception) {
+            System.out.println("You cannot add a duplicate Song");
+        }
+
+        return s;
+    }
+
+
 
     @Override
     public void deleteSongFromLibrary(Long songId, Long userId) {
@@ -99,16 +108,16 @@ public class JdbcSongDao implements SongDao {
 
     }
 
-    //this needs to have that weird batch update stuff
+
     @Override
-    public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) { //add principle principle
+    public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) {
 
         String sqlA = "SELECT song_id \n" +
                 "FROM song\n" +
                 "NATURAL JOIN song_genre\n" +
                 "WHERE genre_name = ?";
 
-        //store first sql statement in a list of ints
+
         List<Long> songsInGenre = new ArrayList<>();
 
         SqlRowSet resultsA = jdbcTemplate.queryForRowSet(sqlA, name);
@@ -120,7 +129,7 @@ public class JdbcSongDao implements SongDao {
                 "FROM dj_library \n" +
                 "WHERE user_id = ?;";
 
-        //second query to get all dj songs //store second list of int
+
         List<Long> existingSongsInLibrary = new ArrayList<>();
 
         SqlRowSet resultsB = jdbcTemplate.queryForRowSet(sqlB, id);

@@ -24,6 +24,13 @@ export default {
 
     updateEvent(id, event){
         return axios.put(`/events/${id}`, event)
+    },
+    getEventsByHostId(id){
+        return axios.get(`/events/host/${id}`)
+    },
+
+    removeHostFromEvent(hostId){
+        return axios.delete(`/events/${hostId}`)
     }
 
 

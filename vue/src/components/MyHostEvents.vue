@@ -1,8 +1,8 @@
 <template>
   <div class="search-event">
-      <h2>Event Search</h2>
+      <h2>My Events as Host Search</h2>
       <div>
-        <b-form-input v-model="eventSearchString" placeholder="Type an event"></b-form-input>
+        <b-form-input class="search" v-model="eventSearchString" placeholder="Type an event"></b-form-input>
   </div>
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
@@ -21,14 +21,13 @@ export default {
     name: 'MyHostEvents',
     data(){
         return {
-          
-            eventsAll:[],
+            hostEvents:[],
             eventSearchString: "",
         }
     },
     computed: {
         filteredEvents() {
-            let events = this.eventsAll;
+            let events = this.hostEvents;
             let searchString = this.eventSearchString;
             let cleanSearchString = searchString.trim().toLowerCase();
 
@@ -51,10 +50,10 @@ export default {
 
 
     created(){
-        eventService.getEvents()
+        eventService.getEventsByHostId(this.$store.state.user.id)
         .then((response) => {
-            
-            this.eventsAll = response.data;
+            console.log(response)
+            this.hostEvents = response.data;
             // const responseEventsAll = response.data;
             // this.eventsAll = responseEventsAll.filter((event) => event.userId == this.$store.state.user.id);
             
@@ -66,10 +65,14 @@ export default {
 </script>
 
 <style scoped>
+.search{
+    font-family: sans-serif;
+}
 .search-event {
     border:#003B77 5px solid;
     padding: 5px;
     border-radius: 10px;
+  background-color: #FC05F4;
 }
 a{
     color: #003B77;

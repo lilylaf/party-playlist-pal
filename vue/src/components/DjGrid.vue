@@ -22,6 +22,7 @@ export default {
         djService.getDjs()
         .then((response) => {
             this.djs = response.data;
+            this.$store.state.djs = response.data;
         })
     }
 

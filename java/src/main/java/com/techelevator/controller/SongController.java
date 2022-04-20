@@ -48,16 +48,23 @@ public class SongController {
 
     //as an unauthorized guest, I need to view the songs in the event playlist
     @PreAuthorize("permitAll")
-    @RequestMapping(value="events/{id}/songs", method = RequestMethod.GET)
+    @RequestMapping(value="/events/{id}/songs", method = RequestMethod.GET)
     public List<Song> getEventPlaylist(@PathVariable Long id) {
         return songDao.eventPlaylist(id);
     }
 
     //todo --> as an unauthorized guest, I need to submit a song from the dj_library to event_song
-//    @RequestMapping(value="", method = RequestMethod.POST)
-//    public Song submitSongToEventPlaylist(Long songId, Long eventId){
-//        return eventSongDao.submitSong(songId, eventId);
-//    }
+
+    // "status": 405,
+    // "error": "Method Not Allowed",
+    // "message": "Request method 'POST' not supported",
+    // "path": "/events/songs"
+    @PreAuthorize("permitAll")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/events/songs", method = RequestMethod.POST)
+    public EventSong submitSongToEventPlaylist(@Valid @RequestBody EventSong eventSong){
+        return songDao.submitSong(eventSong);
+    }
 
     /*******************************************************************************************************************
      Authorized Dj or Host
@@ -65,7 +72,7 @@ public class SongController {
 
     //as an authorized DJ, I need to see a list of my current genres
     @PreAuthorize("hasAnyRole('DJ','HOST')")
-    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
+    @RequestMapping(value="/dj/{id}/genres", method = RequestMethod.GET)
     public List<Genre> getGenresByDj(@PathVariable Long id) {
         return genreDao.listOfDjLibraryGenres(id);
     }
@@ -86,7 +93,7 @@ public class SongController {
     //as an authorized DJ, I can add a song to my dj-Library
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="dj/song/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="/dj/song/{id}", method = RequestMethod.POST)
     public Song addSongToLibrary(@PathVariable Long id, Principal principal)  {
         String username = principal.getName();
         return songDao.addSong(id,(long) userDao.findIdByUsername(username));
@@ -95,17 +102,28 @@ public class SongController {
     // as an authorized DJ, I need to be able to add all songs of a genre to dj_library
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="dj/genre/{name}", method = RequestMethod.POST)
+    @RequestMapping(value="/dj/genre/{name}", method = RequestMethod.POST)
     public List<Song> addSongsInGenre(@PathVariable String name, Principal principal){
         String username = principal.getName();
         return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
     }
 
+
+    //todo -> as an authorized DJ, I can add all songs from a genre to the event-playlist
+//    @PreAuthorize("hasRole('DJ')")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RequestMapping(value="/dj/genre/{name}", method = RequestMethod.POST)
+//    public List<Song> addEventGenreSongsToPlaylist(@PathVariable String name, Principal principal) {
+//        //String username = principal.getName();
+//        //return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
+//        return null;
+//    }
+
     //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
     //currently does not work
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value="dj/genre/{name}", method= RequestMethod.DELETE)
+    @RequestMapping(value="/dj/genre/{name}", method= RequestMethod.DELETE)
     public void deleteSongsInGenre(){
         //
     }

@@ -75,3 +75,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+#login{
+  background-color: #090531;
+  color: white;
+  font-family: "Audiowide", sans-serif;
+}
+</style>

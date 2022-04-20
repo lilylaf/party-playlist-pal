@@ -1,7 +1,12 @@
 <template>
   <div>
       <h2>EDIT THIS EVENT</h2>
-  
+        
+        <h4>Genres</h4>
+         <label class="typo__label">Select Genre(s) from this DJ</label>
+         <multiselect v-model="genreValue" :options="genres" :multiple="true" label="name" track-by="name" placeholder="Select Genre(s)"></multiselect>
+       
+
         <b-alert v-model="showDismissibleAlert" variant="success" fade dismissible>
         Successfully Updated Event
         </b-alert>
@@ -39,8 +44,7 @@
       <br>
       <br>
  
-        
-           <br>
+        <br>
      
 
     </b-form>
@@ -48,10 +52,10 @@
       <br>
       <h3>Hosts for this event:</h3>
         <div v-for="host in hostsForThisEvent" v-bind:key="host.id">
-            <span>{{ host.username }}</span><b-button variant="warning" size="sm">Remove Host</b-button> 
+            <span>{{ host.username }}</span><b-button v-on:click="removeHostFromEvent(host.id)" variant="warning" size="sm">Remove Host</b-button> 
             <!-- ADD REMOVE HOST button next to each host-->
             </div>
-           <b-button v-on:click="showHostForm">Add or Edit Host(s)</b-button>
+           <b-button v-on:click="showHostForm">Add Host(s)</b-button>
     <div v-show="isHostFormShown" class="select-host-form">
         <b-alert v-model="showDismissibleAlertForHostUpdate" variant="success" fade dismissible>
         Successfully Updated Host
@@ -64,7 +68,7 @@
       
           <div v-if="hasPermissionToDeleteEvent">
        
-            <b-button class="fixed-bottom" variant="danger" size="sm" v-on:click="deleteEvent()">DELETE this Event</b-button>
+          <b-button class="fixed-bottom" variant="danger" size="sm" v-on:click="deleteEvent()">DELETE this Event</b-button>
     </div>
     <br>
     
@@ -77,11 +81,13 @@
 import eventService from '../services/EventService.js'
 import hostService from '../services/HostService.js'
 import Multiselect from 'vue-multiselect'
+// import EditGenres from '../components/EditGenres.vue'
+import genreService from '../services/GenreService.js'
 
  
 export default {
     name: 'EditEvent',
-    components: {Multiselect},
+    components: {Multiselect, },
     data(){
         return {
             isFormDataLoaded: false,
@@ -93,8 +99,9 @@ export default {
             hostOptions: [], //todo filter this DOWN to remove the hosts currently selected for this event
             //options: [{"username":"lilebbiestatic", "id":5}, {"username":"lilhostystatic", "id":6}],
             isHostFormShown: false,
-            hostsForThisEvent: []
-
+            hostsForThisEvent: [],
+            genres: [], // filter the selectable genres from the active Genres
+            genreValue: []
         }
     },
     computed: {
@@ -125,8 +132,8 @@ export default {
         deleteEvent(){
             if(confirm("Are you sure you want to delete this event PERMANENTLY?")){
                eventService.deleteEventById(this.form.id)
-                .then((response)=> {
-                    console.log(response)
+                .then(()=> {
+                    // console.log(response)
                     this.$router.push("/");
                 })
             }},
@@ -139,14 +146,15 @@ export default {
                 hostIdArray.push(selectedHost.id)
             })
             hostService.updateHostsOnEvent(this.$route.params.id, hostIdArray)
-                .then((response) => 
-                  console.log(response))
-                  this.showDismissibleAlertForHostUpdate = true;
+                .then(() => 
+                //   console.log(response))
+                  this.showDismissibleAlertForHostUpdate = true
+                )
         },
         removeHostFromEvent(hostId){
             
                 if(confirm("Are you sure you want to remove this host?")){
-                    // this eventService method doesn't exist yet
+                    // this eventService method doesn't exist yet ?
                      eventService.removeHostFromEvent(this.event.id, hostId)
                         .then((response) => console.log(response))
                         this.$router.go()
@@ -160,14 +168,21 @@ export default {
             .then((response) => {
                 this.form = response.data;
                 this.isFormDataLoaded = true;
+                const eventData = response.data;
+                genreService.getGenresByDj(eventData.userId)
+                    .then((response) => {
+                        this.genres = response.data
+                    }
+                    
+            )
             });
             
             // This gets ALL hosts
          hostService.getHosts()
             .then((response) => {
-                console.log(response.data)
+                // console.log(response.data)
                 const hostObjects = response.data;
-
+                console.log(hostObjects)
                 hostObjects.forEach((host) => {
                     
                     const hostObject = {};
@@ -189,9 +204,8 @@ export default {
                     hostObject.username = host.username;
                     this.value.push(hostObject)
                 })
-                
-            
-            })
+            });
+        
     }
 
 }

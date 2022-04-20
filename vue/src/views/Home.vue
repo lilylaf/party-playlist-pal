@@ -2,6 +2,9 @@
     
   <div class="Home">
     <img src="..\images\jampinktransp.png" />
+
+    
+        
       <div v-if="!isAuthenticated">
         
          <b-container class="bv-example-row">
@@ -12,11 +15,11 @@
         <b-col><dj-grid class="dj-grid" /></b-col>
       </b-row>
 </b-container>
-        
-      </div>
+    </div>    
+      
       
       <div v-if="isAuthenticated">
-          <h3>I AM AUTHENTICATED!!</h3>
+          <h3>Welcome {{this.$store.state.user.username}}</h3>
          <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -30,20 +33,29 @@
    </div>
      
       <div v-if="userType == 'ROLE_DJ' ">
-          <h3>I AM A DJ</h3>
-          <p>{{this.$store.state.user.id}}</p>
-         <b-container class="bv-example-row">
+        <b-container class="bv-example-row">
+            <b-row>
+              <b-col>
+                <my-dj-events />
+              </b-col>
+              <b-col>
+                <create-event-form />
+                
+              </b-col>
+      </b-row>
       <b-row>
-           <my-dj-events />
+        <b-col>
+         
+        </b-col>
           </b-row>
        <b-row>
          <my-dj-songs />
+         
       </b-row>
       <b-row>
       </b-row>
-      <b-row>
-        <create-event-form />
-      </b-row>
+     
+     
 </b-container>
       </div>
 
@@ -62,7 +74,7 @@
 </b-container>
 
       </div>
-      
+  
       
   </div>
 </template>
