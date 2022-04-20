@@ -2,8 +2,6 @@
 
   <div class="DJ">
       <b-container>
-          
-      <h1>DJ page</h1>
       <h2>I am DJ: {{ this.$route.params.username }}</h2>
       <h2 class="Table">My songs:</h2>
       <b-table class="Table" striped hover :items="songs" :fields="fields"></b-table>
@@ -45,4 +43,5 @@ export default {
         display:flex;
         width: 50%;
     }
+
 </style>

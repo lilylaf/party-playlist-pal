@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="create-event">
       <h2>Create an Event</h2>
       <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -80,5 +80,16 @@ export default {
 </script>
 
 <style>
-
+.create-event{
+    border:#003B77 5px solid;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #01F8E9;
+}
+#input-name{
+  font-family:sans-serif;
+}
+#input-information{
+  font-family: sans-serif;
+}
 </style>

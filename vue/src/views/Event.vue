@@ -4,9 +4,7 @@
         <h1>
             EVENT: {{event.name}}
         </h1>
-        <h4>
-            THE DEETS:  {{event.information}}
-        </h4>
+        
         
     </div>
        <div v-if="hasPermissionToEditEvent">
@@ -14,10 +12,25 @@
             <b-button  variant="warning">EDIT this Event</b-button>
         </router-link>
     </div>
-    <div v-if="eventSongs !== null" class="Table">
+     <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <div v-if="eventSongs !== null" class="Table">
         <h4>The Songs:</h4>
         <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
+        </b-col>
+        <b-col>
+            <h2>Featuring: {{ djForThisEvent.username }}</h2>
+        <h4>
+            Event Information:  {{event.information}}
+        </h4>
+            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" />
+            </b-col>
+      </b-row>
+</b-container>
+        
+    
   
   </div>
 </template>
@@ -26,15 +39,20 @@
 import eventService from '../services/EventService.js'
 import songService from '../services/SongService.js'
 import hostService from '../services/HostService.js'
+import dJService from '../services/DJService.js'
+import ViewAddDjSongsToEvent from '../components/ViewAddDJSongsToEvent.vue'
 
 export default {
     name: 'event',
+    components: {ViewAddDjSongsToEvent},
     data(){
         return {  
             fields: ['artistName', 'name'],
             event: {},
             eventSongs: [],
-            hosts: []
+            hosts: [],
+            hostsForThisEvent: [],
+            djForThisEvent: null
         }
     },
     methods: {
@@ -42,9 +60,11 @@ export default {
     },
     computed: {
          hasPermissionToEditEvent(){
+            const hasThisHostInEvent = this.hostsForThisEvent.some((host) => host.id = this.$store.state.user.id)
             if(this.$store.state.token == ''){
                 return false;
-            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST '&& this.$store.state.user.id == this.event.userId){
+                // || this.$store.state.user.id == 
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST' && this.$store.state.user.id == this.event.userId || hasThisHostInEvent  ){
                 return true;
             } else {
                 return false;
@@ -57,7 +77,18 @@ export default {
         .then(
             (response)=>{
                 this.event = response.data; 
-            
+                // set djInfo for this event
+                this.djForThisEvent = this.$store.state.djs.find((dj)=> {
+                    dj.id == event.userId
+                })
+               dJService.getDjs()
+            .then((response) => {
+                const allDjs = response.data;
+                console.log(allDjs)
+                this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
+                
+            }) 
+
             });
         
         songService.getSongsByEvent(this.$route.params.id)
@@ -65,24 +96,28 @@ export default {
                 this.eventSongs = response.data;
             });
         
-        // this really only needs to be done for the DJ view - when logged in
-        hostService.getHosts()
+
+        // // this really only needs to be done for the DJ view - when logged in
+        // hostService.getHosts()
+        //     .then((response) => {
+        //         this.hosts = response.data;
+        //     });
+        hostService.getHostsByEventId(this.$route.params.id)
             .then((response) => {
-                this.hosts = response.data;
+                // console.log(response)
+                this.hostsForThisEvent = response.data;
             });
+        
     }
 }
-
 </script>
-
-<style>
-.Event{
-    background-color: #090531;
-    color: white;
-    font-family: "Audiowide", sans-serif;
-}
-.Table{
-    background-color: #01F8E9;
-    
-}
+<style scoped>
+    .Event{
+        background-color: #090531;
+        color: white;
+        font-family: "Audiowide", sans-serif;
+    }
+    .Table{
+        background-color: #01F8E9;
+    }
 </style>
