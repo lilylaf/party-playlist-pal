@@ -82,37 +82,20 @@ public class JdbcSongDao implements SongDao {
     }
 
     @Override
-    public DjLibrary addSong(Long id, Long userId) { //put it in a try catch, use generic exception
-        DjLibrary addedSong = new DjLibrary(); //return just the song
-
+    public Song addSong(Long id, Long userId) {
+        Song addedSong = new Song();
 
         String sql = "INSERT INTO dj_library (user_id, song_id) " +
                 "VALUES (?,?);";
 
-        jdbcTemplate.update(sql, userId, id);
-        addedSong.setUserId(userId);
-        addedSong.setSongId(id);
+        try {
+            jdbcTemplate.update(sql, userId, id);
+            addedSong.setId(id);
+        } catch (Exception e) {
+            System.out.println("Do Not Add Repeat Songs");
+        }
 
         return addedSong;
-        //handle the internal server error
-
-//        String sqlB = "SELECT user_id, song_id \n" +
-//                "FROM dj_library" +
-//                "WHERE user_id = ?";
-//
-//        List<Long> listOfExistingSongs = new ArrayList<>();
-//        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id, userId);
-//
-//        while(result.next()){
-//            listOfExistingSongs.add(result.getLong("song_id"));
-//        }
-//        HashSet<Long> existingSongs = new HashSet<>(listOfExistingSongs);
-//
-//        if (!existingSongs.contains(id)) {
-//            return addedSong;
-//        } else {
-//           return null;
-//        }
 
     }
 

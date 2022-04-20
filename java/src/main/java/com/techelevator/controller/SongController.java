@@ -75,22 +75,14 @@ public class SongController {
     }
 
 
-
-
-    //todo -> as an authorized DJ, I can add a song to my dj-Library
-    //this does not work
+    //as an authorized DJ, I can add a song to my dj-Library
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="dj/song/{id}", method = RequestMethod.POST)
-    public DjLibrary addSongToLibrary(@PathVariable Long id, Principal principal)  { //principal principal and long id
+    public Song addSongToLibrary(@PathVariable Long id, Principal principal)  {
         String username = principal.getName();
         return songDao.addSong(id,(long) userDao.findIdByUsername(username));
     }
-    //Parameters: user_id, song_id
-    //Return: Song s
-    //method location: SongDao/JdbcSongDao
-    //additional concerns: not sure if this one is mapped out correctly
-
 
 
     //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
@@ -101,11 +93,6 @@ public class SongController {
     public void deleteSongsInGenre(){
         //
     }
-        //Parameters: user_id, and genre_name
-        //Return: void, will not return anything
-        //method location: DjLibraryDao/JdbcDjLibraryDao
-        //additional concerns: website may need to refresh, or call the get again after this is done to update dj_library
-
 
     // as an authorized DJ, I need to be able to add all songs of a genre to dj_library
     @PreAuthorize("hasRole('ROLE_DJ')")
@@ -126,10 +113,5 @@ public class SongController {
     public List<Genre> getGenresByDj(@PathVariable Long id) {
         return genreDao.listOfDjLibraryGenres(id);
     }
-
-
-
-
-
 
 }

@@ -13,7 +13,7 @@ public interface SongDao {
     List<Song> eventPlaylist(Long id);
     //Song submitSong(Long eventId, Long songId);
     void deleteSongFromLibrary(Long userId, Long songId);
-    DjLibrary addSong(Long id, Long userId);
+    Song addSong(Long id, Long userId);
     List<Song> addSongsFromGenreToDjLibrary(String name, Long id);
 }
 
