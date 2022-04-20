@@ -35,7 +35,9 @@ public class SongController {
         this.userDao = userDao;
     }
 
-
+    /*****************************************************************************************
+    Unauthorized Guest:
+    ******************************************************************************************/
 
     //as an unauthorized guest, I need to see a list of a DJ's song library
     @PreAuthorize("permitAll")
@@ -51,14 +53,17 @@ public class SongController {
         return songDao.eventPlaylist(id);
     }
 
+    //todo as an unauthorized guest, I need to submit a song from the dj_library to event_song
+//    @RequestMapping(value="", method = RequestMethod.POST)
+//    public Song submitSongToEventPlaylist(Long songId, Long eventId){
+//        return eventSongDao.submitSong(songId, eventId);
+//    }
 
 
-    //as an authorized DJ, I need to see a list of my current genres
-    @PreAuthorize("hasAnyRole('DJ','HOST')")
-    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
-    public List<Genre> getGenresByDj(@PathVariable Long id) {
-        return genreDao.listOfDjLibraryGenres(id);
-    }
+    /******************************************************************************************
+     Authorized Dj
+     ******************************************************************************************/
+
 
     //as an authorized DJ, I can delete a song from my dj-Library
     @PreAuthorize("hasRole('ROLE_DJ')")
@@ -69,19 +74,15 @@ public class SongController {
         songDao.deleteSongFromLibrary(id, (long) userDao.findIdByUsername(username));
     }
 
-    //todo as an unauthorized guest, I need to submit a song from the dj_library to event_song
-//    @RequestMapping(value="", method = RequestMethod.POST)
-//    public Song submitSongToEventPlaylist(Long songId, Long eventId){
-//        return eventSongDao.submitSong(songId, eventId);
-//    }
+
 
 
     //todo -> as an authorized DJ, I can add a song to my dj-Library
     //this does not work
-    @PreAuthorize("hasRole('ROLE_DJ')")
+    @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="dj/song/{id}", method = RequestMethod.POST)
-    public DjLibrary addSongToLibrary(@PathVariable Long id, Principal principal) { //principal principal and long id
+    public DjLibrary addSongToLibrary(@PathVariable Long id, Principal principal)  { //principal principal and long id
         String username = principal.getName();
         return songDao.addSong(id,(long) userDao.findIdByUsername(username));
     }
@@ -106,8 +107,7 @@ public class SongController {
         //additional concerns: website may need to refresh, or call the get again after this is done to update dj_library
 
 
-    //todo -> as an authorized DJ, I need to be able to add all songs of a genre to dj_library
-    //currently does not work
+    // as an authorized DJ, I need to be able to add all songs of a genre to dj_library
     @PreAuthorize("hasRole('ROLE_DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="dj/genre/{name}", method = RequestMethod.POST)
@@ -115,12 +115,17 @@ public class SongController {
         String username = principal.getName();
         return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
     }
-        //Parameters: user_id, genre_name
-        //Return: List<Song> addedSongsFromGenre
-        //method location: SongDao/JdbcSongDao
-        //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page
 
+    /**********************************************************************************************************
+        Authorized Dj or Host
+     **********************************************************************************************************/
 
+    //as an authorized DJ, I need to see a list of my current genres
+    @PreAuthorize("hasAnyRole('DJ','HOST')")
+    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
+    public List<Genre> getGenresByDj(@PathVariable Long id) {
+        return genreDao.listOfDjLibraryGenres(id);
+    }
 
 
 
