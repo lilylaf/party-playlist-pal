@@ -4,6 +4,7 @@
         <h1>
             EVENT: {{event.name}}
         </h1>
+        <h2>Featuring: {{ djForThisEvent.username }}</h2>
         <h4>
             THE DEETS:  {{event.information}}
         </h4>
@@ -26,6 +27,7 @@
 import eventService from '../services/EventService.js'
 import songService from '../services/SongService.js'
 import hostService from '../services/HostService.js'
+import dJService from '../services/DJService.js'
 
 export default {
     name: 'event',
@@ -34,7 +36,9 @@ export default {
             fields: ['artistName', 'name'],
             event: {},
             eventSongs: [],
-            hosts: []
+            hosts: [],
+            hostsForThisEvent: [],
+            djForThisEvent: null
         }
     },
     methods: {
@@ -42,9 +46,11 @@ export default {
     },
     computed: {
          hasPermissionToEditEvent(){
+            const hasThisHostInEvent = this.hostsForThisEvent.some((host) => host.id = this.$store.state.user.id)
             if(this.$store.state.token == ''){
                 return false;
-            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST '&& this.$store.state.user.id == this.event.userId){
+                // || this.$store.state.user.id == 
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST' && this.$store.state.user.id == this.event.userId || hasThisHostInEvent  ){
                 return true;
             } else {
                 return false;
@@ -57,7 +63,18 @@ export default {
         .then(
             (response)=>{
                 this.event = response.data; 
-            
+                // set djInfo for this event
+                this.djForThisEvent = this.$store.state.djs.find((dj)=> {
+                    dj.id == event.userId
+                })
+               dJService.getDjs()
+            .then((response) => {
+                const allDjs = response.data;
+                console.log(allDjs)
+                this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
+                
+            }) 
+
             });
         
         songService.getSongsByEvent(this.$route.params.id)
@@ -65,11 +82,18 @@ export default {
                 this.eventSongs = response.data;
             });
         
-        // this really only needs to be done for the DJ view - when logged in
-        hostService.getHosts()
+
+        // // this really only needs to be done for the DJ view - when logged in
+        // hostService.getHosts()
+        //     .then((response) => {
+        //         this.hosts = response.data;
+        //     });
+        hostService.getHostsByEventId(this.$route.params.id)
             .then((response) => {
-                this.hosts = response.data;
+                // console.log(response)
+                this.hostsForThisEvent = response.data;
             });
+        
     }
 }
 

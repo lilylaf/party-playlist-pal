@@ -1,6 +1,6 @@
 <template>
   <div class="search-event">
-      <h2>Event Search</h2>
+      <h2>My Events as DJ Search</h2>
       <div>
         <b-form-input v-model="eventSearchString" placeholder="Type an event"></b-form-input>
   </div>
