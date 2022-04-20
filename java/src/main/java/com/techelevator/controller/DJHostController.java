@@ -13,10 +13,9 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class DJHostController {
 
-    /*
+    /*******************************************************************************************************************
       This Controller is for returning objects that are users, such as DJ or Host
-    */
-
+    *******************************************************************************************************************/
 
     private DjHostDao djHostDao;
 
@@ -25,26 +24,32 @@ public class DJHostController {
     }
 
 
-    //return list of djs
-    //currently not authorized
+    /*******************************************************************************************************************
+      Unauthorized Guest:
+    *******************************************************************************************************************/
+
+    //as an unauthorized guest, I need to view a list of DJs
     @PreAuthorize("permitAll")
     @RequestMapping(value="/djs", method= RequestMethod.GET)
     public List<User> getListOfDjs() {
         return djHostDao.listOfDjs();
     }
 
-    //return list of hosts
-    //currently not authorized
-    @PreAuthorize("hasRole('DJ')")
-    @RequestMapping(value="/hosts", method = RequestMethod.GET)
-    public List<User> getListOfHosts(){
-        return djHostDao.listOfHosts();
-    }
-
-    //return list of hosts by event id
+    //as an unauthorized user, I need to see the hosts at an event
     @PreAuthorize("permitAll")
     @RequestMapping(value="/hosts/{id}", method = RequestMethod.GET)
     public List<User> getHostsForEvent(@PathVariable Long id){
         return djHostDao.hostsForEvent(id);
+    }
+
+    /*******************************************************************************************************************
+      Authorized Dj
+    *******************************************************************************************************************/
+
+    //as a DJ, I need to view a list of all hosts
+    @PreAuthorize("hasRole('DJ')")
+    @RequestMapping(value="/hosts", method = RequestMethod.GET)
+    public List<User> getListOfHosts(){
+        return djHostDao.listOfHosts();
     }
 }

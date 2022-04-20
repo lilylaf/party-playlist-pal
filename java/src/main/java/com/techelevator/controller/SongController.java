@@ -15,11 +15,11 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class SongController {
 
-    /*
+    /*******************************************************************************************************************
         This Controller is for returning an object that is a song, including a playlist or a dj library
         Genres are directly related to songs/playlists, so genre endpoints will go in here
         Dj library end points will go here as well
-     */
+    *******************************************************************************************************************/
 
     private SongDao songDao;
     private GenreDao genreDao;
@@ -35,9 +35,9 @@ public class SongController {
         this.userDao = userDao;
     }
 
-    /*****************************************************************************************
-    Unauthorized Guest:
-    ******************************************************************************************/
+    /*******************************************************************************************************************
+     Unauthorized Guest: ONE MORE ENDPOINT TO FIX
+    *******************************************************************************************************************/
 
     //as an unauthorized guest, I need to see a list of a DJ's song library
     @PreAuthorize("permitAll")
@@ -53,27 +53,35 @@ public class SongController {
         return songDao.eventPlaylist(id);
     }
 
-    //todo as an unauthorized guest, I need to submit a song from the dj_library to event_song
+    //todo --> as an unauthorized guest, I need to submit a song from the dj_library to event_song
 //    @RequestMapping(value="", method = RequestMethod.POST)
 //    public Song submitSongToEventPlaylist(Long songId, Long eventId){
 //        return eventSongDao.submitSong(songId, eventId);
 //    }
 
+    /*******************************************************************************************************************
+     Authorized Dj or Host
+    *******************************************************************************************************************/
 
-    /******************************************************************************************
-     Authorized Dj
-     ******************************************************************************************/
+    //as an authorized DJ, I need to see a list of my current genres
+    @PreAuthorize("hasAnyRole('DJ','HOST')")
+    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
+    public List<Genre> getGenresByDj(@PathVariable Long id) {
+        return genreDao.listOfDjLibraryGenres(id);
+    }
 
+    /*******************************************************************************************************************
+     Authorized Dj : ONE MORE ENDPOINT TO FIX
+    *******************************************************************************************************************/
 
     //as an authorized DJ, I can delete a song from my dj-Library
-    @PreAuthorize("hasRole('ROLE_DJ')")
+    @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value="/dj/song/{id}", method= RequestMethod.DELETE)
     public void deleteSong(@PathVariable Long id, Principal principal) {
         String username = principal.getName();
         songDao.deleteSongFromLibrary(id, (long) userDao.findIdByUsername(username));
     }
-
 
     //as an authorized DJ, I can add a song to my dj-Library
     @PreAuthorize("hasRole('DJ')")
@@ -84,18 +92,8 @@ public class SongController {
         return songDao.addSong(id,(long) userDao.findIdByUsername(username));
     }
 
-
-    //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
-    //currently does not work
-    @PreAuthorize("hasRole('ROLE_DJ')")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value="dj/genre/{name}", method= RequestMethod.DELETE)
-    public void deleteSongsInGenre(){
-        //
-    }
-
     // as an authorized DJ, I need to be able to add all songs of a genre to dj_library
-    @PreAuthorize("hasRole('ROLE_DJ')")
+    @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="dj/genre/{name}", method = RequestMethod.POST)
     public List<Song> addSongsInGenre(@PathVariable String name, Principal principal){
@@ -103,15 +101,12 @@ public class SongController {
         return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
     }
 
-    /**********************************************************************************************************
-        Authorized Dj or Host
-     **********************************************************************************************************/
-
-    //as an authorized DJ, I need to see a list of my current genres
-    @PreAuthorize("hasAnyRole('DJ','HOST')")
-    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
-    public List<Genre> getGenresByDj(@PathVariable Long id) {
-        return genreDao.listOfDjLibraryGenres(id);
+    //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
+    //currently does not work
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value="dj/genre/{name}", method= RequestMethod.DELETE)
+    public void deleteSongsInGenre(){
+        //
     }
-
 }
