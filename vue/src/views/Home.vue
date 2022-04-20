@@ -2,6 +2,10 @@
     
   <div class="Home">
     <img src="..\images\jampinktransp.png" />
+
+    <div class="loading" v-if="isLoading">
+        <img src="..\images\rockcat.gif" />
+        
       <div v-if="!isAuthenticated">
         
          <b-container class="bv-example-row">
@@ -12,7 +16,7 @@
         <b-col><dj-grid class="dj-grid" /></b-col>
       </b-row>
 </b-container>
-        
+    </div>    
       </div>
       
       <div v-if="isAuthenticated">
@@ -70,7 +74,7 @@
 </b-container>
 
       </div>
-      
+  
       
   </div>
 </template>
