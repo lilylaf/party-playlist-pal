@@ -15,9 +15,14 @@ import java.sql.SQLException;
 public class JdbcEventHostDao implements EventHostDao{
 
     private JdbcTemplate jdbcTemplate;
+
     public JdbcEventHostDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
 
+    public void deleteHostFromEvent(Long eventId, Long hostId){
+        String sql =  "DELETE FROM event_host WHERE user_id = ? AND event_id = ?;";
+        int numRows = jdbcTemplate.update(sql, eventId, hostId);
+    }
 }

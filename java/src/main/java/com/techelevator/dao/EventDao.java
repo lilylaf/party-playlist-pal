@@ -21,4 +21,6 @@ public interface EventDao {
 
     List<Event> eventsByDjId(Long id);
 
+    List<Event> eventsByHostId(Long id);
+
 }

@@ -15,6 +15,11 @@
         required
         autofocus
       />
+      <b-form-radio-group label="I am a..." required="true">
+      <b-form-radio v-model="user.role"  name="select-user" value="dj">DJ</b-form-radio>
+      <b-form-radio v-model="user.role"  name="select-user" value="host">Host</b-form-radio>
+    </b-form-radio-group>
+
       <label for="password" class="sr-only">Password</label>
       <input
         type="password"
@@ -47,11 +52,12 @@ export default {
   name: 'register',
   data() {
     return {
+      selected: '',
       user: {
         username: '',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        role: '',
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',

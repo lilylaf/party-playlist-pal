@@ -45,13 +45,28 @@ public class JdbcEventDao implements EventDao{
     public List<Event> eventsByDjId(Long id) {
         List<Event> eventList = new ArrayList<>();
 
-        String sql = "SELECT event_id, user_id, event_name, information, picture " +
-                "FROM event " +
-                "WHERE user_id = ? " +
-                "ORDER BY event_id ASC;";
+        String sql = "";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while (results.next()) {
+            eventList.add(mapRowToEvent(results));
+        }
+
+        return eventList;
+    }
+
+    @Override
+    public List<Event> eventsByHostId(Long id) {
+        List<Event> eventList = new ArrayList<>();
+
+        String sql = "SELECT event_host.event_id, event.user_id, event_name, information, picture\n" +
+                "FROM event\n" +
+                "INNER JOIN event_host on event_host.event_id = event.event_id\n" +
+                "WHERE event_host.user_id = ?\n" +
+                "ORDER BY event_id ASC;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()){
             eventList.add(mapRowToEvent(results));
         }
 
@@ -132,25 +147,7 @@ public class JdbcEventDao implements EventDao{
         return updatedEvent;
 
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    @Override
-//    public Event HostUpdateEvent(String eventName, String information, Long id) throws EventNotFoundException{
-//
-//        String sql = "UPDATE event \n" +
-//                "SET event_name = ?, information = ? \n" +
-//                "FROM event_host \n" +
-//                "WHERE event.event_id = ?;";
-//
-//        int numRows = jdbcTemplate.update(sql, eventName, information, id); //why is this a type int
-//
-//        Event updatedEvent = getEventById(id);
-//
-//        return updatedEvent;
-//
-//    }
-//    //todo -> this doesn't work yet
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Event updateEvent(Event event, Long id) throws EventNotFoundException {
@@ -167,8 +164,7 @@ public class JdbcEventDao implements EventDao{
 
         return updatedEvent;
     }
-    //todo -> this doesn't work yet
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     private Event mapRowToEvent(SqlRowSet rowSet){
         Event event = new Event();

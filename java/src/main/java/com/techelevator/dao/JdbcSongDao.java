@@ -1,22 +1,24 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.DjLibrary;
-import com.techelevator.model.EventNotFoundException;
-import com.techelevator.model.Song;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.sql.RowSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
 @CrossOrigin
-public class JdbcSongDao implements SongDao{
+public class JdbcSongDao implements SongDao {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -60,11 +62,25 @@ public class JdbcSongDao implements SongDao{
     }
 
     @Override
-    public Song submitSong(Long eventId, Long songId) {
+    public EventSong submitSong(EventSong e) {
+        EventSong s = new EventSong();
 
 
-        return null;
+        String sql = "INSERT INTO event_song(event_id, song_id) " +
+                "VALUES (?, ?);";
+
+        try {
+            jdbcTemplate.update(sql, e.getEventId(), e.getSongId());
+            s.setSongId(e.getSongId());
+            s.setEventId(e.getEventId());
+        } catch (Exception exception) {
+            System.out.println("You cannot add a duplicate Song");
+        }
+
+        return s;
     }
+
+
 
     @Override
     public void deleteSongFromLibrary(Long songId, Long userId) {
@@ -74,17 +90,82 @@ public class JdbcSongDao implements SongDao{
         int numRows = jdbcTemplate.update(sql, userId, songId);
     }
 
-//    @Override
-//    public DjLibrary addSong(Long userId, Long songId) {
-//        DjLibrary newSong = null;
-//
-//        String sql = "String sql = INSERT INTO dj_library (user_id, song_id) " +
-//                "VALUES (?,?);";
-//
-//        SqlRowSet results = jdbcTemplate.queryForObject(sql, userId, songId);
-//
-//        return newSong;
-//    }
+    @Override
+    public Song addSong(Long id, Long userId) {
+        Song addedSong = new Song();
+
+        String sql = "INSERT INTO dj_library (user_id, song_id) " +
+                "VALUES (?,?);";
+
+        try {
+            jdbcTemplate.update(sql, userId, id);
+            addedSong.setId(id);
+        } catch (Exception e) {
+            System.out.println("Do Not Add Repeat Songs");
+        }
+
+        return addedSong;
+
+    }
+
+
+    @Override
+    public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) {
+
+        String sqlA = "SELECT song_id \n" +
+                "FROM song\n" +
+                "NATURAL JOIN song_genre\n" +
+                "WHERE genre_name = ?";
+
+
+        List<Long> songsInGenre = new ArrayList<>();
+
+        SqlRowSet resultsA = jdbcTemplate.queryForRowSet(sqlA, name);
+        while (resultsA.next()) {
+            songsInGenre.add(resultsA.getLong("song_id"));
+        }
+
+        String sqlB = "SELECT song_id \n" +
+                "FROM dj_library \n" +
+                "WHERE user_id = ?;";
+
+
+        List<Long> existingSongsInLibrary = new ArrayList<>();
+
+        SqlRowSet resultsB = jdbcTemplate.queryForRowSet(sqlB, id);
+        while (resultsB.next()) {
+            existingSongsInLibrary.add(resultsB.getLong("song_id"));
+        }
+
+        HashSet<Long> existingSongs = new HashSet<>(existingSongsInLibrary);
+        List<Long> songsToAdd = new ArrayList<>();
+
+        for (Long song: songsInGenre) {
+            if (!existingSongs.contains(song)){
+                songsToAdd.add(song);
+            }
+        }
+
+
+        String sql = "INSERT INTO dj_library(user_id, song_id)\n" +
+                "VALUES (?, ?);";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Long songId = songsToAdd.get(i);
+                ps.setLong(1, id);
+                ps.setLong(2, songId);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return songsToAdd.size();
+            }
+        });
+
+        return djSongList(id);
+    }
 
 
     private Song mapRowToSong(SqlRowSet rowSet){

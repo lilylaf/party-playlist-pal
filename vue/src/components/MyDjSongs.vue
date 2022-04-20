@@ -21,7 +21,7 @@ export default {
         }
     },
     created(){
-        
+        // put a prop inside the parameter
         songService.getSongsByDjId(this.$store.state.user.id)
         .then((response) => {
             console.log(response)

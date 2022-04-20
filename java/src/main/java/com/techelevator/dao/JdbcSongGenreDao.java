@@ -14,4 +14,11 @@ public class JdbcSongGenreDao implements SongGenreDao{
     public JdbcSongGenreDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    //update GENRE'S SONGS
+    //String sql = "UPDATE song_genre SET song_id = ? WHERE genre_id = ?;";
+
+    //delete all songs from selected genre
+
+
 }

@@ -4,57 +4,72 @@
         <h1>
             EVENT: {{event.name}}
         </h1>
-        <h4>
-            THE DEETS:  {{event.information}}
-        </h4>
+        
         
     </div>
-    
-    <div v-if="eventSongs !== null" class="Table">
+       <div v-if="hasPermissionToEditEvent">
+         <router-link v-bind:to="{name: 'eventEdit', params:{id: this.event.id}}">
+            <b-button  variant="warning">EDIT this Event</b-button>
+        </router-link>
+    </div>
+     <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <div v-if="eventSongs !== null" class="Table">
         <h4>The Songs:</h4>
         <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
-
-    <div v-if="hasPermissionToDeleteEvent"><b-button  variant="danger" v-on:click="deleteEvent()">DELETE this Event</b-button></div>
+        </b-col>
+        <b-col>
+            <h2>Featuring: {{ djForThisEvent.username }}</h2>
+        <h4>
+            Event Information:  {{event.information}}
+        </h4>
+            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" />
+            </b-col>
+      </b-row>
+</b-container>
+        
+    
+  
   </div>
 </template>
 
 <script>
 import eventService from '../services/EventService.js'
 import songService from '../services/SongService.js'
+import hostService from '../services/HostService.js'
+import dJService from '../services/DJService.js'
+import ViewAddDjSongsToEvent from '../components/ViewAddDJSongsToEvent.vue'
 
 export default {
     name: 'event',
+    components: {ViewAddDjSongsToEvent},
     data(){
         return {  
             fields: ['artistName', 'name'],
-            event: null,
-            eventSongs: null
+            event: {},
+            eventSongs: [],
+            hosts: [],
+            hostsForThisEvent: [],
+            djForThisEvent: null
         }
     },
     methods: {
-        deleteEvent(){
-            if(confirm("Are you sure you want to delete this event?")){
-               console.log("Off to delete event!");
-               console.log();
-               eventService.deleteEventById(this.event.id)
-                .then((response)=> {
-                    console.log(response)
-                    this.$router.push("/");
-                })
-            }}
+      
     },
     computed: {
-        hasPermissionToDeleteEvent(){
+         hasPermissionToEditEvent(){
+            const hasThisHostInEvent = this.hostsForThisEvent.some((host) => host.id = this.$store.state.user.id)
             if(this.$store.state.token == ''){
                 return false;
-            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' && this.$store.state.user.id == this.event.userId){
+                // || this.$store.state.user.id == 
+            }else if(this.$store.state.user.authorities[0].name == 'ROLE_DJ' || this.$store.state.user.authorities[0].name == 'ROLE_HOST' && this.$store.state.user.id == this.event.userId || hasThisHostInEvent  ){
                 return true;
             } else {
                 return false;
             }
-        },
-
+        }
     },
     created(){
         //todo add error handling for the request
@@ -62,28 +77,47 @@ export default {
         .then(
             (response)=>{
                 this.event = response.data; 
-            
-            }
-            );
+                // set djInfo for this event
+                this.djForThisEvent = this.$store.state.djs.find((dj)=> {
+                    dj.id == event.userId
+                })
+               dJService.getDjs()
+            .then((response) => {
+                const allDjs = response.data;
+                console.log(allDjs)
+                this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
+                
+            }) 
+
+            });
         
         songService.getSongsByEvent(this.$route.params.id)
-        .then((response) => {
-            this.eventSongs = response.data;
-        })
+            .then((response) => {
+                this.eventSongs = response.data;
+            });
+        
 
+        // // this really only needs to be done for the DJ view - when logged in
+        // hostService.getHosts()
+        //     .then((response) => {
+        //         this.hosts = response.data;
+        //     });
+        hostService.getHostsByEventId(this.$route.params.id)
+            .then((response) => {
+                // console.log(response)
+                this.hostsForThisEvent = response.data;
+            });
+        
     }
 }
-
 </script>
-
-<style>
-.Event{
-    background-color: #090531;
-    color: white;
-    font-family: "Audiowide", sans-serif;
-}
-.Table{
-    background-color: #01F8E9;
-    
-}
+<style scoped>
+    .Event{
+        background-color: #090531;
+        color: white;
+        font-family: "Audiowide", sans-serif;
+    }
+    .Table{
+        background-color: #01F8E9;
+    }
 </style>

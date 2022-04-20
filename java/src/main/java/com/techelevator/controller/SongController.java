@@ -1,10 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.EventHost;
-import com.techelevator.model.Genre;
-import com.techelevator.model.Song;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +15,11 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class SongController {
 
-    /*
+    /*******************************************************************************************************************
         This Controller is for returning an object that is a song, including a playlist or a dj library
         Genres are directly related to songs/playlists, so genre endpoints will go in here
         Dj library end points will go here as well
-     */
+    *******************************************************************************************************************/
 
     private SongDao songDao;
     private GenreDao genreDao;
@@ -38,7 +35,9 @@ public class SongController {
         this.userDao = userDao;
     }
 
-
+    /*******************************************************************************************************************
+     Unauthorized Guest: ONE MORE ENDPOINT TO FIX
+    *******************************************************************************************************************/
 
     //as an unauthorized guest, I need to see a list of a DJ's song library
     @PreAuthorize("permitAll")
@@ -49,92 +48,72 @@ public class SongController {
 
     //as an unauthorized guest, I need to view the songs in the event playlist
     @PreAuthorize("permitAll")
-    @RequestMapping(value="events/{id}/songs", method = RequestMethod.GET)
+    @RequestMapping(value="/events/{id}/songs", method = RequestMethod.GET)
     public List<Song> getEventPlaylist(@PathVariable Long id) {
         return songDao.eventPlaylist(id);
     }
 
-    //as an unauthorized guest, I need to submit a song from the dj_library to event_song
-//    @PreAuthorize("permitAll")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @RequestMapping(value="", method = RequestMethod.POST)
-//    public Song submitToEventPlaylist(@PathVariable Long eventId, Long songId){
-//        return songDao //insert method here ;
-//    }
+    //todo --> as an unauthorized guest, I need to submit a song from the dj_library to event_song
 
+    // "status": 405,
+    // "error": "Method Not Allowed",
+    // "message": "Request method 'POST' not supported",
+    // "path": "/events/songs"
+    @PreAuthorize("permitAll")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/events/songs", method = RequestMethod.POST)
+    public EventSong submitSongToEventPlaylist(@Valid @RequestBody EventSong eventSong){
+        return songDao.submitSong(eventSong);
+    }
 
+    /*******************************************************************************************************************
+     Authorized Dj or Host
+    *******************************************************************************************************************/
 
-
-    //todo -> ******************************************************* THIS NEEDS TO BE AUTHORIZED FOR A DJ
     //as an authorized DJ, I need to see a list of my current genres
-//    @PreAuthorize("hasRole('ROLE_DJ'),('ROLE_HOST')") //not sure if this syntax is correct for 2 roles
-//    @RequestMapping(value="dj/{id}/genres", method = RequestMethod.GET)
-//    public List<Genre> getGenresByDj(@PathVariable Long id) { //do we need Principal principal in here?
-//        return genreDao.listOfDjLibraryGenres(id);
-//    }
-//
-//    as an unauthorized guest, I want to be able to submit a song from dj_library to event playlist
-//    @RequestMapping(value="", method = RequestMethod.POST)
-//    public Song submitSongToEventPlaylist(Long songId, Long eventId){
-//        return eventSongDao.submitSong(songId, eventId);
-//    }
+    @PreAuthorize("hasAnyRole('DJ','HOST')")
+    @RequestMapping(value="/dj/{id}/genres", method = RequestMethod.GET)
+    public List<Genre> getGenresByDj(@PathVariable Long id) {
+        return genreDao.listOfDjLibraryGenres(id);
+    }
 
+    /*******************************************************************************************************************
+     Authorized Dj : ONE MORE ENDPOINT TO FIX
+    *******************************************************************************************************************/
 
-    //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.NO_CONTENT)
-    //@RequestMapping(value="", method= RequestMethod.DELETE)
-        //Parameters: user_id, and genre_name
-        //Return: void, will not return anything
-        //method location: DjLibraryDao/JdbcDjLibraryDao
-        //additional concerns: website may need to refresh, or call the get again after this is done to update dj_library
-
-
-    //todo -> as an authorized DJ, I need to be able to add all songs of a genre to dj_library
-    //@PreAuthorize("hasRole('ROLE_DJ')")
-    //@ResponseStatus(HttpStatus.CREATED)
-    //@RequestMapping(value="", method = RequestMethod.POST)
-        //Parameters: user_id, genre_name
-        //Return: List<Song> addedSongsFromGenre
-        //method location: SongDao/JdbcSongDao
-        //additional concerns: do we want to return a list of songs, or return the entire dj_library to refresh the page?
-
-
-//    todo -> this won't work on postman, I think its a lily error trying to do the request body
-//    as an authorized DJ, I can delete a song from my dj-Library
-    @PreAuthorize("hasRole('ROLE_DJ')")
+    //as an authorized DJ, I can delete a song from my dj-Library
+    @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value="/dj/song/{id}", method= RequestMethod.DELETE)
-    public void deleteSong(@PathVariable("id") Long id, Principal principal) {
+    public void deleteSong(@PathVariable Long id, Principal principal) {
         String username = principal.getName();
         songDao.deleteSongFromLibrary(id, (long) userDao.findIdByUsername(username));
     }
 
+    //as an authorized DJ, I can add a song to my dj-Library
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/dj/song/{id}", method = RequestMethod.POST)
+    public Song addSongToLibrary(@PathVariable Long id, Principal principal)  {
+        String username = principal.getName();
+        return songDao.addSong(id,(long) userDao.findIdByUsername(username));
+    }
 
-//    @RequestMapping(path = "/account/balance", method = RequestMethod.GET) //creating our endpoint for client-facing access
-//    public @ResponseBody BigDecimal getUserBalance(Principal principal) {
-//        int userId = userDao.findIdByUsername(principal.getName());
-//        return accountDao.getUserBalance(userId); //calling method to get balance, and returning that balance
-//    }
-//
-//
+    // as an authorized DJ, I need to be able to add all songs of a genre to dj_library
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/dj/genre/{name}", method = RequestMethod.POST)
+    public List<Song> addSongsInGenre(@PathVariable String name, Principal principal){
+        String username = principal.getName();
+        return songDao.addSongsFromGenreToDjLibrary(name, (long) userDao.findIdByUsername(username));
+    }
 
-
-
-
-    //todo -> as an authorized DJ, I can add a song to my dj-Library
-    //hasRole('ROLE_DJ')
-//    @PreAuthorize("permitAll")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @RequestMapping(value="dj/song", method = RequestMethod.POST)
-//    public Song addSong(@Valid @RequestBody Song song) {
-//        return null; //
-//    }
-        //Parameters: user_id, song_id
-        //Return: Song s
-        //method location: SongDao/JdbcSongDao
-        //additional concerns: not sure if this one is mapped out correctly
-
-
-
+    //todo -> as an authorized DJ, I can delete all songs of a genre from my dj-Library
+    //currently does not work
+    @PreAuthorize("hasRole('DJ')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value="/dj/genre/{name}", method= RequestMethod.DELETE)
+    public void deleteSongsInGenre(){
+        //
+    }
 }

@@ -40,6 +40,22 @@ public class JdbcGenreDao implements GenreDao{
         return genreList;
     }
 
+    @Override
+    public List<Genre> eventGenres(Long id) {
+        List<Genre> genreList = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT genre_name " +
+                "FROM event_genre " +
+                "WHERE event_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()) {
+            genreList.add(mapRowToGenre(results));
+        }
+
+        return genreList;
+    }
+
 
     private Genre mapRowToGenre(SqlRowSet rowSet) {
         Genre g = new Genre();
