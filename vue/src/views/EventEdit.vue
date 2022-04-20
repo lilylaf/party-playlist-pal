@@ -132,7 +132,7 @@ export default {
         deleteEvent(){
             if(confirm("Are you sure you want to delete this event PERMANENTLY?")){
                eventService.deleteEventById(this.form.id)
-                .then((response)=> {
+                .then(()=> {
                     // console.log(response)
                     this.$router.push("/");
                 })
@@ -146,9 +146,10 @@ export default {
                 hostIdArray.push(selectedHost.id)
             })
             hostService.updateHostsOnEvent(this.$route.params.id, hostIdArray)
-                .then((response) => 
+                .then(() => 
                 //   console.log(response))
-                  this.showDismissibleAlertForHostUpdate = true;
+                  this.showDismissibleAlertForHostUpdate = true
+                )
         },
         removeHostFromEvent(hostId){
             
