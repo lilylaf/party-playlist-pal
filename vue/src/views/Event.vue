@@ -25,7 +25,7 @@
         <h4>
             Event Information:  {{event.information}}
         </h4>
-            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" />
+            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" :eventSongs="this.eventSongs" :event="event" />
             </b-col>
       </b-row>
 </b-container>
@@ -84,7 +84,7 @@ export default {
                dJService.getDjs()
             .then((response) => {
                 const allDjs = response.data;
-                console.log(allDjs)
+                
                 this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
                 
             }) 
@@ -111,7 +111,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
     .Event{
         background-color: #090531;
         color: white;

@@ -12,7 +12,7 @@
 import djService from '../services/DJService.js'
 
 export default {
-    name: 'Djgrid',
+    name: 'DjGrid',
     data(){
         return {
             djs: []

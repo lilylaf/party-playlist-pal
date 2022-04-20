@@ -10,7 +10,9 @@ export default {
         return axios.get(`/events/${eventId}/songs`)
     },
 
-  
+    addSongToEventPlaylist(requestBody) {
+        return axios.post('/events/songs', requestBody)
+    }
 
 
 }
