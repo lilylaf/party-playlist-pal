@@ -119,8 +119,10 @@ public class EventController {
     //currently does not work
     @PreAuthorize("hasRole('DJ')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value="/events/{eventId}", method = RequestMethod.DELETE)
-    public void deleteHostFromEvent(@PathVariable("eventId") Long eventId, @RequestBody Long id) {
-        eventHostDao.deleteHostFromEvent(eventId, id);
+    @RequestMapping(value="/events/{id}/{hosts}", method = RequestMethod.DELETE)
+    public void deleteHostFromEvent(@Valid @PathVariable("id") Long eventId, @PathVariable("hosts") Long userId) {
+        eventHostDao.deleteHostFromEvent(eventId,userId);
     }
+
+
 }

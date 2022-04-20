@@ -20,9 +20,9 @@ public class JdbcEventHostDao implements EventHostDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-    public void deleteHostFromEvent(Long eventId, Long hostId){
-        String sql =  "DELETE FROM event_host WHERE user_id = ? AND event_id = ?;";
-        int numRows = jdbcTemplate.update(sql, eventId, hostId);
+    @Override
+    public void deleteHostFromEvent(Long eventId, Long userId){
+        String sql =  "DELETE FROM event_host WHERE event_id=? AND user_id=?;";
+            int numRows = jdbcTemplate.update(sql, eventId, userId);
     }
 }
