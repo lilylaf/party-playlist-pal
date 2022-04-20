@@ -3,11 +3,9 @@
       <h2>EDIT THIS EVENT</h2>
         
         <h4>Genres</h4>
-        <div v-for="genre in genres" v-bind:key="genre">
-            <p>
-                {{ genre.name }}
-            </p>
-        </div>
+         <label class="typo__label">Select Genre(s)</label>
+         <multiselect v-model="genreValue" :options="genres" :multiple="true" label="name" track-by="name" placeholder="Select Genre(s)"></multiselect>
+       
 
         <b-alert v-model="showDismissibleAlert" variant="success" fade dismissible>
         Successfully Updated Event
@@ -102,7 +100,8 @@ export default {
             //options: [{"username":"lilebbiestatic", "id":5}, {"username":"lilhostystatic", "id":6}],
             isHostFormShown: false,
             hostsForThisEvent: [],
-            genres: []
+            genres: [], // filter the selectable genres from the active Genres
+            genreValue: []
         }
     },
     computed: {

@@ -48,4 +48,6 @@ public class DJHostController {
         return djHostDao.hostsForEvent(id);
     }
 
+
+
 }
