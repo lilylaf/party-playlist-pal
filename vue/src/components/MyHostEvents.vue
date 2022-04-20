@@ -2,7 +2,7 @@
   <div class="search-event">
       <h2>My Events as Host Search</h2>
       <div>
-        <b-form-input v-model="eventSearchString" placeholder="Type an event"></b-form-input>
+        <b-form-input class="search" v-model="eventSearchString" placeholder="Type an event"></b-form-input>
   </div>
       <div v-for="event in filteredEvents" v-bind:key="event.id">
          <hr>
@@ -65,10 +65,14 @@ export default {
 </script>
 
 <style scoped>
+.search{
+    font-family: sans-serif;
+}
 .search-event {
     border:#003B77 5px solid;
     padding: 5px;
     border-radius: 10px;
+  background-color: #FC05F4;
 }
 a{
     color: #003B77;

@@ -3,8 +3,7 @@
   <div class="Home">
     <img src="..\images\jampinktransp.png" />
 
-    <div class="loading" v-if="isLoading">
-        <img src="..\images\rockcat.gif" />
+    
         
       <div v-if="!isAuthenticated">
         
@@ -17,7 +16,7 @@
       </b-row>
 </b-container>
     </div>    
-      </div>
+      
       
       <div v-if="isAuthenticated">
           <h3>Welcome {{this.$store.state.user.username}}</h3>
