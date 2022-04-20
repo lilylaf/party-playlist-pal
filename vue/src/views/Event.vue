@@ -4,10 +4,7 @@
         <h1>
             EVENT: {{event.name}}
         </h1>
-        <h2>Featuring: {{ djForThisEvent.username }}</h2>
-        <h4>
-            THE DEETS:  {{event.information}}
-        </h4>
+        
         
     </div>
        <div v-if="hasPermissionToEditEvent">
@@ -15,10 +12,25 @@
             <b-button  variant="warning">EDIT this Event</b-button>
         </router-link>
     </div>
-    <div v-if="eventSongs !== null" class="Table">
+     <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <div v-if="eventSongs !== null" class="Table">
         <h4>The Songs:</h4>
         <b-table striped hover :items="eventSongs" :fields="fields"></b-table>
     </div>
+        </b-col>
+        <b-col>
+            <h2>Featuring: {{ djForThisEvent.username }}</h2>
+        <h4>
+            Event Information:  {{event.information}}
+        </h4>
+            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" />
+            </b-col>
+      </b-row>
+</b-container>
+        
+    
   
   </div>
 </template>
@@ -28,9 +40,11 @@ import eventService from '../services/EventService.js'
 import songService from '../services/SongService.js'
 import hostService from '../services/HostService.js'
 import dJService from '../services/DJService.js'
+import ViewAddDjSongsToEvent from '../components/ViewAddDJSongsToEvent.vue'
 
 export default {
     name: 'event',
+    components: {ViewAddDjSongsToEvent},
     data(){
         return {  
             fields: ['artistName', 'name'],
@@ -96,17 +110,14 @@ export default {
         
     }
 }
-
 </script>
-
-<style>
-.Event{
-    background-color: #090531;
-    color: white;
-    font-family: "Audiowide", sans-serif;
-}
-.Table{
-    background-color: #01F8E9;
-    
-}
+<style scoped>
+    .Event{
+        background-color: #090531;
+        color: white;
+        font-family: "Audiowide", sans-serif;
+    }
+    .Table{
+        background-color: #01F8E9;
+    }
 </style>

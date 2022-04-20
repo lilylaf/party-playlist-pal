@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h2>I am a DJ - I am logged in {{this.$store.state.user.username}}</h2>
+      <!-- <h2>I am a DJ - I am logged in {{this.$store.state.user.username}}</h2> -->
       <b-container class="dj=songs">
         <b-table striped hover dark :items="songs" :fields="fields"></b-table>
       </b-container>
@@ -19,7 +19,7 @@ export default {
         }
     },
     created(){
-        
+        // put a prop inside the parameter
         songService.getSongsByDjId(this.$store.state.user.id)
         .then((response) => {
             console.log(response)
