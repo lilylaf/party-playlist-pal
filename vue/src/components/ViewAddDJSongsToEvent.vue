@@ -29,18 +29,18 @@ export default {
             
         }
     },
-    computed: {
-        songsNotInEventFromDjLibrary(){
-            let res = [];
-            res = this.allDjSongs.filter((element) => {
-                return !this.eventSongs.find((element2) => {
-                    return element.id === element2.id;
-                });
-            });
-            return res;
+    // computed: {
+    //     songsNotInEventFromDjLibrary(){
+    //         let res = [];
+    //         res = this.allDjSongs.filter((element) => {
+    //             return !this.eventSongs.find((element2) => {
+    //                 return element.id === element2.id;
+    //             });
+    //         });
+    //         return res;
             
-        }
-    },
+    //     }
+    // },
     created(){
         songService.getSongsByDjId(this.dj.id)
             .then((response) => {

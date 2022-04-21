@@ -72,7 +72,7 @@
         Successfully Updated Host
         </b-alert>
         <label class="typo__label">Select Host(s)</label>
-         <multiselect v-model="value" :options="allHosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
+         <multiselect v-model="value" :options="filteredDownHosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
         <br>
          <b-button v-on:click="updateHosts" variant="primary">Add Hosts</b-button>
     </div>
@@ -115,7 +115,8 @@ export default {
             hostsForThisEvent: [],
             genres: [], // filter the selectable genres from the active Genres
             genreValue: [],
-            genresForThisEvent: []
+            genresForThisEvent: [],
+            filteredDownHosts: []
         }
     },
     computed: {
@@ -210,7 +211,10 @@ export default {
             .then((response) => {
                 // console.log(response.data)
                 const hostObjects = response.data;
-                console.log(hostObjects)
+
+
+
+                // console.log(hostObjects)
                 hostObjects.forEach((host) => {
                     
                     const hostObject = {};
@@ -220,19 +224,21 @@ export default {
                     this.allHosts.push(hostObject);
 
                 });
-            });
-            // this gets hosts for THIS event
-        hostService.getHostsByEventId(this.$route.params.id)
-            .then((response) => {
+                hostService.getHostsByEventId(this.$route.params.id)
+                .then((response) => {
                 this.hostsForThisEvent = response.data;
                 const hostsForThis = response.data;
-                hostsForThis.forEach((host) => {
-                    const hostObject = {};
-                    hostObject.id = host.id;
-                    hostObject.username = host.username;
-                    this.value.push(hostObject)
-                })
+                
+                const filteredHosts = this.allHosts.filter((element) => {
+                    return !hostsForThis.find((element2) => {
+                        return element.id === element2.id;
+                    })
+                });
+                this.filteredDownHosts = filteredHosts;
             });
+            });
+            // this gets hosts for THIS event
+        
         genreService.getGenresByEvent(this.$route.params.id)
             .then((response) => {
                 this.genresForThisEvent = response.data;
