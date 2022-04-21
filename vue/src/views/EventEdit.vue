@@ -52,10 +52,10 @@
       <br>
       <h3>Hosts for this event:</h3>
         <div v-for="host in hostsForThisEvent" v-bind:key="host.id">
-            <span>{{ host.username }}</span><b-button v-on:click="removeHostFromEvent(host.id)" variant="warning" size="sm">Remove Host</b-button> 
+            <span>{{ host.username }}</span><b-button  v-if="hasPermissionToDeleteEvent" v-on:click="removeHostFromEvent(host.id)" variant="warning" size="sm">Remove Host</b-button> 
             <!-- ADD REMOVE HOST button next to each host-->
             </div>
-           <b-button v-on:click="showHostForm">Add Host(s)</b-button>
+           <b-button v-if="hasPermissionToDeleteEvent" v-on:click="showHostForm">Add Host(s)</b-button>
     <div v-show="isHostFormShown" class="select-host-form">
         <b-alert v-model="showDismissibleAlertForHostUpdate" variant="success" fade dismissible>
         Successfully Updated Host
