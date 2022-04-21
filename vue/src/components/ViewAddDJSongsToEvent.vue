@@ -22,10 +22,19 @@ export default {
 
     data(){
         return {
-            fields: ['artistName', 'name', 'event'],
+            fields: [{key: 'artistName', sortable:true}, {key: 'name', sortable:true} ],
             allDjSongs: [], // filter out what is already in the event playlist
             
         }
+    },
+    created(){
+        songService.getSongsByDjId(this.dj.id)
+            .then((response) => {
+                console.log("trying to get songs by dj:")
+                console.log(response.data)
+                
+                this.allDjSongs = response.data;
+            })
     },
     methods: {
         songRowClickHandler(record){
@@ -45,18 +54,16 @@ export default {
             
         }
     },
-   
-    created(){
-
-
-        songService.getSongsByDjId(this.dj.id)
-            .then((response) => {
-                console.log("trying to get songs by dj:")
-                console.log(response.data)
+//    mounted(){
+//         songService.getSongsByDjId(this.dj.id)
+//             .then((response) => {
+//                 console.log("trying to get songs by dj:")
+//                 // console.log(response.data)
                 
-                this.allDjSongs = response.data;
-            })
-    }
+//                 this.allDjSongs = response.data;
+//             })
+//     }
+    
 }
 </script>
 

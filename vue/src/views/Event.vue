@@ -25,7 +25,7 @@
         <h4>
             Event Information:  {{event.information}}
         </h4>
-            <view-add-dj-songs-to-event :dj ="this.djForThisEvent" :eventSongs="this.eventSongs" :event="event" />
+            <view-add-dj-songs-to-event v-if="isDjLoaded" :dj ="this.djForThisEvent" :eventSongs="this.eventSongs" :event="event" />
             </b-col>
       </b-row>
 </b-container>
@@ -47,12 +47,16 @@ export default {
     components: {ViewAddDjSongsToEvent},
     data(){
         return {  
-            fields: ['artistName', 'name'],
+            fields: [
+                {key: 'artistName', sortable: true},
+                {key: 'name', sortable:true}
+            ],
             event: {},
             eventSongs: [],
             hosts: [],
             hostsForThisEvent: [],
-            djForThisEvent: {}
+            djForThisEvent: {},
+            isDjLoaded: false,
         }
     },
     methods: {
@@ -86,11 +90,14 @@ export default {
                     const allDjs = response.data;
                     
                     this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
-                
+                    this.isDjLoaded = true;
+                        
             }) 
+            
 
             });
         
+
         songService.getSongsByEvent(this.$route.params.id)
             .then((response) => {
                 this.eventSongs = response.data;
