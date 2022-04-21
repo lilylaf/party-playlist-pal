@@ -10,4 +10,5 @@ public interface GenreDao {
 
     List<Genre> listOfDjLibraryGenres(Long id);
     List<Genre> eventGenres(Long id);
+    List<Genre> genreForEvent(Long id, List<Genre> genreList);
 }

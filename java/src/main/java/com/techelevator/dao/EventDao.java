@@ -18,5 +18,4 @@ public interface EventDao {
     Event updateEvent(Event event, Long id) throws EventNotFoundException;
     List<Event> eventsByDjId(Long id);
     List<Event> eventsByHostId(Long id);
-    List<String> genreForEvent(Long id, List<String> genres);
 }

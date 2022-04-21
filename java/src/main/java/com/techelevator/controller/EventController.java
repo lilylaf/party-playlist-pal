@@ -82,11 +82,13 @@ public class EventController {
 
     //todo -> as an authorized host, I can set an event genre
     //this doesn't work
-    @PreAuthorize("hasRole('host')")
+//    @PreAuthorize("hasRole('host')")
+
+    @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value="/events/genres/{id}", method = RequestMethod.POST)
-    public List<String> addGenreToEvent(@PathVariable Long id, @Valid @RequestBody List<String> genreName){
-        return eventDao.genreForEvent(id, genreName);
+    @RequestMapping(value="/events/{id}/genres/", method = RequestMethod.POST)
+    public List<Genre> addGenreToEvent(@PathVariable Long id, @Valid @RequestBody List<Genre> genreList){
+        return genreDao.genreForEvent(id, genreList);
     }
 
     /*******************************************************************************************************************

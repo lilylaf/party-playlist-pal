@@ -2,11 +2,14 @@ package com.techelevator.dao;
 
 
 import com.techelevator.model.Genre;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,30 @@ public class JdbcGenreDao implements GenreDao{
         g.setName(rowSet.getString("genre_name"));
 
         return g;
+    }
+
+    @Override
+    public List<Genre> genreForEvent(Long id, List<Genre> genreList) {
+
+        String sql = "INSERT INTO event_genre(event_id, genre_name)\n" +
+                "VALUES (?, ?);";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Genre genre = genreList.get(i);
+                String genreName = genre.getName();
+                ps.setLong(1, id);
+                ps.setString(2, genreName);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return genreList.size();
+            }
+        });
+
+        return eventGenres(id);
     }
 
 }

@@ -24,7 +24,11 @@ public class JdbcEventDao implements EventDao{
 
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcEventDao(JdbcTemplate jdbctemplate) {this.jdbcTemplate = jdbctemplate;}
+    private GenreDao genreDao;
+
+    public JdbcEventDao(JdbcTemplate jdbctemplate,GenreDao genreDao) {
+        this.jdbcTemplate = jdbctemplate; this.genreDao = genreDao;
+    }
 
     @Override
     public List<Event> listOfEvents() {
@@ -74,28 +78,7 @@ public class JdbcEventDao implements EventDao{
         return eventList;
     }
 
-    @Override
-    public List<String> genreForEvent(Long id, List<String> genres) {
-
-        String sql = "INSERT INTO event_genre(event_id, genre_name)\n" +
-                "VALUES (?, ?);";
-
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                String genreName = genres.get(i);
-                ps.setLong(1, id);
-                ps.setString(2, genreName);
-            }
-
-            @Override
-            public int getBatchSize() {
-                return genres.size();
-            }
-        });
-
-        return genres;
-    }
+// moved add genres to event to the genreDao
 
     @Override
     public Event getEventById(Long id) throws EventNotFoundException {
