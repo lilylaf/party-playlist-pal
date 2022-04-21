@@ -1,13 +1,15 @@
 <template>
   <div>
-      <h3>{{ dj.username }} Library</h3>
-    
-      <b-container class="dj-songs">
+      <div v-if="dj">
+          <b-container class="dj-songs">
+              <h4>
+                Featuring {{dj.username}} 
+              </h4>
         <b-table class="Table dj-library"  striped hover :items="allDjSongs" :fields="fields"  @row-clicked="songRowClickHandler"></b-table>
       </b-container>
-      <!-- <div v-for="song in allDjSongs" :key="song.id">
-          <p>{{song.name}} - {{song.artistName}}</p>
-      </div> -->
+      </div>
+      
+     
   </div>
 </template>
 
@@ -20,8 +22,8 @@ export default {
 
     data(){
         return {
-             fields: ['artistName', 'name', 'event'],
-            allDjSongs: [], // fil;ter out what is already in the event playlist
+            fields: ['artistName', 'name', 'event'],
+            allDjSongs: [], // filter out what is already in the event playlist
             
         }
     },
@@ -43,21 +45,17 @@ export default {
             
         }
     },
+   
     created(){
+
+
         songService.getSongsByDjId(this.dj.id)
             .then((response) => {
+                console.log("trying to get songs by dj:")
+                console.log(response.data)
                 
-                // console.log(response.data)
-                // const responseOfDjSongs = response.data;
-                // const filteredDjLibrary = responseOfDjSongs.filter((song) => {
-                    
-                // })
-
-
-
-                this.allDjSongs = response.data
-            }
-                )
+                this.allDjSongs = response.data;
+            })
     }
 }
 </script>

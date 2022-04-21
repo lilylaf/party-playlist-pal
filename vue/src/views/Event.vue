@@ -21,7 +21,7 @@
     </div>
         </b-col>
         <b-col>
-            <h2>Featuring: {{ djForThisEvent.username }}</h2>
+            <!-- <h2>Featuring: {{ djForThisEvent.username }}</h2> -->
         <h4>
             Event Information:  {{event.information}}
         </h4>
@@ -52,7 +52,7 @@ export default {
             eventSongs: [],
             hosts: [],
             hostsForThisEvent: [],
-            djForThisEvent: null
+            djForThisEvent: {}
         }
     },
     methods: {
@@ -82,10 +82,10 @@ export default {
                     dj.id == event.userId
                 })
                dJService.getDjs()
-            .then((response) => {
-                const allDjs = response.data;
-                
-                this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
+                .then((response) => {
+                    const allDjs = response.data;
+                    
+                    this.djForThisEvent = allDjs.find((element) => element.id == this.event.userId)
                 
             }) 
 

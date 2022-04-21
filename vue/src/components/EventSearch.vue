@@ -54,7 +54,7 @@ export default {
         eventService.getEvents()
         .then((response) => {
             this.eventsAll = response.data;
-            console.log(response.data);
+            // console.log(response.data);
         })
     }
 
