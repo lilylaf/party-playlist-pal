@@ -5,7 +5,8 @@
               <h4>
                 Featuring {{dj.username}} 
               </h4>
-        <b-table class="Table dj-library"  striped hover :items="allDjSongs" :fields="fields"  @row-clicked="songRowClickHandler"></b-table>
+              <p class="click-instructions">Click to add song from this DJ's library that is not yet in the playlist to the event playlist</p>
+        <b-table class="Table dj-library"  striped hover :items="filteredDjSongs" :fields="fields"  @row-clicked="songRowClickHandler"></b-table>
       </b-container>
       </div>
       
@@ -24,16 +25,37 @@ export default {
         return {
             fields: [{key: 'artistName', sortable:true}, {key: 'name', sortable:true} ],
             allDjSongs: [], // filter out what is already in the event playlist
+            filteredDjSongs: [],
+            
+        }
+    },
+    computed: {
+        songsNotInEventFromDjLibrary(){
+            let res = [];
+            res = this.allDjSongs.filter((element) => {
+                return !this.eventSongs.find((element2) => {
+                    return element.id === element2.id;
+                });
+            });
+            return res;
             
         }
     },
     created(){
         songService.getSongsByDjId(this.dj.id)
             .then((response) => {
-                console.log("trying to get songs by dj:")
-                console.log(response.data)
+                // console.log("trying to get songs by dj:")
+                // console.log(response.data)
                 
-                this.allDjSongs = response.data;
+                // this.allDjSongs = response.data;
+                const allDjSongsResponse = response.data;
+                const filteredSongs = allDjSongsResponse.filter((element) => {
+                return !this.eventSongs.find((element2) => {
+                    return element.id === element2.id;
+                });
+                
+            });
+                this.filteredDjSongs = filteredSongs;
             })
     },
     methods: {
@@ -46,23 +68,14 @@ export default {
                 requestBody.eventId = this.$route.params.id;
                 requestBody.songId = record.id;
                 songService.addSongToEventPlaylist(requestBody)
-                    .then((response) => {
-                        console.log(response.data)
+                    .then(() => {
+                       this.$router.go()
                         
                     })
             }
             
         }
-    },
-//    mounted(){
-//         songService.getSongsByDjId(this.dj.id)
-//             .then((response) => {
-//                 console.log("trying to get songs by dj:")
-//                 // console.log(response.data)
-                
-//                 this.allDjSongs = response.data;
-//             })
-//     }
+    }
     
 }
 </script>
@@ -70,6 +83,15 @@ export default {
 <style scoped>
 .dj-songs {
     color: white;
+}
+
+
+.dj-library tr {
+    cursor: pointer;
+}
+
+.click-instructions {
+    color:yellow;
 }
 
 </style>
