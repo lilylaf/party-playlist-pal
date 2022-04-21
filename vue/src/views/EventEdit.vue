@@ -3,9 +3,17 @@
       <h2>EDIT THIS EVENT</h2>
         
         <h4>Genres</h4>
-         <label class="typo__label">Select Genre(s) from this DJ</label>
-         <multiselect v-model="genreValue" :options="genres" :multiple="true" label="name" track-by="name" placeholder="Select Genre(s)"></multiselect>
-       
+        <div v-for="genre in genresForThisEvent" :key="genre.name">
+            <p>{{genre.name}}</p>
+        </div>
+        <div>
+    <b-alert v-model="showDismissibleAlertForGenreUpdate" variant="success" fade dismissible>
+    Successfully Updated Genres
+    </b-alert>
+        <label class="typo__label">Select Genre(s) from this DJ</label>
+        <multiselect v-model="genreValue" :options="genres" :multiple="true" label="name" track-by="name" placeholder="Select Genre(s)"></multiselect>
+        <b-button v-on:click="updateGenres" variant="primary">Save Genres</b-button>
+       </div>
 
         <b-alert v-model="showDismissibleAlert" variant="success" fade dismissible>
         Successfully Updated Event
@@ -81,8 +89,8 @@
 import eventService from '../services/EventService.js'
 import hostService from '../services/HostService.js'
 import Multiselect from 'vue-multiselect'
-// import EditGenres from '../components/EditGenres.vue'
 import genreService from '../services/GenreService.js'
+import songService from '../services/SongService.js'
 
  
 export default {
@@ -94,6 +102,7 @@ export default {
             form: {},
             showDismissibleAlert: false,
             showDismissibleAlertForHostUpdate: false,
+            showDismissibleAlertForGenreUpdate: false,
             value: [],
             allHosts: [],
             hostOptions: [], //todo filter this DOWN to remove the hosts currently selected for this event
@@ -101,7 +110,8 @@ export default {
             isHostFormShown: false,
             hostsForThisEvent: [],
             genres: [], // filter the selectable genres from the active Genres
-            genreValue: []
+            genreValue: [],
+            genresForThisEvent: []
         }
     },
     computed: {
@@ -150,6 +160,20 @@ export default {
                 //   console.log(response))
                   this.showDismissibleAlertForHostUpdate = true
                 )
+        },
+        updateGenres(){
+            // console.log(this.$route.params.id)
+            // console.log(this.genreValue);
+            genreService.addGenresToEvent(this.$route.params.id, this.genreValue)
+                .then( (response) => {
+                    // console.log(response.data)
+                    const genresForThisEvent = response.data;
+                    this.showDismissibleAlertForGenreUpdate = true;
+                    songService.addSongsToEventPlaylistByGenresThatWereAddedAlready(this.$route.params.id, this.form.userId, genresForThisEvent)
+                        .then((response) => {
+                            console.log(response)
+                        })
+                    })
         },
         removeHostFromEvent(hostId){
             
@@ -205,6 +229,10 @@ export default {
                     this.value.push(hostObject)
                 })
             });
+        genreService.getGenresByEvent(this.$route.params.id)
+            .then((response) => {
+                this.genresForThisEvent = response.data;
+            })
         
     }
 

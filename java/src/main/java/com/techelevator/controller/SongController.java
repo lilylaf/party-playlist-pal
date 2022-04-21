@@ -131,7 +131,7 @@ public class SongController {
     //As a host I need to add songs to my playlist from the genres that were just added to my event
 //    @PreAuthorize("hasRole('HOST')")
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasAnyRole('DJ','HOST')")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="/event/{eventId}/dj/{djId}/genres/songs", method = RequestMethod.POST)
     public List<Song> addSongsFromNewlyAddedGenres(@PathVariable Long eventId, @PathVariable Long djId, @Valid @RequestBody List<Genre> genreList){

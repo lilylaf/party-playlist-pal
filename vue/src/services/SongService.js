@@ -12,6 +12,10 @@ export default {
 
     addSongToEventPlaylist(requestBody) {
         return axios.post('/events/songs', requestBody)
+    },
+
+    addSongsToEventPlaylistByGenresThatWereAddedAlready(eventId, djId, genres){
+        return axios.post(`/event/${eventId}/dj/${djId}/genres/songs`, genres)
     }
 
 

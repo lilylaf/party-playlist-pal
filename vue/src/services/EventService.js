@@ -33,9 +33,7 @@ export default {
         return axios.delete(`/events/${hostId}`)
     },
 
-    addGenresToEvent(eventId, genres){
-        return axios.post(`/events/genres/${eventId}`, genres)
-    }
+    
 
 
 }
