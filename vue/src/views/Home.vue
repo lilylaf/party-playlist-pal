@@ -130,13 +130,10 @@ export default {
   color: white;
   font-family: "Audiowide", sans-serif;
    text-align: center;
+  height: 100vh;
    
 }
 
-
-.event-search{
-  background-color: darkmagenta;
-}
 
 .dj-grid{
   background-color: #01F8E9;
@@ -145,11 +142,6 @@ export default {
 .event-search{
   background-color: #FC05F4;
 }
-
-.Home{
-  text-align: center;
-}
-
  .about-button{
   text-align: right;
 } 

@@ -1,5 +1,8 @@
 <template>
   <div id="register" class="text-center">
+     <b-container class="bv-example-row">
+  <b-row>
+    <b-col>
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -42,6 +45,10 @@
         Create Account
       </button>
     </form>
+    </b-col>
+    
+  </b-row>
+</b-container>
   </div>
 </template>
 

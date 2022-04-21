@@ -74,7 +74,7 @@
         <label class="typo__label">Select Host(s)</label>
          <multiselect v-model="value" :options="allHosts" :multiple="true" label="username" track-by="username" placeholder="Select Host(s)"></multiselect>
         <br>
-         <b-button v-on:click="updateHosts" variant="primary">Save Hosts</b-button>
+         <b-button v-on:click="updateHosts" variant="primary">Add Hosts</b-button>
     </div>
       
           <div v-if="hasPermissionToDeleteEvent">
