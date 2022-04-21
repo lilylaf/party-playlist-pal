@@ -12,5 +12,6 @@ public interface SongDao {
     void deleteSongFromLibrary(Long userId, Long songId);
     Song addSong(Long id, Long userId);
     List<Song> addSongsFromGenreToDjLibrary(String name, Long id);
+    List<Song> addSongsFromGenreToEventPlaylist(Long djId, Long eventId, List<Genre> genreList);
 }
 

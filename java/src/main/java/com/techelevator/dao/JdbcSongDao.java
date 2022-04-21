@@ -44,6 +44,7 @@ public class JdbcSongDao implements SongDao {
         return songs;
     }
 
+
     @Override
     public List<Song> eventPlaylist(Long id) {
         List<Song> eventPlaylistSongs = new ArrayList<>();
@@ -108,7 +109,6 @@ public class JdbcSongDao implements SongDao {
 
     }
 
-
     @Override
     public List<Song> addSongsFromGenreToDjLibrary(String name, Long id) {
 
@@ -165,6 +165,51 @@ public class JdbcSongDao implements SongDao {
         });
 
         return djSongList(id);
+    }
+
+    @Override
+    public List<Song> addSongsFromGenreToEventPlaylist(Long djId, Long eventId, List<Genre> genreList) {
+        List<Song> eventSongList = new ArrayList<>();
+
+        List<Song> songsInGenresAndDjLibrary = new ArrayList<>();
+        //Create List of all songs from DJ list and genre
+        String baseSql = "SELECT DISTINCT on (song_id) song.song_id, artist_name, song_name, featured_artist\n" +
+                "FROM song\n" +
+                "INNER JOIN dj_library on dj_library.song_id = song.song_id\n" +
+                "INNER JOIN event on event.user_id = dj_library.user_id\n" +
+                "INNER JOIN event_genre on event_genre.event_id = event.event_id\n" +
+                "WHERE event.user_id = ? AND genre_name = ";
+
+        String additionalGenreSql = "'" + genreList.get(0).getName() +"'";
+        if(genreList.size()>1){
+            for (int i = 1; i< genreList.size(); i++) {
+                additionalGenreSql += "OR genre_name = '" + genreList.get(i) + "'";
+            }
+        }
+        SqlRowSet results = jdbcTemplate.queryForRowSet(baseSql+additionalGenreSql, djId);
+        while (results.next()){
+            songsInGenresAndDjLibrary.add(mapRowToSong(results));
+        }
+
+        String sqlInsert = "INSERT INTO event_song(event_id, song_id) " +
+                "VALUES (?, ?) ON CONFLICT (event_id, song_id) DO NOTHING";
+
+        jdbcTemplate.batchUpdate(sqlInsert, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Long songId = songsInGenresAndDjLibrary.get(i).getId();
+                ps.setLong(1, eventId);
+                ps.setLong(2, songId);
+
+            }
+
+            @Override
+            public int getBatchSize() {
+                return songsInGenresAndDjLibrary.size();
+            }
+        });
+
+        return eventPlaylist(eventId);
     }
 
 
