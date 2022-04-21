@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dj-home">
       <b-container>
       <h1>DJ page</h1>
       <h2>{{ this.$store.state.user.username }}</h2>
@@ -41,4 +41,9 @@ export default {
     h2 {
         color: rgb(255, 166, 0)
     }
+
+    .dj-home{
+      background-color: #090531;
+}
+
 </style>

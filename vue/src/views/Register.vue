@@ -98,6 +98,7 @@ export default {
 
 <style>
 #register{
+  height: 100vh; 
   background-color: #090531;
   color: white;
   font-family: "Audiowide", sans-serif;

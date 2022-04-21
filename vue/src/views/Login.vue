@@ -77,6 +77,7 @@ export default {
 </script>
 <style scoped>
 #login{
+   height: 100vh;
   background-color: #090531;
   color: white;
   font-family: "Audiowide", sans-serif;

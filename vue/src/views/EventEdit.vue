@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="event-edit">
+      <b-container class="bv-example-row">
+  <b-row>
+    <b-col>
       <h2>EDIT THIS EVENT</h2>
         
         <h4>Genres</h4>
@@ -78,9 +81,10 @@
        
           <b-button class="fixed-bottom" variant="danger" size="sm" v-on:click="deleteEvent()">DELETE this Event</b-button>
     </div>
-    <br>
+</b-col>
     
-     <br>
+  </b-row>
+</b-container>
 
   </div>
 </template>
@@ -170,8 +174,8 @@ export default {
                     const genresForThisEvent = response.data;
                     this.showDismissibleAlertForGenreUpdate = true;
                     songService.addSongsToEventPlaylistByGenresThatWereAddedAlready(this.$route.params.id, this.form.userId, genresForThisEvent)
-                        .then((response) => {
-                            console.log(response)
+                        .then(() => {
+                            this.$router.push({name:'event', params:{id:this.form.id}})
                         })
                     })
         },
@@ -248,4 +252,14 @@ export default {
     .select-host-form {
         border: blue 2px solid;
     }
+
+    .event-edit{
+        height: 100vh;
+        background-color: #090531;
+        color: white;
+        font-family: "Audiowide", sans-serif;
+        text-align: center;
+    }
+
+
 </style>

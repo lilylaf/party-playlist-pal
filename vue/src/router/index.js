@@ -10,6 +10,7 @@ import Dj from '../views/Dj.vue'
 import DjHome from '../views/DjHome.vue'
 import HostHome from '../views/HostHome.vue'
 import EventEdit from '../views/EventEdit.vue'
+import About from '../views/About.vue'
 
 
 Vue.use(Router)
@@ -99,6 +100,15 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+      meta: {
+        requiresAuth: false
+      }
+    },
+
   ]
 })
 

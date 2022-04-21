@@ -1,6 +1,6 @@
 <template>
   <div class="create-event">
-      <h2>Create an Event</h2>
+      <h2 class="head">Create an Event</h2>
       <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
@@ -92,4 +92,8 @@ export default {
 #input-information{
   font-family: sans-serif;
 }
+.head{
+  font-family: "Audiowide";
+}
+
 </style>

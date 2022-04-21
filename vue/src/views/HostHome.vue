@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
       <h1>
           This is the Host home
       </h1>
@@ -13,5 +13,9 @@ name: 'HostHome'
 </script>
 
 <style>
+.host{
+  height: 100vh;
+  background-color: #090531;
+}
 
 </style>

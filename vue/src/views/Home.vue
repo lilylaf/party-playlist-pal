@@ -1,7 +1,8 @@
 <template>
     
-  <div class="Home">
-    <img src="..\images\jampinktransp.png" />
+  <div class="home">
+    <img src= "..\images\jampinktransp.png" />
+
 
     
         
@@ -57,10 +58,12 @@
      
      
 </b-container>
+      
+
       </div>
 
 <div v-if="userType == 'ROLE_HOST' ">
-          <h3>I AM A HOST</h3>
+         
          <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -74,6 +77,10 @@
 </b-container>
 
       </div>
+
+      <div class= "about-button">
+        <b-col lg="10" class="pb-2" ><b-button class="bottom" variant="outline-light" ><router-link v-bind:to="{ name: 'about' }">About</router-link></b-button></b-col>
+     </div>   
   
       
   </div>
@@ -117,11 +124,15 @@ export default {
 
 <style scoped>
 
-.Home{
+.home{
+  
   background-color: #090531;
   color: white;
   font-family: "Audiowide", sans-serif;
+   text-align: center;
+   
 }
+
 
 .event-search{
   background-color: darkmagenta;
@@ -138,4 +149,9 @@ export default {
 .Home{
   text-align: center;
 }
+
+ .about-button{
+  text-align: right;
+} 
+
 </style>

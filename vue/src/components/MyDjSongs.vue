@@ -35,6 +35,7 @@ export default {
 <style scoped>
 .dj-songs {
     color: white;
+    background-color: #090531;
 }
 .Table{
     background-color: #01F8E9;
