@@ -19,6 +19,10 @@
   
 </template>
 <style scoped>
+#app {
+   background-color: #090531;
+   height: 100vh;
+}
 #nav{
   background-color: #FC05F4;
   font-family: "Audiowide", sans-serif;

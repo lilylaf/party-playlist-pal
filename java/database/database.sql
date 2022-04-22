@@ -144,7 +144,7 @@ COMMIT TRANSACTION;
 --start of mock data
 --djs	
 INSERT INTO users(username, password_hash, role)
-VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
+VALUES ('DJDRae', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
 INSERT INTO users(username, password_hash, role)
 VALUES ('DJGrid', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
@@ -157,6 +157,9 @@ VALUES ('DropTablesANDtheBass', '$2a$10$.abxEVP6wFAzuWWt.AbrLOXHcXWITpHE/cqu2Sfo
 
 INSERT INTO users(username, password_hash, role)
 VALUES ('IntelliJamz', '$2a$10$kZy7w217YKjt7fq3dYz3cOksedrCHVYQzU9vS2YN4R3Vlv89sHmkC', 'ROLE_DJ');
+
+INSERT INTO users(username, password_hash, role)
+VALUES ('DJFlexBox', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DJ');
 
 
 
@@ -181,7 +184,7 @@ VALUES ('BubbaHTTP', '$2a$10$UW8TMBSUCL/7WpTNFVk4Huf7MPzX11mZGTI3JNpv0iXjbWpQKNo
 
 
 INSERT INTO event(user_id, event_name, information)
-VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic'), ('3','Delete Me','For removal purposes,yo');
+VALUES ('3', 'Foam Party', 'Bubbles and tunes'), ('3', 'Lollipopalooza', 'Caaaandy'), ('3', 'Cowabunga', 'Enjoy the mooooosic');
 
 INSERT INTO genre(genre_name)
 VALUES ('party'), ('pop'), ('rap'), ('country'), ('alternative'), ('rock'), ('metal'),('R&B'),('love'),('classic'),('moody');

@@ -125,12 +125,11 @@ export default {
 <style scoped>
 
 .home{
-  
-  background-color: #090531;
+
   color: white;
   font-family: "Audiowide", sans-serif;
    text-align: center;
-  height: 100vh;
+
    
 }
 
