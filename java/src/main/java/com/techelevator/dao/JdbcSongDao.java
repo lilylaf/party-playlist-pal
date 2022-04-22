@@ -184,10 +184,11 @@ public class JdbcSongDao implements SongDao {
         String additionalGenreSql = "'" + genreList.get(0).getName() +"'";
         if(genreList.size()>1){
             for (int i = 1; i< genreList.size(); i++) {
-                additionalGenreSql += "OR genre_name = '" + genreList.get(i) + "'";
+                additionalGenreSql += "OR genre_name = '" + genreList.get(i).getName() + "'";
             }
         }
-        SqlRowSet results = jdbcTemplate.queryForRowSet(baseSql+additionalGenreSql, djId);
+        String allSQL = baseSql+additionalGenreSql;
+        SqlRowSet results = jdbcTemplate.queryForRowSet(allSQL, djId);
         while (results.next()){
             songsInGenresAndDjLibrary.add(mapRowToSong(results));
         }
