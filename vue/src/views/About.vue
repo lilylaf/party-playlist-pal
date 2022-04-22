@@ -50,6 +50,7 @@ export default {
   background-color: #090531;
   color: white;
   font-family: "Audiowide", sans-serif;
+  text-align: center;
 }
 .name{
   font-family: "Neonderthaw";
