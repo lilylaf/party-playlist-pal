@@ -173,12 +173,13 @@ public class JdbcSongDao implements SongDao {
 
         List<Song> songsInGenresAndDjLibrary = new ArrayList<>();
         //Create List of all songs from DJ list and genre
-        String baseSql = "SELECT DISTINCT on (song_id) song.song_id, artist_name, song_name, featured_artist\n" +
-                "FROM song\n" +
-                "INNER JOIN dj_library on dj_library.song_id = song.song_id\n" +
+        String baseSql = "SELECT DISTINCT on (song_id) song.song_id, artist_name, song_name, featured_artist, song_genre.genre_name\n" +
+                "FROM dj_library\n" +
+                "INNER JOIN song on dj_library.song_id = song.song_id\n" +
                 "INNER JOIN event on event.user_id = dj_library.user_id\n" +
                 "INNER JOIN event_genre on event_genre.event_id = event.event_id\n" +
-                "WHERE event.user_id = ? AND genre_name = ";
+                "INNER JOIN song_genre on song_genre.song_id = song.song_id\n" +
+                "WHERE dj_library.user_id = ? AND song_genre.genre_name = ";
 
         String additionalGenreSql = "'" + genreList.get(0).getName() +"'";
         if(genreList.size()>1){
