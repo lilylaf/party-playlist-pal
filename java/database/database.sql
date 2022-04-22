@@ -551,11 +551,6 @@ VALUES (11,2);
 INSERT INTO event_host (user_id,event_id)
 VALUES (9,3), (11,3);
 
-INSERT INTO event_host (user_id,event_id)
-VALUES (6,4);
-
-
-
 
 
 --end of mock data
